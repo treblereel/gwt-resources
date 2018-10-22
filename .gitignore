@@ -1,0 +1,9 @@
+target/
+.project
+.idea
+shared/.idea
+processor/.idea
+.classpath
+.settings/
+*.iml
+.idea/vcs.xml
