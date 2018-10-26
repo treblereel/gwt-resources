@@ -5,6 +5,8 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ClientBundle.Source;
 import org.gwtproject.resources.client.ClientBundleWithLookup;
 import org.gwtproject.resources.client.ExternalTextResource;
+import org.gwtproject.resources.client.ResourceCallback;
+import org.gwtproject.resources.client.ResourceException;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.resources.client.TextResource;
 
@@ -33,6 +35,7 @@ public class TextResourceTest extends GWTTestCase {
         @Source("hello.txt")
         TextResource helloWorldRelative();
 
+
         TextResource hello();
 
     }
@@ -59,17 +62,45 @@ public class TextResourceTest extends GWTTestCase {
         assertEquals(HELLO, r.helloWorldAbsolute().getText());
     }
 
-    public void testMeta() {
+    public void testMeta() throws ResourceException {
         Resources r = new ResourcesImpl();
+
+        //assertEquals(GWT.getModuleBaseForStaticFiles(), DomGlobal.location.getOrigin());
+
         assertEquals("helloWorldAbsolute", r.helloWorldAbsolute().getName());
         assertEquals("helloWorldRelative", r.helloWorldRelative().getName());
         assertEquals("helloWorldExternal", r.helloWorldExternal().getName());
+
 
         ResourcePrototype[] resources = r.getResources();
         assertEquals(6, resources.length);
     }
 
-    public void testAnotatelessText(){
+    String result;
+
+    public void testAnotatelessExternalText() throws InterruptedException {
+        Resources r = new ResourcesImpl();
+
+        try {
+            r.helloWorldExternal().getText(new ResourceCallback<TextResource>() {
+                @Override
+                public void onError(ResourceException e) {
+
+                }
+
+                @Override
+                public void onSuccess(TextResource resource) {
+                    result = resource.getText();
+                    assertEquals("ZZZ", resource.getText());
+                }
+            });
+        } catch (ResourceException e) {
+            throw new Error(e);
+        }
+    }
+
+
+    public void testAnotatelessText() {
         Resources r = new ResourcesImpl();
         assertEquals(HELLO, r.hello().getText());
     }

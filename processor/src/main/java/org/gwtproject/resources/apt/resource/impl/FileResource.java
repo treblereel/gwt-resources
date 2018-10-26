@@ -15,7 +15,7 @@ import java.net.URL;
 public class FileResource implements Resource {
     private final URL url;
 
-    public FileResource(URL url){
+    public FileResource(URL url) {
         this.url = url;
     }
 
@@ -23,7 +23,11 @@ public class FileResource implements Resource {
     public InputStream openContents() throws IOException, UnableToCompleteException {
         if (url.getContent() instanceof PlainTextInputStream) {
             return (PlainTextInputStream) url.getContent();
+        } else if (url.getContent() instanceof sun.awt.image.URLImageSource) {
+            return url.openStream();
+        } else if(url.getContent() instanceof java.io.BufferedInputStream){
+            return url.openStream();
         }
-        throw new UnableToCompleteException("unable to open InputStream" + url);
+        throw new UnableToCompleteException("Unable to open InputStream " + url);
     }
 }

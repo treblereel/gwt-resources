@@ -7,6 +7,7 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
+import org.gwtproject.resources.apt.ClientBundleGeneratorContext;
 import org.gwtproject.resources.apt.exceptions.UnableToCompleteException;
 import org.gwtproject.resources.client.ClientBundleWithLookup;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -29,14 +30,12 @@ import java.util.StringJoiner;
  */
 public class ClientBundleClassBuilder extends AbstractResourceGenerator {
     private final RoundEnvironment roundEnvironment;
-    private final ProcessingEnvironment processingEnv;
     private final Set<Class> generators;
 
     private final String _INSTANCE0 = "_instance0";
 
-    public ClientBundleClassBuilder(ProcessingEnvironment processingEnv, RoundEnvironment roundEnvironment, Set<Class> generators, Element clazz) throws UnableToCompleteException {
-        super(processingEnv, clazz, null);
-        this.processingEnv = processingEnv;
+    public ClientBundleClassBuilder(ClientBundleGeneratorContext context, RoundEnvironment roundEnvironment, Set<Class> generators, Element clazz) throws UnableToCompleteException {
+        super(context, clazz, null);
         if (!clazz.getKind().isInterface()) {
             throw new UnableToCompleteException(clazz + " must be an interface");
         }
@@ -52,8 +51,8 @@ public class ClientBundleClassBuilder extends AbstractResourceGenerator {
     }
 
     private void maybeAddResourceLookup() {
-        TypeElement elem = processingEnv.getElementUtils().getTypeElement(ClientBundleWithLookup.class.getCanonicalName());
-        if (processingEnv.getTypeUtils().isSubtype(clazz.asType(), elem.asType())) {
+        TypeElement elem = context.elementUtils.getTypeElement(ClientBundleWithLookup.class.getCanonicalName());
+        if (context.typeUtils.isSubtype(clazz.asType(), elem.asType())) {
             addResourceMapField();
             addGetResourcesMethod();
             addGetResourceByNameMethod();
@@ -90,9 +89,9 @@ public class ClientBundleClassBuilder extends AbstractResourceGenerator {
     private void write() throws UnableToCompleteException {
         JavaFile clientBundleFile = JavaFile.builder(getPackageName(), clazzBuilder.build()).build();
         try {
-            clientBundleFile.writeTo(processingEnv.getFiler());
+            clientBundleFile.writeTo(context.filer);
         } catch (IOException e) {
-            processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, e.getMessage());
+            context.messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
             throw new UnableToCompleteException(e.getMessage());
         }
     }
@@ -100,9 +99,8 @@ public class ClientBundleClassBuilder extends AbstractResourceGenerator {
     private void runGenerator() throws UnableToCompleteException {
         for (Class generator : generators) {
             try {
-                ((AbstractResourceGenerator) generator.getConstructor(ProcessingEnvironment.class, Element.class, TypeSpec.Builder.class).newInstance(processingEnv, clazz, clazzBuilder)).process();
-            } catch (UnableToCompleteException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, e.getMessage());
+                ((AbstractResourceGenerator) generator.getConstructor(ClientBundleGeneratorContext.class, Element.class, TypeSpec.Builder.class).newInstance(context, clazz, clazzBuilder)).process();
+            } catch (UnableToCompleteException | InstantiationException | IllegalAccessException | InvocationTargetException| NoSuchMethodException e) {
                 throw new UnableToCompleteException(e.getMessage());
             }
         }

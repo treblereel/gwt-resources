@@ -7,6 +7,8 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ClientBundleGenerators;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Filer;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -28,7 +30,6 @@ import java.util.Set;
 public class ClientBundleAnnotationProcessor extends AbstractProcessor {
     private Set<Class> generators = new HashSet<>();
 
-
     public ClientBundleAnnotationProcessor() throws UnableToCompleteException {
         locateGenerators();
     }
@@ -38,15 +39,18 @@ public class ClientBundleAnnotationProcessor extends AbstractProcessor {
         if (annotations.isEmpty()) {
             return false;
         }
+        ClientBundleGeneratorContext context = new ClientBundleGeneratorContext(processingEnv);
+
         for (TypeElement annotation : annotations) {
             Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(annotation);
             try {
                 for (final Element element : elements) {
-                    new ClientBundleClassBuilder(processingEnv, roundEnvironment, generators, element).process();
+                    new ClientBundleClassBuilder(context, roundEnvironment, generators, element).process();
                 }
             } catch (UnableToCompleteException e) {
                 processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, e.getMessage());
                 e.printStackTrace();
+                throw new Error(e);
             }
         }
         return true;

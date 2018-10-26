@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@ClientBundleGenerators({"org.gwtproject.resources.apt.rg.TextResourceGenerator", "org.gwtproject.resources.apt.rg.ExternalTextResourceGenerator"})
+@ClientBundleGenerators({"org.gwtproject.resources.apt.rg.TextResourceGenerator", "org.gwtproject.resources.apt.rg.ExternalTextResourceGenerator", "org.gwtproject.resources.apt.rg.ImageResourceGenerator"})
 public @interface ClientBundle {
 
     @Documented

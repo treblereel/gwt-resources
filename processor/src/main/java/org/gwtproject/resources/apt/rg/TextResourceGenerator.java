@@ -4,10 +4,10 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
+import org.gwtproject.resources.apt.ClientBundleGeneratorContext;
 import org.gwtproject.resources.apt.exceptions.UnableToCompleteException;
 import org.gwtproject.resources.client.TextResource;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 
@@ -25,8 +25,8 @@ public final class TextResourceGenerator extends AbstractResourceGenerator {
      */
     private static final int MAX_STRING_CHUNK = 16383;
 
-    public TextResourceGenerator(ProcessingEnvironment processingEnv, Element clazz, TypeSpec.Builder builder) {
-        super(processingEnv, clazz, builder);
+    public TextResourceGenerator(ClientBundleGeneratorContext context, Element clazz, TypeSpec.Builder builder) {
+        super(context, clazz, builder);
     }
 
     @Override
@@ -55,14 +55,14 @@ public final class TextResourceGenerator extends AbstractResourceGenerator {
         MethodSpec.Builder initializer = MethodSpec.methodBuilder(method.getSimpleName().toString() + "Initializer")
                 .addModifiers(Modifier.PRIVATE)
                 .returns(void.class)
-                .beginControlFlow(method.getSimpleName().toString() + " = new " + processingEnv.getTypeUtils().asElement(getReturnTypeMirror(method)).getSimpleName() + "()")
+                .beginControlFlow(method.getSimpleName().toString() + " = new " + context.typeUtils.asElement(getReturnTypeMirror(method)).getSimpleName() + "()")
                 .beginControlFlow("public String getText()");
         generateContent(initializer, method);
         return initializer;
     }
 
     private void generateContent(MethodSpec.Builder builder, Element method) throws UnableToCompleteException {
-        StringBuffer result = readInputStream(getResource(method));
+        StringBuffer result = readTextInputStream(getResource(method));
         if (result.length() > MAX_STRING_CHUNK) {
             writeLongString(builder, result.toString());
         } else {
