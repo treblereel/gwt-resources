@@ -16,7 +16,10 @@ package org.gwtproject.resources.client;
  * the License.
  */
 
+import elemental2.dom.Image;
 import org.gwtproject.safehtml.shared.SafeUri;
+
+import static elemental2.dom.DomGlobal.document;
 
 /**
  * This is part of an implementation of the ImageBundle optimization implemented
@@ -24,30 +27,16 @@ import org.gwtproject.safehtml.shared.SafeUri;
  */
 public class ImageResourcePrototype implements ImageResource {
 
-    /**
-     * Marker class for bundled {@code ImageResourcePrototype}.
-     */
-    public static class Bundle extends ImageResourcePrototype {
-        public Bundle(String name, SafeUri url, int left, int top, int width, int height,
-                      boolean animated, boolean lossy) {
-            super(name, url, left, top, width, height, animated, lossy);
-        }
-    }
-
     private final boolean animated;
     private final boolean lossy;
     private final String name;
     private final SafeUri url;
-    private final int left;
-    private final int top;
     private final int width;
     private final int height;
 
-    public ImageResourcePrototype(String name, SafeUri url, int left, int top, int width, int height,
+    public ImageResourcePrototype(String name, SafeUri url, int width, int height,
                                   boolean animated, boolean lossy) {
         this.name = name;
-        this.left = left;
-        this.top = top;
         this.height = height;
         this.width = width;
         this.url = url;
@@ -59,8 +48,19 @@ public class ImageResourcePrototype implements ImageResource {
         return height;
     }
 
-    public int getLeft() {
-        return left;
+    /**
+     * Returns the Image
+     */
+    @Override
+    public Image getImage() {
+        elemental2.dom.Image image = (elemental2.dom.Image) document.createElement("img");
+        image.src = getSafeUri().asString();
+        image.name = name;
+        image.width = width;
+        image.height = height;
+        //image.dir = "";
+        //setSetting and so on
+        return image;
     }
 
     public String getName() {
@@ -69,10 +69,6 @@ public class ImageResourcePrototype implements ImageResource {
 
     public SafeUri getSafeUri() {
         return url;
-    }
-
-    public int getTop() {
-        return top;
     }
 
     public String getURL() {

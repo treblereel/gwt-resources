@@ -17,6 +17,7 @@ package org.gwtproject.resources;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
 import junit.framework.Test;
+import org.gwtproject.resources.shared.ImageResourceTest;
 import org.gwtproject.resources.shared.TextResourceTest;
 
 /**
@@ -28,6 +29,7 @@ public class ResourcesGwtSuite {
                 "Test suite for Resources GWTTestCases");
 
         suite.addTestSuite(TextResourceTest.class);
+        suite.addTestSuite(ImageResourceTest.class);
 
         return suite;
     }

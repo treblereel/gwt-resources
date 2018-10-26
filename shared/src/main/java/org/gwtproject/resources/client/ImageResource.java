@@ -15,6 +15,7 @@ package org.gwtproject.resources.client;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+import elemental2.dom.Image;
 import org.gwtproject.safehtml.shared.SafeUri;
 
 import java.lang.annotation.Documented;
@@ -35,7 +36,7 @@ public interface ImageResource extends ResourcePrototype {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface ImageOptions {
+    @interface ImageOptions {
         /**
          * If <code>true</code>, the image will be flipped about the y-axis when
          * com.google.gwt.i18n.client.LocaleInfo#isRTL()} returns
@@ -83,7 +84,7 @@ public interface ImageResource extends ResourcePrototype {
      * Indicates that an ImageResource should be bundled in such a way as to
      * support horizontal or vertical repetition.
      */
-    public enum RepeatStyle {
+    enum RepeatStyle {
         /**
          * The image is not intended to be tiled.
          */
@@ -112,27 +113,14 @@ public interface ImageResource extends ResourcePrototype {
     int getHeight();
 
     /**
-     * Returns the horizontal position of the image within the composite image.
+     * Returns the Image
      */
-    int getLeft();
+    Image getImage();
 
     /**
      * Returns the URL for the composite image that contains the ImageResource.
      */
     SafeUri getSafeUri();
-
-    /**
-     * Returns the vertical position of the image within the composite image.
-     */
-    int getTop();
-
-    /**
-     * Returns the URL for the composite image that contains the ImageResource.
-     *
-     * @deprecated Use {@link #getSafeUri()} instead.
-     */
-    @Deprecated
-    String getURL();
 
     /**
      * Returns the width of the image.

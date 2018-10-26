@@ -1,10 +1,13 @@
 package org.gwtproject.resources.apt.rg;
 
 import com.google.auto.common.MoreTypes;
+import com.google.common.io.BaseEncoding;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
+import org.apache.commons.codec.binary.Base64;
+import org.gwtproject.resources.apt.ClientBundleGeneratorContext;
 import org.gwtproject.resources.apt.exceptions.UnableToCompleteException;
 import org.gwtproject.resources.apt.resource.Resource;
 import org.gwtproject.resources.apt.resource.ResourceOracle;
@@ -12,15 +15,16 @@ import org.gwtproject.resources.apt.resource.impl.ResourceOracleImpl;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.DefaultExtensions;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.type.ExecutableType;
 import javax.lang.model.type.TypeMirror;
 import javax.xml.bind.DatatypeConverter;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Set;
@@ -31,18 +35,17 @@ import java.util.stream.Collectors;
  * Created by treblereel on 10/18/18.
  */
 public abstract class AbstractResourceGenerator {
-    protected final ProcessingEnvironment processingEnv;
+    protected final ClientBundleGeneratorContext context;
     protected final Element clazz;
     protected TypeSpec.Builder clazzBuilder;
     private final ResourceOracle resourceOracle = new ResourceOracleImpl();
 
     protected final String _INSTANCE0 = "_instance0";
-    final String GWT_CACHE_LOCATION = "src/main/webapp/gwt-cache";
     private MessageDigest messageDigest = null;
 
 
-    AbstractResourceGenerator(ProcessingEnvironment processingEnv, Element clazz, TypeSpec.Builder builder) {
-        this.processingEnv = processingEnv;
+    AbstractResourceGenerator(ClientBundleGeneratorContext context, Element clazz, TypeSpec.Builder builder) {
+        this.context = context;
         this.clazz = clazz;
         this.clazzBuilder = builder;
     }
@@ -60,7 +63,7 @@ public abstract class AbstractResourceGenerator {
     }
 
     protected String getPackageName() {
-        PackageElement pkg = processingEnv.getElementUtils().getPackageOf(clazz);
+        PackageElement pkg = context.elementUtils.getPackageOf(clazz);
         return pkg.getQualifiedName().toString();
     }
 
@@ -97,7 +100,11 @@ public abstract class AbstractResourceGenerator {
     }
 
     protected String getMD5Signature(String result) {
-        getMessageDigest().update(result.getBytes());
+        return getMD5Signature(result.getBytes());
+    }
+
+    protected String getMD5Signature(byte[] result) {
+        getMessageDigest().update(result);
         byte[] digest = messageDigest.digest();
         String hash = DatatypeConverter.printHexBinary(digest).toUpperCase();
         return hash;
@@ -115,28 +122,25 @@ public abstract class AbstractResourceGenerator {
             if (source != null) {
                 return resourceOracle.getResource(getPackageName(), source.value());
             } else {
-                Element type = processingEnv.getTypeUtils().asElement(getReturnTypeMirror(method));
+                Element type = context.typeUtils.asElement(getReturnTypeMirror(method));
                 DefaultExtensions extensions = type.getAnnotation(DefaultExtensions.class);
-                for (String ext : extensions.value()) {
+                String[] paths = new String[extensions.value().length];
+                for (int i = 0; i < extensions.value().length; i++) {
                     StringBuffer sb = new StringBuffer();
-                    sb.append(method.getSimpleName().toString()).append(ext);
-                    Resource resource = resourceOracle.getResource(getPackageName(), sb.toString());
-                    if (resource != null) {
-                        return resource;
-                    }
+                    sb.append(method.getSimpleName().toString()).append(extensions.value()[i]);
+                    paths[i] = sb.toString();
                 }
+                return resourceOracle.getResource(getPackageName(), paths);
             }
         } catch (UnableToCompleteException e) {
             throw new UnableToCompleteException("Unable to find resource for " + clazz + ", method " + method);
         }
-        throw new UnableToCompleteException("Unable to find resource for " + clazz + ", method " + method);
     }
 
-    protected StringBuffer readInputStream(Resource resource) {
+    public StringBuffer readTextInputStream(Resource resource) {
         StringBuffer sb = new StringBuffer();
-        try {
+        try (InputStream is = resource.openContents()) {
             int c;
-            InputStream is = resource.openContents();
             while ((c = is.read()) != -1) {
                 sb.append((char) c);
             }
@@ -144,6 +148,44 @@ public abstract class AbstractResourceGenerator {
             throw new Error(e);
         }
         return sb;
+    }
+
+    protected String guessContentType(byte[] content) {
+        try {
+            String type = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(content));
+            return type != null ? type : "unknown";
+        } catch (IOException e) {
+            throw new Error(e.getMessage());
+        }
+    }
+
+    protected String guessContentTypeFromResource(Resource resource) {
+        try {
+            return guessContentType(readByteArrayFromResource(resource));
+        } catch (UnableToCompleteException e) {
+            throw new Error(e.getMessage());
+        }
+    }
+
+    protected byte[] readByteArrayFromResource(Resource resource) throws UnableToCompleteException {
+        try {
+            return org.apache.commons.io.IOUtils.toByteArray(resource.openContents());
+        } catch (IOException e) {
+            throw new Error(e);
+        }
+    }
+
+    protected static String toBase64(byte[] data) {
+        return BaseEncoding.base64().encode(data).replaceAll("\\s+", "");
+    }
+
+    public String readBase64InputStream(Resource resource) {
+        try {
+            return Base64.encodeBase64String(readByteArrayFromResource(resource));
+        } catch (UnableToCompleteException e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 
     /**

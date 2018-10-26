@@ -16,6 +16,6 @@
   <inherits name="org.gwtproject.resources.Resources"/>
   <inherits name='com.google.gwt.user.User'/>
 
-  <source path='client'/>
+  <public path="cache"/>
   <source path='shared'/>
 </module>

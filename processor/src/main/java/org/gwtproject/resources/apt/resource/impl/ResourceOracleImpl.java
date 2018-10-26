@@ -30,19 +30,21 @@ public class ResourceOracleImpl implements ResourceOracle {
     @Override
     public Resource getResource(String packageName, String[] pathName) throws UnableToCompleteException {
         for (int i = 0; i < pathName.length; i++) {
-            return getResource(packageName, pathName[i]);
+            Resource resource = getResource(packageName, pathName[i]);
+            if (resource != null) {
+                return resource;
+            }
         }
-
         throw new UnableToCompleteException("Unable to find resource for " + pathName);
     }
 
     @Override
     public Resource getResource(String packageName, String pathName) throws UnableToCompleteException {
         // absolute path
-        URL url = this.getClass().getResource("/"+pathName);
+        URL url = this.getClass().getResource("/" + pathName);
         if (url != null) {
             Resource candidate = ResourceFactory.get(url);
-            if(candidate !=null){
+            if (candidate != null) {
                 return candidate;
             }
         }
@@ -53,9 +55,7 @@ public class ResourceOracleImpl implements ResourceOracle {
         if (url != null) {
             return ResourceFactory.get(url);
         }
-
-
-        throw new UnableToCompleteException("Unable to find resource for " + sb.toString());
+        return null;
     }
 
     /**
