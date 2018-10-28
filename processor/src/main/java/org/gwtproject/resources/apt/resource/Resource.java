@@ -32,5 +32,6 @@ public interface Resource {
    */
   InputStream openContents() throws IOException, UnableToCompleteException;
 
+  URL getUrl();
 
 }

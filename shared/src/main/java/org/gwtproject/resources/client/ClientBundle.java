@@ -17,14 +17,19 @@ package org.gwtproject.resources.client;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Documented
-@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+@Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
-@ClientBundleGenerators({"org.gwtproject.resources.apt.rg.TextResourceGenerator", "org.gwtproject.resources.apt.rg.ExternalTextResourceGenerator", "org.gwtproject.resources.apt.rg.ImageResourceGenerator"})
+@ClientBundleGenerators({"org.gwtproject.resources.apt.rg.TextResourceGenerator",
+        "org.gwtproject.resources.apt.rg.ExternalTextResourceGenerator",
+        "org.gwtproject.resources.apt.rg.ImageResourceGenerator",
+        "org.gwtproject.resources.apt.rg.DataResourceGenerator"})
 public @interface ClientBundle {
 
     @Documented

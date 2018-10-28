@@ -17,7 +17,7 @@ package org.gwtproject.resources.client;
  */
 
 /**
- * Identical to {@link com.google.gwt.resources.client.TextResource}, except the contents of the resource are
+ * Identical to {@link org.gwtproject.resources.client.TextResource}, except the contents of the resource are
  * not inlined into the compiled output. This is suitable for resources that are
  * not required as part of program initialization.
  */
@@ -25,7 +25,7 @@ package org.gwtproject.resources.client;
 public interface ExternalTextResource extends ResourcePrototype {
 
     /**
-     * Fetches a {@link com.google.gwt.resources.client.TextResource} and calls {@code callback} with the result.
+     * Fetches a {@link org.gwtproject.resources.client.TextResource} and calls {@code callback} with the result.
      * <p>
      * Caches after the first result, so {@code callback} is invoked immediately for subsequent
      * invocations.

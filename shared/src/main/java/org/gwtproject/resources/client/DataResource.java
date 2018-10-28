@@ -25,14 +25,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A non-text resource. Use {@link com.google.gwt.resources.client.DataResource.MimeType} to provide MIME Types for embedded
+ * A non-text resource. Use {@link DataResource.MimeType} to provide MIME Types for embedded
  * resources which may not be determined automatically at compile time. Use
- * {@link com.google.gwt.resources.client.DataResource.DoNotEmbed} to prevent a resource from being embedded.
+ * {@link DataResource.DoNotEmbed} to prevent a resource from being embedded.
  */
 public interface DataResource extends ResourcePrototype {
     /**
      * Specifies that the resource or resources associated with the
-     * {@link com.google.gwt.resources.client.ResourcePrototype} should not be embedded into the compiled output.
+     * {@link ResourcePrototype} should not be embedded into the compiled output.
      * This may be useful, for exmaple, when it a particular browser or plugin is
      * unable to handle RFC 2397 data URLs.
      */
@@ -58,13 +58,4 @@ public interface DataResource extends ResourcePrototype {
      * will be an absolute URL.
      */
     SafeUri getSafeUri();
-
-    /**
-     * Retrieves a URL by which the contents of the resource can be obtained. This
-     * will be an absolute URL.
-     *
-     * @deprecated Use {@link #getSafeUri()} instead.
-     */
-    @Deprecated
-    String getUrl();
 }

@@ -4,6 +4,7 @@ import com.google.auto.common.MoreTypes;
 import com.google.common.io.BaseEncoding;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import org.apache.commons.codec.binary.Base64;
@@ -16,6 +17,7 @@ import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.DefaultExtensions;
 
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.type.ExecutableType;
@@ -42,6 +44,12 @@ public abstract class AbstractResourceGenerator {
 
     protected final String _INSTANCE0 = "_instance0";
     private MessageDigest messageDigest = null;
+
+    /**
+     * String constants in Java have a maximum limit that we must obey.
+     */
+    protected static final int MAX_ENCODED_SIZE = (2 << 15) - 1;
+    protected static final int MAX_INLINE_SIZE = 2 << 15;
 
 
     AbstractResourceGenerator(ClientBundleGeneratorContext context, Element clazz, TypeSpec.Builder builder) {
@@ -82,11 +90,16 @@ public abstract class AbstractResourceGenerator {
     }
 
     protected Set<Element> scan(Class returnClass) {
-        return scan().stream().filter(method -> MoreTypes.isTypeOf(returnClass, getReturnTypeMirror(method))).collect(Collectors.toSet());
+        return scan().stream().filter(method -> method.getKind().equals(ElementKind.METHOD) && MoreTypes.isTypeOf(returnClass, getReturnTypeMirror(method))).collect(Collectors.toSet());
     }
 
     protected TypeMirror getReturnTypeMirror(Element method) {
         return ((ExecutableType) method.asType()).getReturnType();
+    }
+
+    protected void addMethodBody(Element method, ClassName resourceTypeClassName, MethodSpec.Builder initializer) throws UnableToCompleteException {
+        clazzBuilder.addField(FieldSpec.builder(resourceTypeClassName, method.getSimpleName().toString(), Modifier.PRIVATE, Modifier.STATIC).build());
+        clazzBuilder.addMethod(initializer.build());
     }
 
     protected void addMethodInitializer(Element method) {
@@ -171,7 +184,7 @@ public abstract class AbstractResourceGenerator {
         try {
             return org.apache.commons.io.IOUtils.toByteArray(resource.openContents());
         } catch (IOException e) {
-            throw new Error(e);
+            throw new UnableToCompleteException(e.getMessage());
         }
     }
 

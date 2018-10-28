@@ -101,6 +101,7 @@ public class ClientBundleClassBuilder extends AbstractResourceGenerator {
             try {
                 ((AbstractResourceGenerator) generator.getConstructor(ClientBundleGeneratorContext.class, Element.class, TypeSpec.Builder.class).newInstance(context, clazz, clazzBuilder)).process();
             } catch (UnableToCompleteException | InstantiationException | IllegalAccessException | InvocationTargetException| NoSuchMethodException e) {
+                e.printStackTrace();
                 throw new UnableToCompleteException(e.getMessage());
             }
         }

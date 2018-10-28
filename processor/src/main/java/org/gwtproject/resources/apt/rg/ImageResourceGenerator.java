@@ -4,9 +4,11 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
+import org.apache.commons.io.FilenameUtils;
 import org.gwtproject.resources.apt.ClientBundleGeneratorContext;
 import org.gwtproject.resources.apt.exceptions.UnableToCompleteException;
 import org.gwtproject.resources.apt.resource.Resource;
+import org.gwtproject.resources.apt.resource.impl.FakeResource;
 import org.gwtproject.resources.client.ImageResource;
 import org.w3c.dom.Node;
 
@@ -33,10 +35,9 @@ import java.util.stream.Collectors;
  * @author Dmitrii Tikhomirov <chani@me.com>
  * Created by treblereel on 10/22/18.
  */
-public final class ImageResourceGenerator extends FileResourceGenerator {
+public final class ImageResourceGenerator extends InlineResourceGenerator {
     private final ClassName imageResourceClassName = ClassName.get("org.gwtproject.resources.client", "ImageResource");
     private final AtomicInteger externalImageCounter = new AtomicInteger(0);
-    private static final int MAX_ENCODED_SIZE = (2 << 15) - 1;
 
     private static final String BUNDLE_FILE_TYPE = "png";
     private static final String BUNDLE_MIME_TYPE = "image/png";
@@ -50,7 +51,7 @@ public final class ImageResourceGenerator extends FileResourceGenerator {
         List<ImageResourceDeclaration> resources = scan(ImageResource.class).stream().map(ImageResourceDeclaration::new).collect(Collectors.toList());
         resources.forEach(image -> {
             try {
-                addMethodBody(image);
+                addMethodBody(image.method, imageResourceClassName, generateResourceMethodImpl(image));
                 addMethodInitializer(image.method);
                 addGetResourceMethod(image.method);
             } catch (UnableToCompleteException e) {
@@ -60,18 +61,13 @@ public final class ImageResourceGenerator extends FileResourceGenerator {
         });
     }
 
-    private void addMethodBody(ImageResourceDeclaration imageOptions) throws UnableToCompleteException {
-        clazzBuilder.addField(FieldSpec.builder(imageResourceClassName, imageOptions.method.getSimpleName().toString(), Modifier.PRIVATE, Modifier.STATIC).build());
-        MethodSpec.Builder initializer = generateImageResourceMethodImpl(imageOptions);
-        clazzBuilder.addMethod(initializer.build());
-    }
 
-    private MethodSpec.Builder generateImageResourceMethodImpl(ImageResourceDeclaration imageOptions) throws UnableToCompleteException {
+    private MethodSpec.Builder generateResourceMethodImpl(ImageResourceDeclaration imageOptions) throws UnableToCompleteException {
         String externalImage = "externalImage" + externalImageCounter.getAndIncrement();
         MethodSpec.Builder initializer = MethodSpec.methodBuilder(imageOptions.method.getSimpleName().toString() + "Initializer")
                 .addModifiers(Modifier.PRIVATE)
                 .returns(void.class)
-                .addStatement(" $L = new org.gwtproject.resources.client.ImageResourcePrototype($S,$L,$L,$L,$L,$L)",
+                .addStatement(" $L = new org.gwtproject.resources.client.impl.ImageResourcePrototype($S,$L,$L,$L,$L,$L)",
                         imageOptions.method.getSimpleName().toString(),
                         imageOptions.method.getSimpleName().toString(),
                         "org.gwtproject.safehtml.shared.UriUtils.fromTrustedString(" + externalImage + ")",
@@ -82,42 +78,25 @@ public final class ImageResourceGenerator extends FileResourceGenerator {
 
     private void generateContent(String fieldName, ImageResourceDeclaration ird) throws UnableToCompleteException {
         byte[] data = readByteArrayFromResource(ird.resource);
-
         if (!ird.animated && !ird.lossy) {
             byte[] newPng = toPng(ird);
             if (data.length > newPng.length) {
+                context.messager.printMessage(Diagnostic.Kind.NOTE, "compress " + ird.resource.getUrl().getFile() + " from " + data.length + " byte to " + newPng.length + " bytes");
                 data = newPng;
+                String fileName = FilenameUtils.getBaseName(ird.resource.getUrl().getFile()) + "." + BUNDLE_FILE_TYPE;
+                ird.mimeType = BUNDLE_MIME_TYPE;
+                ird.resource = new FakeResource(fileName, data);
             }
         }
-        int OFFSET = 13; //"data:;base64,".getBytes().length
-        if ((data.length < (MAX_ENCODED_SIZE - OFFSET)) && !ird.preventInlining) {
-            String base64Contents = toBase64(data);
-            String encoded = "data:" + guessContentType(data).replaceAll("\"", "\\\\\"") + ";base64," + base64Contents;
-            /*
-             * We know that the encoded format will be one byte per character, since
-             * we're using only ASCII characters.
-             */
-            if (encoded.length() > MAX_ENCODED_SIZE) {
-                addAsExternalResource(fieldName, data);
-            } else {
-                addAsInlinedResource(fieldName, encoded);
-            }
-        } else {
-            addAsExternalResource(fieldName, data);
-        }
+        String outputUrlExpression = deploy(ird.resource, ird.mimeType, ird.preventInlining);
+        addResourceField(fieldName, outputUrlExpression);
     }
 
-    private void addAsInlinedResource(String fieldName, String encoded) {
+    //TODO
+    private void addResourceField(String fieldName, String encoded) {
         clazzBuilder.addField(FieldSpec.builder(ClassName.get(String.class), fieldName, Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
-                .initializer("$S", encoded)
+                .initializer("$L", encoded)
                 .build());
-    }
-
-    private void addAsExternalResource(String fieldName, byte[] data) throws UnableToCompleteException {
-        String filename = getMD5Signature(data) + ".cache.png";
-        clazzBuilder.addField(FieldSpec.builder(String.class, fieldName, Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
-                .initializer("$S", context.gwtCacheUrl + filename).build());
-        writeFileToDisk(data, filename);
     }
 
     /**

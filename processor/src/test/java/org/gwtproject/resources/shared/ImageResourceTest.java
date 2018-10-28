@@ -1,13 +1,13 @@
 package org.gwtproject.resources.shared;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.Timer;
 import elemental2.dom.Image;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.ClientBundle.Source;
 import org.gwtproject.resources.client.ImageResource;
-import org.gwtproject.resources.client.ImageResourcePrototype;
+import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.resources.client.TextResource;
+import org.gwtproject.timer.client.Timer;
 
 import static elemental2.dom.DomGlobal.document;
 import static org.gwtproject.resources.client.ImageResource.*;
