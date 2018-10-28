@@ -30,4 +30,9 @@ public class FileResource implements Resource {
         }
         throw new UnableToCompleteException("Unable to open InputStream " + url);
     }
+
+    @Override
+    public URL getUrl() {
+        return url;
+    }
 }

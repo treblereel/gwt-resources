@@ -18,7 +18,7 @@ package org.gwtproject.resources.apt.exceptions;
 /**
  * Used to indicate that some part of a multi-step process failed. Typically,
  * operation can continue after this exception is caught.
- *
+ * <p>
  * Before throwing an object of this type, the thrower
  * <ul>
  * <li>must log a detailed user-facing message describing the failure,</li>
@@ -31,7 +31,7 @@ package org.gwtproject.resources.apt.exceptions;
  * exception, sometimes not, but there can <em>always</em> be a preceding log
  * entry. </li>
  * </ul>
- *
+ * <p>
  * After catching an object of this type, the catcher
  * <ul>
  * <li>can be assured that the thrower has already logged a message about the
@@ -70,10 +70,17 @@ package org.gwtproject.resources.apt.exceptions;
  *      }
  *  }
  * </pre>
- *
  */
 public class UnableToCompleteException extends Exception {
-  public UnableToCompleteException(String msg) {
-    super(msg);
-  }
+    public UnableToCompleteException(String msg, Exception e) {
+        super(msg, e);
+    }
+
+    public UnableToCompleteException(Exception e) {
+        super(e);
+    }
+
+    public UnableToCompleteException(String e) {
+        super(e);
+    }
 }
