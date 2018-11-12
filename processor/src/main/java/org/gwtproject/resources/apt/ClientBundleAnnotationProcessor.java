@@ -1,23 +1,14 @@
 package org.gwtproject.resources.apt;
 
 import com.google.auto.service.AutoService;
-import org.gwtproject.resources.apt.exceptions.UnableToCompleteException;
-import org.gwtproject.resources.apt.rg.ClientBundleClassBuilder;
-import org.gwtproject.resources.client.ClientBundle;
-import org.gwtproject.resources.client.ClientBundleGenerators;
+import org.gwtproject.resources.ext.TreeLogger;
+import org.gwtproject.resources.ext.UnableToCompleteException;
+import org.gwtproject.resources.logger.PrintWriterTreeLogger;
+import org.gwtproject.resources.rg.AptContext;
 
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Filer;
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
+import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -26,45 +17,26 @@ import java.util.Set;
  */
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-@SupportedAnnotationTypes("org.gwtproject.resources.client.ClientBundle")
+@SupportedAnnotationTypes({"org.gwtproject.resources.client.Resource"})
 public class ClientBundleAnnotationProcessor extends AbstractProcessor {
-    private Set<Class> generators = new HashSet<>();
-
-    public ClientBundleAnnotationProcessor() throws UnableToCompleteException {
-        locateGenerators();
-    }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
         if (annotations.isEmpty()) {
             return false;
         }
-        ClientBundleGeneratorContext context = new ClientBundleGeneratorContext(processingEnv);
-
+        AptContext context = new AptContext(processingEnv, roundEnvironment);
+        TreeLogger logger = new PrintWriterTreeLogger();
+        ((PrintWriterTreeLogger) logger).setMaxDetail(TreeLogger.Type.INFO);
         for (TypeElement annotation : annotations) {
-            Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(annotation);
+            Set<TypeElement> elements = (Set<TypeElement>) roundEnvironment.getElementsAnnotatedWith(annotation);
             try {
-                for (final Element element : elements) {
-                    new ClientBundleClassBuilder(context, roundEnvironment, generators, element).process();
-                }
+                new ClientBundleClassBuilder(logger, context, elements).process();
             } catch (UnableToCompleteException e) {
-                processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, e.getMessage());
-                e.printStackTrace();
                 throw new Error(e);
             }
         }
         return true;
-    }
-
-    public void locateGenerators() throws UnableToCompleteException {
-        String[] names = ClientBundle.class.getAnnotation(ClientBundleGenerators.class).value();
-        for (String name : names) {
-            try {
-                generators.add(Class.forName(name));
-            } catch (ClassNotFoundException e) {
-                throw new UnableToCompleteException(e.getMessage());
-            }
-        }
     }
 
 }

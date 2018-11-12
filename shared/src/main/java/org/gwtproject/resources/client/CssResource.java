@@ -16,11 +16,11 @@ package org.gwtproject.resources.client;
  * the License.
  */
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.gwtproject.resources.ext.DefaultExtensions;
+import org.gwtproject.resources.ext.ResourceGeneratorType;
+import org.gwtproject.resources.rg.CssResourceGenerator;
+
+import java.lang.annotation.*;
 
 /**
  * Aggregates and minifies CSS stylesheets. A CssResource represents a regular
@@ -144,6 +144,7 @@ import java.lang.annotation.Target;
  * >CssResource design doc</a>
  */
 @DefaultExtensions(value = {".css", ".gss"})
+@ResourceGeneratorType(CssResourceGenerator.class)
 public interface CssResource extends CssResourceBase {
     /**
      * The original CSS class name specified in the resource. This allows CSS
@@ -162,7 +163,7 @@ public interface CssResource extends CssResourceBase {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface ClassName {
+    @interface ClassName {
         String value();
     }
 
@@ -210,7 +211,7 @@ public interface CssResource extends CssResourceBase {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface Import {
+    @interface Import {
         Class<? extends CssResource>[] value();
     }
 
@@ -223,7 +224,7 @@ public interface CssResource extends CssResourceBase {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
-    public @interface ImportedWithPrefix {
+    @interface ImportedWithPrefix {
         String value();
     }
 
@@ -245,7 +246,7 @@ public interface CssResource extends CssResourceBase {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface NotStrict {
+    @interface NotStrict {
     }
 
     /**
@@ -290,7 +291,7 @@ public interface CssResource extends CssResourceBase {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
-    public @interface Shared {
+    @interface Shared {
     }
 
     /**
@@ -301,7 +302,7 @@ public interface CssResource extends CssResourceBase {
     @Deprecated
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface Strict {
+    @interface Strict {
     }
 
     /**

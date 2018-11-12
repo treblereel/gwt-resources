@@ -1,0 +1,9 @@
+.myBackground {
+    display: inline;
+    margin: 0 auto;
+}
+
+@sprite .myBackground {
+  width: 200px;
+  gwt-image: "myImage";
+}

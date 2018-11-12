@@ -34,7 +34,6 @@
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>resources</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -59,19 +58,19 @@
             <version>1.11</version>
         </dependency>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.6</version>
-        </dependency>
-        <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20180813</version>
         </dependency>
         <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-            <scope>test</scope>
+            <groupId>org.gwtproject</groupId>
+            <artifactId>i18n</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>27.0-jre</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -120,6 +119,7 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
+                            <showWarnings>true</showWarnings>
                             <compilerArgument>-proc:none</compilerArgument>
                         </configuration>
                     </execution>
@@ -145,6 +145,10 @@
                         </goals>
                         <configuration>
                             <properties>
+                                <property>
+                                    <name>CssResource.style</name>
+                                    <value>obf</value>
+                                </property>
                                 <property>
                                     <name>gwt.clientbundle.gwt-cache.location</name>
                                     <value>src/test/java/org/gwtproject/resources/cache/gwt-cache</value>

@@ -16,20 +16,25 @@ package org.gwtproject.resources.client;
  * the License.
  */
 
+import org.gwtproject.resources.ext.ResourceGeneratorType;
+import org.gwtproject.resources.rg.DataResourceGenerator;
 import org.gwtproject.safehtml.shared.SafeUri;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * A non-text resource. Use {@link DataResource.MimeType} to provide MIME Types for embedded
  * resources which may not be determined automatically at compile time. Use
  * {@link DataResource.DoNotEmbed} to prevent a resource from being embedded.
  */
+@ResourceGeneratorType(DataResourceGenerator.class)
 public interface DataResource extends ResourcePrototype {
+    /**
+     * Retrieves a URL by which the contents of the resource can be obtained. This
+     * will be an absolute URL.
+     */
+    SafeUri getSafeUri();
+
     /**
      * Specifies that the resource or resources associated with the
      * {@link ResourcePrototype} should not be embedded into the compiled output.
@@ -39,7 +44,7 @@ public interface DataResource extends ResourcePrototype {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface DoNotEmbed {
+    @interface DoNotEmbed {
     }
 
     /**
@@ -49,13 +54,7 @@ public interface DataResource extends ResourcePrototype {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface MimeType {
+    @interface MimeType {
         String value();
     }
-
-    /**
-     * Retrieves a URL by which the contents of the resource can be obtained. This
-     * will be an absolute URL.
-     */
-    SafeUri getSafeUri();
 }

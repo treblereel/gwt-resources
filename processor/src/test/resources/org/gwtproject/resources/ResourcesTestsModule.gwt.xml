@@ -14,8 +14,10 @@
 
 <module>
   <inherits name="org.gwtproject.resources.Resources"/>
+  <inherits name="org.gwtproject.timer.Timer"/>
   <inherits name='com.google.gwt.user.User'/>
 
+  <public path="client"/>
   <public path="cache"/>
   <source path='shared'/>
 </module>

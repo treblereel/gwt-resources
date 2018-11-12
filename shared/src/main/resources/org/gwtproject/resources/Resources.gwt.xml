@@ -3,8 +3,11 @@
         "http://gwtproject.org/doctype/2.8.2/gwt-module.dtd">
 <module>
     <source path="client"/>
-    <inherits name="org.gwtproject.jsonp.Jsonp"/>
     <inherits name="org.gwtproject.http.HTTP"/>
     <inherits name="org.gwtproject.user.AsyncCallback"/>
-    <inherits name="org.gwtproject.jsonp.Jsonp"/>
+    <inherits name="org.gwtproject.dom.DOM"/>
+    <!-- not ready yet
+    <inherits name="org.gwtproject.i18n.I18n"/> -->
+
+    <inherits name="com.google.gwt.i18n.I18N"/>
 </module>

@@ -1,0 +1,8 @@
+@sprite .mySpriteClass {gwt-image: "imageAccessor"; other: property;} => generates =>
+
+  .mySpriteClass {
+    background-image: url(gen.png);
+    width: 27px;
+    height: 42px;
+    other: property;
+  }
