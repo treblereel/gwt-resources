@@ -397,10 +397,6 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
      * Create a Java expression that evaluates to the string representation of the
      * stylesheet resource.
      *
-     * @param actualReplacements An out parameter that will be populated by the
-     *                           obfuscated class names that should be used for the particular
-     *                           instance of the CssResource, based on any substitution
-     *                           modifications encoded in the source CSS file
      */
     private String makeExpression(TreeLogger logger, ResourceContext context, CssStylesheet sheet)
             throws UnableToCompleteException {

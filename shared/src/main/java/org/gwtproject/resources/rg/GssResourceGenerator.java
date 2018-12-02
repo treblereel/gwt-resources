@@ -1,14 +1,19 @@
 package org.gwtproject.resources.rg;
 
 import com.google.auto.common.MoreElements;
+import com.google.common.css.compiler.ast.CssTree;
+import com.google.gwt.i18n.client.LocaleInfo;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.ext.ResourceContext;
 import org.gwtproject.resources.ext.ResourceGeneratorUtil;
 import org.gwtproject.resources.ext.TreeLogger;
 import org.gwtproject.resources.ext.UnableToCompleteException;
+import org.gwtproject.resources.rg.gss.CssPrinter;
 
 import javax.lang.model.element.ExecutableElement;
 import java.net.URL;
+import java.util.Map;
+import java.util.Set;
 
 import static org.gwtproject.resources.client.ClientBundle.Source;
 
@@ -16,7 +21,9 @@ import static org.gwtproject.resources.client.ClientBundle.Source;
  * @author Dmitrii Tikhomirov
  * Created by treblereel 12/1/18
  */
-public class GssResourceGenerator {
+public class GssResourceGenerator extends AbstractCssResourceGenerator {
+
+    private Map<ExecutableElement, CssParsingResult> cssParsingResultMap;
 
     /**
      * Temporary method needed when GSS and the old CSS syntax are both supported by the sdk.
@@ -85,4 +92,69 @@ public class GssResourceGenerator {
         return resourcesToUse;
     }
 
+    @Override
+    protected String getCssExpression(TreeLogger logger, ResourceContext context, ExecutableElement method) throws UnableToCompleteException {
+        CssTree cssTree = cssParsingResultMap.get(method).tree;
+
+        String standard = printCssTree(cssTree);
+
+        // TODO add configuration properties for swapLtrRtlInUrl, swapLeftRightInUrl and
+        // shouldFlipConstantReferences booleans
+        RecordingBidiFlipper recordingBidiFlipper =
+                new RecordingBidiFlipper(cssTree.getMutatingVisitController(), false, false, true);
+        recordingBidiFlipper.runPass();
+
+        if (recordingBidiFlipper.nodeFlipped()) {
+            String reversed = printCssTree(cssTree);
+            return LocaleInfo.class.getName() + ".getCurrentLocale().isRTL() ? "
+                    + reversed + " : " + standard;
+        } else {
+            return standard;
+        }
+    }
+
+    private String printCssTree(CssTree tree) {
+        CssPrinter cssPrinterPass = new CssPrinter(tree);
+        cssPrinterPass.runPass();
+
+        return cssPrinterPass.getCompactPrintedString();
+    }
+
+    private static class ConversionResult {
+        final String gss;
+        final Map<String, String> defNameMapping;
+
+        private ConversionResult(String gss, Map<String, String> defNameMapping) {
+            this.gss = gss;
+            this.defNameMapping = defNameMapping;
+        }
+    }
+
+    private static class RenamingResult {
+        final Map<String, String> mapping;
+        final Set<String> externalClassCandidate;
+
+        private RenamingResult(Map<String, String> mapping, Set<String> externalClassCandidate) {
+            this.mapping = mapping;
+            this.externalClassCandidate = externalClassCandidate;
+        }
+    }
+
+    @Override
+    public String createAssignment(TreeLogger logger, ResourceContext context, AptContext aptContext, ExecutableElement method) throws UnableToCompleteException {
+        return null;
+    }
+
+    private static class CssParsingResult {
+        final CssTree tree;
+        final Map<String, String> originalConstantNameMapping;
+        final Set<String> trueConditions;
+
+        private CssParsingResult(CssTree tree, Set<String> trueConditions,
+                                 Map<String, String> originalConstantNameMapping) {
+            this.tree = tree;
+            this.originalConstantNameMapping = originalConstantNameMapping;
+            this.trueConditions = trueConditions;
+        }
+    }
 }
