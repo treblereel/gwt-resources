@@ -17,29 +17,27 @@ package org.gwtproject.resources;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
 import junit.framework.Test;
-import org.gwtproject.resources.shared.DataResourceDoNotEmbedTest;
-import org.gwtproject.resources.shared.DataResourceMimeTypeTest;
-import org.gwtproject.resources.shared.ExternalTextResourceTest;
-import org.gwtproject.resources.shared.ImageResourceTest;
-import org.gwtproject.resources.shared.TextResourceTest;
+import org.gwtproject.resources.client.*;
 
 /**
  * Test suite for SafeHtml GWTTestCases.
  */
 public class ResourcesGwtSuite {
+    private ResourcesGwtSuite() {
+    }
+
     public static Test suite() {
         GWTTestSuite suite = new GWTTestSuite(
                 "Test suite for Resources GWTTestCases");
 
         suite.addTestSuite(DataResourceDoNotEmbedTest.class);
         suite.addTestSuite(DataResourceMimeTypeTest.class);
-        //suite.addTestSuite(ExternalTextResourceJsonpTest.class);
         suite.addTestSuite(ExternalTextResourceTest.class);
         //suite.addTestSuite(ImageResourceNoInliningTest.class);
         suite.addTestSuite(ImageResourceTest.class);
         //suite.addTestSuite(NestedBundleTest.class);
         suite.addTestSuite(TextResourceTest.class);
-        //suite.addTestSuite(CSSResourceTest.class);
+        suite.addTestSuite(CSSResourceTest.class);
         //suite.addTestSuite(CSSResourceWithGSSTest.class);
 
         // GSS
@@ -51,8 +49,5 @@ public class ResourcesGwtSuite {
         suite.addTestSuite(StableNoTypeObfuscationStyleTest.class);
         suite.addTestSuite(StableObfuscationStyleTest.class);*/
         return suite;
-    }
-
-    private ResourcesGwtSuite() {
     }
 }

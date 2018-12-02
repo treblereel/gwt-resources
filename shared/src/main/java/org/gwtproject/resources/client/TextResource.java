@@ -15,11 +15,16 @@
  */
 package org.gwtproject.resources.client;
 
+import org.gwtproject.resources.ext.DefaultExtensions;
+import org.gwtproject.resources.ext.ResourceGeneratorType;
+import org.gwtproject.resources.rg.TextResourceGenerator;
+
 /**
  * A resource that contains text that should be incorporated into the compiled
  * output.
  */
 @DefaultExtensions(value = {".txt"})
+@ResourceGeneratorType(TextResourceGenerator.class)
 public interface TextResource extends ResourcePrototype {
     String getText();
 }

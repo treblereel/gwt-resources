@@ -1,5 +1,3 @@
-package org.gwtproject.resources.client.impl;
-
 /*
  * Copyright 2007 Google Inc.
  *
@@ -15,6 +13,8 @@ package org.gwtproject.resources.client.impl;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+package org.gwtproject.resources.client.impl;
+
 
 import elemental2.dom.Image;
 import org.gwtproject.resources.client.ImageResource;
@@ -32,12 +32,19 @@ public class ImageResourcePrototype implements ImageResource {
     private final boolean lossy;
     private final String name;
     private final SafeUri url;
+    private final int left;
+    private final int top;
     private final int width;
     private final int height;
 
-    public ImageResourcePrototype(String name, SafeUri url, int width, int height,
+    /**
+     * Only called by generated code.
+     */
+    public ImageResourcePrototype(String name, SafeUri url, int left, int top, int width, int height,
                                   boolean animated, boolean lossy) {
         this.name = name;
+        this.left = left;
+        this.top = top;
         this.height = height;
         this.width = width;
         this.url = url;
@@ -45,8 +52,18 @@ public class ImageResourcePrototype implements ImageResource {
         this.lossy = lossy;
     }
 
+    /**
+     * Exists for testing purposes, not part of the ImageResource interface.
+     */
     public int getHeight() {
         return height;
+    }
+
+    /**
+     * Exists for testing purposes, not part of the ImageResource interface.
+     */
+    public int getLeft() {
+        return left;
     }
 
     /**
@@ -64,18 +81,25 @@ public class ImageResourcePrototype implements ImageResource {
         return image;
     }
 
+    public SafeUri getSafeUri() {
+        return url;
+    }
+
     public String getName() {
         return name;
     }
 
-    public SafeUri getSafeUri() {
-        return url;
+    public int getTop() {
+        return top;
     }
 
     public String getURL() {
         return url.asString();
     }
 
+    /**
+     * Exists for testing purposes, not part of the ImageResource interface.
+     */
     public int getWidth() {
         return width;
     }
@@ -84,8 +108,11 @@ public class ImageResourcePrototype implements ImageResource {
         return animated;
     }
 
+    /**
+     * Exists for testing purposes, not part of the ImageResource interface.
+     */
     public boolean isLossy() {
         return lossy;
     }
-}
 
+}

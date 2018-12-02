@@ -1,3 +1,5 @@
+package org.gwtproject.resources.client;
+
 /*
  * Copyright 2008 Google Inc.
  *
@@ -13,30 +15,30 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.gwtproject.resources.client;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.gwtproject.resources.ext.ResourceGeneratorType;
+import org.gwtproject.resources.rg.BundleResourceGenerator;
 
-@Documented
-@Inherited
-@Retention(RetentionPolicy.SOURCE)
-@Target(ElementType.TYPE)
-@ClientBundleGenerators({"org.gwtproject.resources.apt.rg.TextResourceGenerator",
-        "org.gwtproject.resources.apt.rg.ExternalTextResourceGenerator",
-        "org.gwtproject.resources.apt.rg.ImageResourceGenerator",
-        "org.gwtproject.resources.apt.rg.DataResourceGenerator"})
-public @interface ClientBundle {
+import java.lang.annotation.*;
 
+/**
+ * The use of this interface is similar to that of ImageBundle. Declare
+ * no-argument functions that return subclasses of {@link ResourcePrototype},
+ * which are annotated with {@link ClientBundle.Source} annotations specifying
+ * the classpath location of the resource to include in the output. At runtime,
+ * the functions will return an object that can be used to access the data in
+ * the original resource.
+ */
+@ResourceGeneratorType(BundleResourceGenerator.class)
+public interface ClientBundle {
+    /**
+     * Specifies the classpath location of the resource or resources associated
+     * with the {@link ResourcePrototype}.
+     */
     @Documented
-    @Retention(RetentionPolicy.SOURCE)
+    @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface Source {
+    @interface Source {
         String[] value();
     }
-
 }

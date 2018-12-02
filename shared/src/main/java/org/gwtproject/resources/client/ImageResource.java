@@ -15,20 +15,83 @@ package org.gwtproject.resources.client;
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 import elemental2.dom.Image;
+import org.gwtproject.resources.ext.DefaultExtensions;
+import org.gwtproject.resources.ext.ResourceGeneratorType;
+import org.gwtproject.resources.rg.ImageResourceGenerator;
 import org.gwtproject.safehtml.shared.SafeUri;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Provides access to image resources at runtime.
  */
 @DefaultExtensions(value = {".png", ".jpg", ".gif", ".bmp"})
+@ResourceGeneratorType(ImageResourceGenerator.class)
 public interface ImageResource extends ResourcePrototype {
+
+    /**
+     * Returns the height of the image.
+     */
+    int getHeight();
+
+    /**
+     * Returns the horizontal position of the image within the composite image.
+     */
+    int getLeft();
+
+    /**
+     * Returns the Image
+     */
+    Image getImage();
+
+    /**
+     * Returns the URL for the composite image that contains the ImageResource.
+     */
+    SafeUri getSafeUri();
+
+    /**
+     * Returns the vertical position of the image within the composite image.
+     */
+    int getTop();
+
+    /**
+     * Returns the width of the image.
+     */
+    int getWidth();
+
+    /**
+     * Return <code>true</code> if the image contains multiple frames.
+     */
+    boolean isAnimated();
+
+    /**
+     * Indicates that an ImageResource should be bundled in such a way as to
+     * support horizontal or vertical repetition.
+     */
+    enum RepeatStyle {
+        /**
+         * The image is not intended to be tiled.
+         */
+        None,
+
+        /**
+         * The image is intended to be tiled horizontally.
+         */
+        Horizontal,
+
+        /**
+         * The image is intended to be tiled vertically.
+         */
+        Vertical,
+
+        /**
+         * The image is intended to be tiled both horizontally and vertically. Note
+         * that this will prevent compositing of the particular image in most cases.
+         */
+        Both
+    }
 
     /**
      * Specifies additional options to control how an image is bundled.
@@ -79,57 +142,5 @@ public interface ImageResource extends ResourcePrototype {
          */
         int width() default -1;
     }
-
-    /**
-     * Indicates that an ImageResource should be bundled in such a way as to
-     * support horizontal or vertical repetition.
-     */
-    enum RepeatStyle {
-        /**
-         * The image is not intended to be tiled.
-         */
-        None,
-
-        /**
-         * The image is intended to be tiled horizontally.
-         */
-        Horizontal,
-
-        /**
-         * The image is intended to be tiled vertically.
-         */
-        Vertical,
-
-        /**
-         * The image is intended to be tiled both horizontally and vertically. Note
-         * that this will prevent compositing of the particular image in most cases.
-         */
-        Both
-    }
-
-    /**
-     * Returns the height of the image.
-     */
-    int getHeight();
-
-    /**
-     * Returns the Image
-     */
-    Image getImage();
-
-    /**
-     * Returns the URL for the composite image that contains the ImageResource.
-     */
-    SafeUri getSafeUri();
-
-    /**
-     * Returns the width of the image.
-     */
-    int getWidth();
-
-    /**
-     * Return <code>true</code> if the image contains multiple frames.
-     */
-    boolean isAnimated();
 }
 

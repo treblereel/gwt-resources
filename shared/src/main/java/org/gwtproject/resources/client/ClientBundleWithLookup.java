@@ -7,7 +7,7 @@ package org.gwtproject.resources.client;
  * will prevent the compiler from pruning any of the resources declared in the
  * ClientBundle.
  */
-public interface ClientBundleWithLookup {
+public interface ClientBundleWithLookup extends ClientBundle {
 
     /**
      * Find a resource by the name of the function in which it is declared.
