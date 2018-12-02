@@ -100,8 +100,6 @@ public class CSSResourceTest extends GWTTestCase {
         assertTrue(text.contains("backgroundTopLevel:url('"
                 + Resources.INSTANCE.dataMethod().getSafeUri().asString() + "')"));
 
-        //assertEquals(text, "ZZ");
-
         assertTrue(text.contains("backgroundNested:url('"
                 + Resources.INSTANCE.nested().dataMethod().getSafeUri().asString() + "')"));
         //assertTrue(text.contains("backgroundCustom:url('" + Resources.INSTANCE.customDataMethod().getSafeUri().asString() + "')"));

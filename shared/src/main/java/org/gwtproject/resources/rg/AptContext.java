@@ -10,11 +10,8 @@ import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
-import javax.lang.model.type.MirroredTypeException;
-import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,66 +49,28 @@ public class AptContext {
     }
 
     private void preBuildGenerators() {
-        generators.put(elementUtils.getTypeElement(ClientBundle.class.getCanonicalName()), BundleResourceGenerator.class);
-        generators.put(elementUtils.getTypeElement(CssResource.class.getCanonicalName()), CssResourceGenerator.class);
-        generators.put(elementUtils.getTypeElement(DataResource.class.getCanonicalName()), DataResourceGenerator.class);
+        generators.put(elementUtils.getTypeElement(ClientBundle.class.getCanonicalName()),         BundleResourceGenerator.class);
+        generators.put(elementUtils.getTypeElement(CssResource.class.getCanonicalName()),          CssResourceGenerator.class);
+        generators.put(elementUtils.getTypeElement(DataResource.class.getCanonicalName()),         DataResourceGenerator.class);
         generators.put(elementUtils.getTypeElement(ExternalTextResource.class.getCanonicalName()), ExternalTextResourceGenerator.class);
-        generators.put(elementUtils.getTypeElement(ImageResource.class.getCanonicalName()), ImageResourceGenerator.class);
-        generators.put(elementUtils.getTypeElement(TextResource.class.getCanonicalName()), TextResourceGenerator.class);
+        generators.put(elementUtils.getTypeElement(ImageResource.class.getCanonicalName()),        ImageResourceGenerator.class);
+        generators.put(elementUtils.getTypeElement(TextResource.class.getCanonicalName()),         TextResourceGenerator.class);
     }
 
     private void userDefinedGenerators() {
-
-
         roundEnvironment.getElementsAnnotatedWith(ResourceGeneratorType.class).forEach(e -> {
-/*            e.getAnnotationMirrors().forEach(a -> {
-
-                System.out.println("A " + a);
-                a.getElementValues().forEach((k,v ) ->{
-                    System.out.println("??? " + k.getSimpleName().toString().equals("value") + " "  + v);
+            e.getAnnotationMirrors().forEach(a -> {
+                a.getElementValues().forEach((k, v) -> {
+                    System.out.println("ResourceGeneratorType " + v.getValue().toString());
                     String value = v.getValue().toString();
-                    System.out.println(value);
                     try {
                         Class.forName(value);
                     } catch (ClassNotFoundException e1) {
                         e1.printStackTrace();
+                        throw new Error(e1);
                     }
                 });
-
-            });*/
-
-
-            ResourceGeneratorType resourceGeneratorType = e.getAnnotation(ResourceGeneratorType.class);
-            String resourceGeneratorName = getResourceGeneratorType(resourceGeneratorType).toString();
-            URL location = AptContext.class.getProtectionDomain().getCodeSource().getLocation();
-            System.out.println(location.getFile());
-
-            System.out.println("? " + resourceGeneratorName);
-/*            try {
-
-
-                Class.forName(resourceGeneratorName);
-
-                generators.put(e, (Class<? extends ResourceGenerator>) Class.forName(resourceGeneratorName));
-            } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
-                throw new Error(e1);
-            }*/
+            });
         });
     }
-
-    private TypeMirror getResourceGeneratorType(ResourceGeneratorType annotation) {
-        try {
-            annotation.value();
-        } catch (MirroredTypeException mte) {
-            //TypeMirror typeMirror = mte.getTypeMirror();
-            //System.out.println("? " + typeMirror.getKind());
-            //System.out.println("? " + MoreTypes.asElement(typeMirror).getEnclosingElement());
-            //System.out.println("? " + MoreTypes.asElement(typeMirror).getSimpleName().toString());
-            //MoreTypes.asElement(typeMirror).getAnnotationMirrors();
-            return mte.getTypeMirror();
-        }
-        return null;
-    }
-
 }
