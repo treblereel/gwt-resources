@@ -10,6 +10,7 @@ import org.gwtproject.safehtml.shared.UriUtils;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public final class ExternalTextResourceGenerator extends AbstractResourceGenerat
     private String externalTextCacheIdent;
 
     @Override
-    public String createAssignment(TreeLogger logger, ResourceContext context, AptContext aptContext,
+    public String createAssignment(TreeLogger logger, ResourceContext context,
                                    ExecutableElement method) throws UnableToCompleteException {
         String name = method.getSimpleName().toString();
 
@@ -53,24 +54,21 @@ public final class ExternalTextResourceGenerator extends AbstractResourceGenerat
         return sw.toString();
     }
 
-    private String getMd5HashOfData() {
-        return Util.computeStrongName(Util.getBytes(data.toString()));
-    }
-
     @Override
-    public void createFields(TreeLogger logger, ResourceContext context, AptContext aptContext,
+    public void createFields(TreeLogger logger, ResourceContext context,
                              ClientBundleFields fields) throws UnableToCompleteException {
+        Elements elements = context.getGeneratorContext().getAptContext().elements;
         data.append(']');
         urlExpression = context.deploy(
-                Util.getQualifiedSourceName(context.getClientBundleType(), aptContext.elementUtils).replace('.', '_')
+                Util.getQualifiedSourceName(context.getClientBundleType(), elements).replace('.', '_')
                         + "_jsonbundle.txt", "text/plain", Util.getBytes(data.toString()), true);
 
-        TypeElement stringType = aptContext.elementUtils.getTypeElement(String.class.getCanonicalName());
+        TypeElement stringType = elements.getTypeElement(String.class.getCanonicalName());
         assert stringType != null;
 
         externalTextUrlIdent = fields.define(stringType, "externalTextUrl", urlExpression, true, true);
 
-        TypeElement textResourceType = aptContext.elementUtils.getTypeElement(TextResource.class.getCanonicalName());
+        TypeElement textResourceType = elements.getTypeElement(TextResource.class.getCanonicalName());
         assert textResourceType != null;
 
         externalTextCacheIdent = fields.define(TextResource.class.getCanonicalName() + "[]",
@@ -91,10 +89,10 @@ public final class ExternalTextResourceGenerator extends AbstractResourceGenerat
     }
 
     @Override
-    public void prepare(TreeLogger logger, ResourceContext resourceContext, AptContext aptContext, ExecutableElement method)
+    public void prepare(TreeLogger logger, ResourceContext resourceContext, ExecutableElement method)
             throws UnableToCompleteException {
 
-        Resource resource = ResourceGeneratorUtil.getResource(logger, method, aptContext);
+        Resource resource = ResourceGeneratorUtil.getResource(logger, method, resourceContext.getGeneratorContext().getAptContext());
         String toWrite = ResourceGeneratorUtil.readInputStreamAsText(resource);
         // This de-duplicates strings in the bundle.
         if (!hashes.containsKey(toWrite)) {

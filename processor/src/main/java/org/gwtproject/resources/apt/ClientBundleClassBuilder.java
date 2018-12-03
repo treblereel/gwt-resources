@@ -4,7 +4,7 @@ import org.gwtproject.resources.context.InlineClientBundleGenerator;
 import org.gwtproject.resources.ext.StandardGeneratorContext;
 import org.gwtproject.resources.ext.TreeLogger;
 import org.gwtproject.resources.ext.UnableToCompleteException;
-import org.gwtproject.resources.rg.AptContext;
+import org.gwtproject.resources.context.AptContext;
 
 import javax.lang.model.element.TypeElement;
 import java.util.Map;

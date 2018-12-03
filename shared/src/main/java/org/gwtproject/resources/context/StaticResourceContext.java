@@ -1,16 +1,17 @@
 package org.gwtproject.resources.context;
 
 import org.gwtproject.resources.ext.GeneratorContext;
+import org.gwtproject.resources.ext.PropertyOracle;
 import org.gwtproject.resources.ext.TreeLogger;
 import org.gwtproject.resources.ext.UnableToCompleteException;
-import org.gwtproject.resources.rg.AptContext;
 import org.gwtproject.resources.rg.util.Util;
 
 import javax.lang.model.element.TypeElement;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import static org.gwtproject.resources.rg.resource.ConfigurationProperties.KEY_CLIENT_BUNDLE_CACHE_URL;
+import static org.gwtproject.resources.rg.resource.ConfigurationProperties.KEY_CLIENT_BUNDLE_ENABLE_RENAMING;
 
 /**
  * @author Dmitrii Tikhomirov
@@ -27,10 +28,11 @@ class StaticResourceContext extends AbstractResourceContext {
                          boolean forceExternal) throws UnableToCompleteException {
         TreeLogger logger = getLogger();
         GeneratorContext context = getGeneratorContext();
-
+        PropertyOracle oracle = context.getPropertyOracle();
 
         // See if filename obfuscation should be enabled
-        boolean enableRenaming = context.getAptContext().propertiesHolder.ENABLE_RENAMING;
+        boolean enableRenaming = oracle.getConfigurationProperty(logger,
+                KEY_CLIENT_BUNDLE_ENABLE_RENAMING).asSingleBooleanValue();
 
 
         // Determine the final filename for the resource's file
@@ -51,8 +53,6 @@ class StaticResourceContext extends AbstractResourceContext {
         } else {
             outputName = suggestedFileName.substring(suggestedFileName.lastIndexOf('/') + 1);
         }
-
-        //writeFileToDisk(logger, context.getAptContext(), data, outputName);
 
         // Ask the context for an OutputStream into the named resource
         OutputStream out = context.tryCreateResource(logger, outputName);
@@ -77,18 +77,8 @@ class StaticResourceContext extends AbstractResourceContext {
             }
         }
 
-
         // Return a Java expression
-        return "\"" + context.getAptContext().propertiesHolder.GWT_CACHE_URL + outputName + "\"";
-    }
-
-    protected void writeFileToDisk(TreeLogger logger, AptContext context, byte[] result, String outputName) throws UnableToCompleteException {
-        try (FileOutputStream fileOuputStream = new FileOutputStream(new File(context.propertiesHolder.GWT_CACHE_DIR, outputName))) {
-            fileOuputStream.write(result);
-        } catch (IOException ioe) {
-            logger.log(TreeLogger.Type.ERROR, "Unable to write a file " + ioe.getMessage());
-            throw new UnableToCompleteException();
-        }
+        return "\"" + oracle.getConfigurationProperty(logger, KEY_CLIENT_BUNDLE_CACHE_URL).asSingleValue() + outputName + "\"";
     }
 
     @Override

@@ -25,15 +25,6 @@ import com.google.common.css.compiler.ast.CssValueNode;
  */
 public class CssRuntimeConditionalRuleNode extends CssConditionalRuleNode {
 
-    /**
-     * Copy constructor.
-     *
-     * @param node
-     */
-    public CssRuntimeConditionalRuleNode(CssRuntimeConditionalRuleNode node) {
-        this(node, node.getRuntimeCondition());
-    }
-
     public CssRuntimeConditionalRuleNode(CssConditionalRuleNode node,
                                          CssJavaExpressionNode condition) {
         super(node.getType(), node.getName().deepCopy(), null,
@@ -41,6 +32,15 @@ public class CssRuntimeConditionalRuleNode extends CssConditionalRuleNode {
         setSourceCodeLocation(node.getSourceCodeLocation());
 
         setRuntimeCondition(condition);
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param node
+     */
+    public CssRuntimeConditionalRuleNode(CssRuntimeConditionalRuleNode node) {
+        this(node, node.getRuntimeCondition());
     }
 
     public CssJavaExpressionNode getRuntimeCondition() {

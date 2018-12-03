@@ -28,7 +28,7 @@ import javax.lang.model.type.TypeMirror;
 public final class BundleResourceGenerator extends AbstractResourceGenerator {
 
     @Override
-    public String createAssignment(TreeLogger logger, ResourceContext context, AptContext aptContext,
+    public String createAssignment(TreeLogger logger, ResourceContext context,
                                    ExecutableElement method) throws UnableToCompleteException {
         TypeMirror toReturn = method.getReturnType();
         String implName = MoreElements.getPackage(MoreTypes.asTypeElement(toReturn)) + "." + ResourceGeneratorUtil.generateSimpleSourceName(logger, MoreTypes.asTypeElement(toReturn));

@@ -1,7 +1,6 @@
 package org.gwtproject.resources.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.resources.client.ClientBundle.Source;
 
 /**
  * @author Dmitrii Tikhomirov <chani@me.com>

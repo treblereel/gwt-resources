@@ -15,12 +15,10 @@
  */
 package org.gwtproject.resources.rg.css;
 
-import com.google.gwt.core.ext.TreeLogger;
-import com.google.gwt.core.ext.UnableToCompleteException;
-import com.google.gwt.resources.css.ExternalClassesCollector;
-import com.google.gwt.resources.css.GenerateCssAst;
-import com.google.gwt.resources.css.ast.CssStylesheet;
+import org.gwtproject.resources.ext.TreeLogger;
+import org.gwtproject.resources.ext.UnableToCompleteException;
 import org.gwtproject.resources.rg.CssTestCase;
+import org.gwtproject.resources.rg.css.ast.CssStylesheet;
 
 import java.util.ArrayList;
 import java.util.Arrays;

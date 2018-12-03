@@ -1,9 +1,9 @@
-package org.gwtproject.resources.rg;
+package org.gwtproject.resources.context;
 
 import org.gwtproject.resources.client.*;
 import org.gwtproject.resources.ext.ResourceGenerator;
 import org.gwtproject.resources.ext.ResourceGeneratorType;
-import org.gwtproject.resources.rg.resource.PropertiesHolder;
+import org.gwtproject.resources.rg.*;
 
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
@@ -25,10 +25,9 @@ import java.util.Map;
 public class AptContext {
     public final Messager messager;
     public final Filer filer;
-    public final Elements elementUtils;
-    public final Types typeUtils;
+    public final Elements elements;
+    public final Types types;
     public final RoundEnvironment roundEnvironment;
-    public final PropertiesHolder propertiesHolder;
     public final ProcessingEnvironment processingEnv;
 
     public final Map<Element, Class<? extends ResourceGenerator>> generators = new HashMap<>();
@@ -36,13 +35,11 @@ public class AptContext {
     public AptContext(final ProcessingEnvironment processingEnv, final RoundEnvironment roundEnvironment) {
         this.filer = processingEnv.getFiler();
         this.messager = processingEnv.getMessager();
-        this.elementUtils = processingEnv.getElementUtils();
-        this.typeUtils = processingEnv.getTypeUtils();
+        this.elements = processingEnv.getElementUtils();
+        this.types = processingEnv.getTypeUtils();
         this.roundEnvironment = roundEnvironment;
 
         this.processingEnv = processingEnv;
-
-        propertiesHolder = new PropertiesHolder(filer);
         initGenerators();
     }
 
@@ -52,12 +49,12 @@ public class AptContext {
     }
 
     private void preBuildGenerators() {
-        generators.put(elementUtils.getTypeElement(ClientBundle.class.getCanonicalName()), BundleResourceGenerator.class);
-        generators.put(elementUtils.getTypeElement(CssResource.class.getCanonicalName()), CssResourceGenerator.class);
-        generators.put(elementUtils.getTypeElement(DataResource.class.getCanonicalName()), DataResourceGenerator.class);
-        generators.put(elementUtils.getTypeElement(ExternalTextResource.class.getCanonicalName()), ExternalTextResourceGenerator.class);
-        generators.put(elementUtils.getTypeElement(ImageResource.class.getCanonicalName()), ImageResourceGenerator.class);
-        generators.put(elementUtils.getTypeElement(TextResource.class.getCanonicalName()), TextResourceGenerator.class);
+        generators.put(elements.getTypeElement(ClientBundle.class.getCanonicalName()), BundleResourceGenerator.class);
+        generators.put(elements.getTypeElement(CssResource.class.getCanonicalName()), CssResourceGenerator.class);
+        generators.put(elements.getTypeElement(DataResource.class.getCanonicalName()), DataResourceGenerator.class);
+        generators.put(elements.getTypeElement(ExternalTextResource.class.getCanonicalName()), ExternalTextResourceGenerator.class);
+        generators.put(elements.getTypeElement(ImageResource.class.getCanonicalName()), ImageResourceGenerator.class);
+        generators.put(elements.getTypeElement(TextResource.class.getCanonicalName()), TextResourceGenerator.class);
     }
 
     private void userDefinedGenerators() {

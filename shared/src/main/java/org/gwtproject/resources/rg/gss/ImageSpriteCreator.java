@@ -29,6 +29,8 @@ import org.gwtproject.resources.rg.gss.ast.CssDotPathNode;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 import java.util.List;
 
 import static com.google.common.css.compiler.ast.CssFunctionNode.Function;
@@ -70,19 +72,30 @@ public class ImageSpriteCreator extends DefaultTreeVisitor implements CssCompile
     private final MethodByPathHelper methodByPathHelper;
     private final TypeElement imageResourceType;
     private final String resourceThisPrefix;
+    private Elements elements;
+    private Types types;
+
+
     public ImageSpriteCreator(MutatingVisitController visitController, ResourceContext context,
                               ErrorManager errorManager) {
         this(visitController, context, errorManager, new MethodByPathHelperImpl());
     }
+
     @VisibleForTesting
     ImageSpriteCreator(MutatingVisitController visitController, ResourceContext context,
                        ErrorManager errorManager, MethodByPathHelper methodByPathHelper) {
+
+
         this.visitController = visitController;
         this.errorManager = errorManager;
         this.context = context;
+
+        elements = context.getGeneratorContext().getAptContext().elements;
+        types = context.getGeneratorContext().getAptContext().types;
+
         this.methodByPathHelper = methodByPathHelper;
-        this.imageResourceType = context.getGeneratorContext().getTypeOracle().findType(
-                ImageResource.class.getName());
+        this.imageResourceType = elements.getTypeElement(ImageResource.class.getCanonicalName());
+
         this.resourceThisPrefix = context.getImplementationSimpleSourceName() + ".this";
     }
 
@@ -247,7 +260,7 @@ public class ImageSpriteCreator extends DefaultTreeVisitor implements CssCompile
         public ExecutableElement getMethodByPath(ResourceContext context, List<String> pathElements,
                                                  TypeElement expectedReturnType) throws NotFoundException, UnableToCompleteException {
             return ResourceGeneratorUtil.getMethodByPath(context.getClientBundleType(),
-                    pathElements, expectedReturnType, context.getGeneratorContext().getAptContext().typeUtils, context.getGeneratorContext().getAptContext().elementUtils);
+                    pathElements, expectedReturnType, context.getGeneratorContext().getAptContext().types, context.getGeneratorContext().getAptContext().elements);
         }
     }
 }

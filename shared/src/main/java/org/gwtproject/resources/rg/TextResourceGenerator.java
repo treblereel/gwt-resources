@@ -19,10 +19,10 @@ public final class TextResourceGenerator extends AbstractResourceGenerator {
     private static final int MAX_STRING_CHUNK = 16383;
 
     @Override
-    public String createAssignment(TreeLogger logger, ResourceContext context, AptContext aptContext,
+    public String createAssignment(TreeLogger logger, ResourceContext context,
                                    ExecutableElement method) throws UnableToCompleteException {
 
-        Resource resource = ResourceGeneratorUtil.getResource(logger, method, aptContext);
+        Resource resource = ResourceGeneratorUtil.getResource(logger, method, context.getGeneratorContext().getAptContext());
         SourceWriter sw = new StringSourceWriter();
         // Write the expression to create the subtype.
         sw.println("new " + method.getReturnType() + "() {");

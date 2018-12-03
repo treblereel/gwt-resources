@@ -4,7 +4,7 @@ import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
 import com.google.common.io.BaseEncoding;
 import org.apache.commons.codec.binary.Base64;
-import org.gwtproject.resources.rg.AptContext;
+import org.gwtproject.resources.context.AptContext;
 import org.gwtproject.resources.rg.resource.impl.ResourceOracleImpl;
 
 import javax.lang.model.element.*;

@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.css.SourceCodeLocation;
 import com.google.common.css.compiler.ast.*;
 import com.google.common.css.compiler.gssfunctions.GssFunctions;
-import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.DataResource;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.ext.NotFoundException;
@@ -43,7 +42,6 @@ public class ResourceUrlFunction implements GssFunction {
 
     private final ResourceContext context;
     private final MethodByPathHelper methodByPathHelper;
-    private final TypeElement clientBundleType;
     private final TypeElement dataResourceType;
     private final TypeElement imageResourceType;
 
@@ -57,12 +55,13 @@ public class ResourceUrlFunction implements GssFunction {
     @VisibleForTesting
     ResourceUrlFunction(ResourceContext context, MethodByPathHelper methodByPathHelper) {
         this.context = context;
-        elements = context.getGeneratorContext().getAptContext().elementUtils;
-        types = context.getGeneratorContext().getAptContext().typeUtils;
+        elements = context.getGeneratorContext().getAptContext().elements;
+        types = context.getGeneratorContext().getAptContext().types;
+
+        this.methodByPathHelper = methodByPathHelper;
 
         dataResourceType = elements.getTypeElement(DataResource.class.getCanonicalName());
         imageResourceType = elements.getTypeElement(ImageResource.class.getCanonicalName());
-        clientBundleType = elements.getTypeElement(ClientBundle.class.getCanonicalName());
     }
 
     public static String getName() {
@@ -147,7 +146,7 @@ public class ResourceUrlFunction implements GssFunction {
         public TypeElement getReturnType(ResourceContext context, List<String> pathElements)
                 throws NotFoundException, UnableToCompleteException {
             return (TypeElement) MoreTypes.asElement(ResourceGeneratorUtil.getMethodByPath(context.getClientBundleType(),
-                    pathElements, null, context.getGeneratorContext().getAptContext().typeUtils, context.getGeneratorContext().getAptContext().elementUtils).getReturnType());
+                    pathElements, null, context.getGeneratorContext().getAptContext().types, context.getGeneratorContext().getAptContext().elements).getReturnType());
         }
     }
 }

@@ -20,7 +20,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.css.compiler.ast.CssClassSelectorNode;
 import com.google.common.css.compiler.ast.CssTree;
 import com.google.common.css.compiler.ast.DefaultTreeVisitor;
-import com.google.gwt.resources.rg.GssResourceGenerator;
+import org.gwtproject.resources.rg.GssResourceGenerator;
 
 import javax.lang.model.element.TypeElement;
 import java.util.HashSet;

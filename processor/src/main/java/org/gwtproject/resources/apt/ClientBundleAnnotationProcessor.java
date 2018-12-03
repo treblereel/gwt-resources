@@ -4,7 +4,7 @@ import com.google.auto.service.AutoService;
 import org.gwtproject.resources.ext.TreeLogger;
 import org.gwtproject.resources.ext.UnableToCompleteException;
 import org.gwtproject.resources.logger.PrintWriterTreeLogger;
-import org.gwtproject.resources.rg.AptContext;
+import org.gwtproject.resources.context.AptContext;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;

@@ -15,6 +15,7 @@
  */
 package org.gwtproject.resources.rg;
 
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 
 /**
@@ -72,7 +73,13 @@ public enum CssObfuscationStyle {
             if (showPackageName) {
                 toReturn = getPrettyCssClass(type.getQualifiedName().toString(), toReturn);
             } else {
-                toReturn = getPrettyCssClass(type.getSimpleName().toString(), toReturn);
+                String typeName;
+                if(type.getEnclosingElement().getKind().equals(ElementKind.PACKAGE)){
+                    typeName = type.getSimpleName().toString();
+                }else {
+                    typeName = type.getEnclosingElement().getSimpleName().toString()+"-"+type.getSimpleName().toString();
+                }
+                toReturn = getPrettyCssClass(typeName, toReturn);
             }
         }
 

@@ -2,7 +2,6 @@ package org.gwtproject.resources.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import elemental2.dom.Image;
-import org.gwtproject.resources.client.ClientBundle.Source;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.timer.client.Timer;
 

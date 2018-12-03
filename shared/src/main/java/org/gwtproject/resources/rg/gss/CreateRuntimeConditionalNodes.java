@@ -68,7 +68,6 @@ public class CreateRuntimeConditionalNodes extends DefaultTreeVisitor implements
 
   private void visitConditionalRule(CssConditionalRuleNode node,
       CssConditionalBlockNode parent) {
-
     if (node.getType() != CssAtRuleNode.Type.ELSE) {
       CssBooleanExpressionNode nodeCondition = node.getCondition();
       String condition = extractRuntimeCondition(nodeCondition);
