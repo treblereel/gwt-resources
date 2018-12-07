@@ -17,11 +17,7 @@ package org.gwtproject.resources.ext;
 
 import org.gwtproject.resources.client.ClientBundle;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Specifies the default extensions for a resource type. This annotation is
