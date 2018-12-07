@@ -16,9 +16,8 @@ package org.gwtproject.resources.client;
  * the License.
  */
 
+
 import org.gwtproject.resources.ext.DefaultExtensions;
-import org.gwtproject.resources.ext.ResourceGeneratorType;
-import org.gwtproject.resources.rg.ExternalTextResourceGenerator;
 
 /**
  * Identical to {@link org.gwtproject.resources.client.TextResource}, except the contents of the resource are
@@ -26,7 +25,6 @@ import org.gwtproject.resources.rg.ExternalTextResourceGenerator;
  * not required as part of program initialization.
  */
 @DefaultExtensions(value = {".txt"})
-@ResourceGeneratorType(ExternalTextResourceGenerator.class)
 public interface ExternalTextResource extends ResourcePrototype {
 
     /**

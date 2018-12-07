@@ -18,8 +18,6 @@ package org.gwtproject.resources.client;
 
 import elemental2.dom.Image;
 import org.gwtproject.resources.ext.DefaultExtensions;
-import org.gwtproject.resources.ext.ResourceGeneratorType;
-import org.gwtproject.resources.rg.ImageResourceGenerator;
 import org.gwtproject.safehtml.shared.SafeUri;
 
 import java.lang.annotation.*;
@@ -28,7 +26,6 @@ import java.lang.annotation.*;
  * Provides access to image resources at runtime.
  */
 @DefaultExtensions(value = {".png", ".jpg", ".gif", ".bmp"})
-@ResourceGeneratorType(ImageResourceGenerator.class)
 public interface ImageResource extends ResourcePrototype {
 
     /**

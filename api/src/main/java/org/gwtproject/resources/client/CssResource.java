@@ -17,8 +17,6 @@ package org.gwtproject.resources.client;
  */
 
 import org.gwtproject.resources.ext.DefaultExtensions;
-import org.gwtproject.resources.ext.ResourceGeneratorType;
-import org.gwtproject.resources.rg.CssResourceGenerator;
 
 import java.lang.annotation.*;
 
@@ -144,7 +142,6 @@ import java.lang.annotation.*;
  * >CssResource design doc</a>
  */
 @DefaultExtensions(value = {".css", ".gss"})
-@ResourceGeneratorType(CssResourceGenerator.class)
 public interface CssResource extends CssResourceBase {
     /**
      * The original CSS class name specified in the resource. This allows CSS

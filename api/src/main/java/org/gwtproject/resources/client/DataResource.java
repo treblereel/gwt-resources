@@ -16,8 +16,6 @@ package org.gwtproject.resources.client;
  * the License.
  */
 
-import org.gwtproject.resources.ext.ResourceGeneratorType;
-import org.gwtproject.resources.rg.DataResourceGenerator;
 import org.gwtproject.safehtml.shared.SafeUri;
 
 import java.lang.annotation.*;
@@ -27,7 +25,6 @@ import java.lang.annotation.*;
  * resources which may not be determined automatically at compile time. Use
  * {@link DataResource.DoNotEmbed} to prevent a resource from being embedded.
  */
-@ResourceGeneratorType(DataResourceGenerator.class)
 public interface DataResource extends ResourcePrototype {
     /**
      * Retrieves a URL by which the contents of the resource can be obtained. This

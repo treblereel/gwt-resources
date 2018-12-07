@@ -34,7 +34,6 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.ArrayType;
-import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -210,8 +209,8 @@ public abstract class AbstractClientBundleGenerator extends Generator {
             } else if (theReturn == null) {
                 // Primitives and random other abstract methods
                 logger.log(TreeLogger.ERROR, "Unable to process method '" + method.getSimpleName().toString()
-                  + "' from " + method.getEnclosingElement() + " because " + ((ExecutableElement) method).getReturnType() + " does not derive from "
-                  + MoreTypeUtils.getQualifiedSourceName(resourcePrototypeType));
+                        + "' from " + method.getEnclosingElement() + " because " + ((ExecutableElement) method).getReturnType() + " does not derive from "
+                        + MoreTypeUtils.getQualifiedSourceName(resourcePrototypeType));
                 throwException = true;
                 continue;
             }
@@ -248,8 +247,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
         if (aptContext.generators.containsKey(resourceType)) {
             return aptContext.generators.get(resourceType);
         } else {
-            List<? extends TypeMirror> parents = new ArrayList<>(aptContext.types.directSupertypes(resourceType.asType()));
-
+            List<? extends TypeMirror> parents = new ArrayList<>(ResourceGeneratorUtil.getAllParents(resourceType));
             Collections.reverse(parents);
             for (TypeMirror p : parents) {
                 Element parent = aptContext.types.asElement(p);
@@ -257,11 +255,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
                     return aptContext.generators.get(parent);
                 }
             }
-            Class<? extends ResourceGenerator> fromParent = findResourceGeneratorInClassHierarcy(resourceType, aptContext.generators);
 
-            if (fromParent != null) {
-                return fromParent;
-            }
             /**
              * This is a special case of ResourceGenerator that handles nested bundles.
              */
@@ -271,39 +265,10 @@ public abstract class AbstractClientBundleGenerator extends Generator {
                     return BundleResourceGenerator.class;
             }
         }
-        logger.log(TreeLogger.ERROR, "No @" + ResourceGeneratorType.class.getName() + " was specifed for type "
+        logger.log(TreeLogger.ERROR, "No @" + ResourceGeneratorType.class.getName() + " was specified for type "
                 + resourceType + " or its supertypes");
         throw new UnableToCompleteException();
 
-    }
-
-    private Class<? extends ResourceGenerator> findResourceGeneratorInClassHierarcy(TypeElement resourceType, Map<Element, Class<? extends ResourceGenerator>> generators) {
-        Set<TypeMirror> parents = ResourceGeneratorUtil.getAllParents(resourceType);
-        String generator = null;
-        for (TypeMirror e : parents) {
-            ResourceGeneratorType a = MoreTypes.asElement(e).getAnnotation(ResourceGeneratorType.class);
-            if (a != null) {
-                generator = getResourceGeneratorType(a).toString();
-            }
-        }
-
-        if (generator != null) {
-            for (Class<? extends ResourceGenerator> g : generators.values()) {
-                if (g.getCanonicalName().equals(generator)) {
-                    return g;
-                }
-            }
-        }
-        return null;
-    }
-
-    private static TypeMirror getResourceGeneratorType(ResourceGeneratorType annotation) {
-        try {
-            annotation.value(); // this should throw
-        } catch (MirroredTypeException mte) {
-            return mte.getTypeMirror();
-        }
-        return null;
     }
 
     private Map<ResourceGenerator, List<ExecutableElement>> initAndPrepare(

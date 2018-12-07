@@ -16,9 +16,6 @@ package org.gwtproject.resources.client;
  * the License.
  */
 
-import org.gwtproject.resources.ext.ResourceGeneratorType;
-import org.gwtproject.resources.rg.BundleResourceGenerator;
-
 import java.lang.annotation.*;
 
 /**
@@ -29,7 +26,6 @@ import java.lang.annotation.*;
  * the functions will return an object that can be used to access the data in
  * the original resource.
  */
-@ResourceGeneratorType(BundleResourceGenerator.class)
 public interface ClientBundle {
     /**
      * Specifies the classpath location of the resource or resources associated
