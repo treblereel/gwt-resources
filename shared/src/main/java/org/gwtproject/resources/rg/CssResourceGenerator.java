@@ -4,13 +4,11 @@ import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
 import com.google.common.base.Joiner;
 import com.google.gwt.i18n.client.LocaleInfo;
-import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.CssResourceBase;
 import org.gwtproject.resources.ext.*;
 import org.gwtproject.resources.rg.css.*;
 import org.gwtproject.resources.rg.css.ast.*;
-import org.gwtproject.resources.rg.resource.PropertiesHolder;
 import org.gwtproject.resources.rg.util.DefaultTextOutput;
 import org.gwtproject.resources.rg.util.SourceWriter;
 import org.gwtproject.resources.rg.util.StringSourceWriter;
@@ -32,6 +30,7 @@ import java.util.zip.Adler32;
 
 import static org.gwtproject.resources.client.CssResource.*;
 import static org.gwtproject.resources.rg.css.ast.CssProperty.*;
+import static org.gwtproject.resources.rg.resource.ConfigurationProperties.*;
 
 /**
  * @author Dmitrii Tikhomirov
@@ -75,6 +74,8 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
     private Counter classCounter;
     private boolean enableMerge;
     private boolean gssEnabled;
+    private GssResourceGenerator gssResourceGenerator;
+
 
     private List<String> ignoredMethods = new ArrayList<>();
     private Map<TypeElement, Map<ExecutableElement, String>> replacementsByClassAndMethod;
@@ -105,8 +106,8 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
     static <T extends CssNode & HasNodes> String makeExpression(
             TreeLogger logger, ResourceContext context,
             T node, boolean prettyOutput) throws UnableToCompleteException {
-        Types types = context.getGeneratorContext().getAptContext().typeUtils;
-        Elements elements = context.getGeneratorContext().getAptContext().elementUtils;
+        Types types = context.getGeneratorContext().getAptContext().types;
+        Elements elements = context.getGeneratorContext().getAptContext().elements;
 
         // Generate the CSS template
         DefaultTextOutput out = new DefaultTextOutput(!prettyOutput);
@@ -347,8 +348,8 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
             return false;
         }
 
-        SortedSet<String> aProperties = new TreeSet<String>();
-        SortedSet<String> bProperties = new TreeSet<String>();
+        SortedSet<String> aProperties = new TreeSet<>();
+        SortedSet<String> bProperties = new TreeSet<>();
 
         for (CssProperty p : a.getProperties()) {
             aProperties.add(p.getName());
@@ -396,11 +397,6 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
     /**
      * Create a Java expression that evaluates to the string representation of the
      * stylesheet resource.
-     *
-     * @param actualReplacements An out parameter that will be populated by the
-     *                           obfuscated class names that should be used for the particular
-     *                           instance of the CssResource, based on any substitution
-     *                           modifications encoded in the source CSS file
      */
     private String makeExpression(TreeLogger logger, ResourceContext context, CssStylesheet sheet)
             throws UnableToCompleteException {
@@ -425,11 +421,10 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
     }
 
     @Override
-    public String createAssignment(TreeLogger logger, ResourceContext context, AptContext aptContext, ExecutableElement method) throws UnableToCompleteException {
+    public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method) throws UnableToCompleteException {
         // if Gss is enabled, defer the call to the Gss generator.
         if (gssEnabled) {
-
-            //return gssResourceGenerator.createAssignment(logger, context, method);
+            return gssResourceGenerator.createAssignment(logger, context, method);
         }
 
         TypeMirror cssResourceSubtype = method.getReturnType();
@@ -451,8 +446,8 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
                                              ExecutableElement method, Map<ExecutableElement, String> actualReplacements,
                                              TypeElement cssResourceSubtype,
                                              CssStylesheet stylesheet) throws UnableToCompleteException {
-        Types type = context.getGeneratorContext().getAptContext().typeUtils;
-        Elements elements = context.getGeneratorContext().getAptContext().elementUtils;
+        Types type = context.getGeneratorContext().getAptContext().types;
+        Elements elements = context.getGeneratorContext().getAptContext().elements;
 
         SourceWriter sw = new StringSourceWriter();
         // Write the expression to create the subtype.
@@ -518,8 +513,6 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
                         + toImplement);
                 throw new UnableToCompleteException();
             }
-
-
         }
     }
 
@@ -666,7 +659,7 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
         Import imp = method.getAnnotation(Import.class);
         if (imp != null) {
             boolean fail = false;
-            Elements elements = context.getGeneratorContext().getAptContext().elementUtils;
+            Elements elements = context.getGeneratorContext().getAptContext().elements;
             for (TypeMirror type : getImportype(imp)) {
                 TypeElement importType = elements.getTypeElement(type.toString());
                 String prefix = getImportPrefix(importType);
@@ -706,10 +699,10 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
             toReturn.putAll(replacementsByClassAndMethod.get(type));
         }
 
-        Types typeUtils = context.getGeneratorContext().getAptContext().typeUtils;
-        Elements elementUtils = context.getGeneratorContext().getAptContext().elementUtils;
+        Types types = context.getGeneratorContext().getAptContext().types;
+        Elements elements = context.getGeneratorContext().getAptContext().elements;
 
-        for (ExecutableElement method : MoreElements.getLocalAndInheritedMethods(type, typeUtils, elementUtils)) {
+        for (ExecutableElement method : MoreElements.getLocalAndInheritedMethods(type, types, elements)) {
             if (replacementsForSharedMethods.containsKey(method)) {
                 assert toReturn.containsKey(method);
                 toReturn.put(method, replacementsForSharedMethods.get(method));
@@ -756,31 +749,28 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
 
     @Override
     public void init(TreeLogger logger, ResourceContext context) throws UnableToCompleteException {
-        PropertiesHolder propertiesHolder = context.getGeneratorContext().getAptContext().propertiesHolder;
-        Types types = context.getGeneratorContext().getAptContext().typeUtils;
-        Elements elements = context.getGeneratorContext().getAptContext().elementUtils;
-        gssEnabled = propertiesHolder.ENABLE_GSS;
+        PropertyOracle propertyOracle = context.getGeneratorContext().getPropertyOracle();
+        Types types = context.getGeneratorContext().getAptContext().types;
+        Elements elements = context.getGeneratorContext().getAptContext().elements;
+        gssEnabled = propertyOracle.getConfigurationProperty(logger, KEY_CSS_RESOURCE_ENABLE_GSS).asSingleBooleanValue();
         if (gssEnabled) {
-
             // if Gss is enabled, defer the call to the Gss generator.
-/*            GssOptions gssOptions = GssResourceGenerator.getGssOptions(
-                    context.getGeneratorContext().getPropertyOracle(), logger);
+            GssResourceGenerator.GssOptions gssOptions = GssResourceGenerator.getGssOptions(
+                    context, logger);
             if (gssOptions.isEnabled()) {
                 gssEnabled = true;
                 gssResourceGenerator = new GssResourceGenerator(gssOptions);
                 gssResourceGenerator.init(logger, context);
                 return;
             }
-
-            gssEnabled = false;      */
-
-
-            return;
         }
 
-        obfuscationStyle = CssObfuscationStyle.getObfuscationStyle(propertiesHolder.STYLE);
-        enableMerge = propertiesHolder.MERGE_ENABLED;
-        String classPrefix = propertiesHolder.OBFUSCATION_PREFIX;
+        obfuscationStyle = CssObfuscationStyle.getObfuscationStyle(propertyOracle.
+                getConfigurationProperty(logger, KEY_CSS_RESOURCE_STYLE).asSingleValue());
+        enableMerge = propertyOracle.getConfigurationProperty(logger,
+                KEY_CSS_RESOURCE_MERGE_ENABLED).asSingleBooleanValue();
+        String classPrefix = propertyOracle.getConfigurationProperty(logger,
+                KEY_CSS_RESOURCE_OBFUSCATION_PREFIX).asSingleValue();
 
         TypeElement superInterface = elements.getTypeElement(CssResource.class.getCanonicalName());
         TypeElement baseInterface = elements.getTypeElement(CssResourceBase.class.getCanonicalName());
@@ -803,7 +793,7 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
      */
     @SuppressWarnings("unchecked")
     private void initReplacements(TreeLogger logger, ResourceContext context,
-                                  String classPrefix, SortedSet<TypeElement> operableTypes) {
+                                  String classPrefix, SortedSet<TypeElement> operableTypes) throws UnableToCompleteException {
 
         /*
          * This code was originally written to take a snapshot of all the
@@ -818,9 +808,10 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
          * so the old gymnastics aren't really justified anyway. It would probably
          * be be worth the effort to simplify this.
          */
+        PropertyOracle propertyOracle = context.getGeneratorContext().getPropertyOracle();
 
         if (context.getCachedData(KEY_HAS_CACHED_DATA, Boolean.class) != Boolean.TRUE) {
-            TreeSet<String> reservedPrefixes = context.getGeneratorContext().getAptContext().propertiesHolder.RESERVED_PREFIXES;
+            TreeSet<String> reservedPrefixes = new TreeSet(propertyOracle.getConfigurationProperty(logger, KEY_RESERVED_PREFIXES).getValues());
             String computedPrefix = computeClassPrefix(classPrefix, operableTypes, reservedPrefixes);
 
             context.putCachedData(KEY_BY_CLASS_AND_METHOD,
@@ -882,8 +873,8 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
     private void computeObfuscatedNames(TreeLogger logger, String classPrefix,
                                         SortedSet<String> reservedPrefixes, Set<TypeElement> cssResourceSubtypes,
                                         ResourceContext context) {
-        Types types = context.getGeneratorContext().getAptContext().typeUtils;
-        Elements elements = context.getGeneratorContext().getAptContext().elementUtils;
+        Types types = context.getGeneratorContext().getAptContext().types;
+        Elements elements = context.getGeneratorContext().getAptContext().elements;
 
 
         //ResourceGeneratorUtil.getAllParents()
@@ -945,10 +936,6 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
         return types.isSameType(e1.asType(), e2.asType());
     }
 
-    protected String getEnclosingClassName(TypeElement clazz) {
-        return clazz.toString().replace(MoreElements.getPackage(clazz).getQualifiedName() + ".", "");
-    }
-
     /**
      * Returns all interfaces derived from CssResource, sorted by qualified name.
      * <p>
@@ -969,8 +956,8 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
                                                         TypeElement baseInterface,
                                                         TypeElement bundle,
                                                         ResourceContext context) {
-        Types types = context.getGeneratorContext().getAptContext().typeUtils;
-        Elements elements = context.getGeneratorContext().getAptContext().elementUtils;
+        Types types = context.getGeneratorContext().getAptContext().types;
+        Elements elements = context.getGeneratorContext().getAptContext().elements;
         logger = logger.branch(TreeLogger.DEBUG,
                 "Finding operable CssResource subtypes");
 
@@ -986,12 +973,6 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
                         if (types.isSubtype(type, baseInterface.asType())) {
                             TypeElement imported = elements.getTypeElement(type.toString());
                             toReturn.add(imported);
-/*                            ResourceGeneratorUtil.getAllParents(imported).forEach(parent -> {
-                                if (types.isSubtype(parent, baseInterface.asType())) {
-                                    toReturn.add(MoreTypes.asTypeElement(parent));
-
-                                }
-                            });*/
                         }
                     }
                 }
@@ -1017,11 +998,11 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
     }
 
     @Override
-    public void prepare(TreeLogger logger, ResourceContext context, AptContext aptContext, ExecutableElement method)
+    public void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException {
         // if Gss is enabled, defer the call to the Gss generator.
         if (gssEnabled) {
-            //gssResourceGenerator.prepare(logger, context, requirements, method);
+            gssResourceGenerator.prepare(logger, context, method);
             return;
         }
 
@@ -1063,101 +1044,6 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
                                  ExecutableElement method) throws UnableToCompleteException {
         return GssResourceGenerator.findResources(logger, context, method, false);
     }
-
-    /*    */
-
-    /**
-     * Temporary method needed when GSS and the old CSS syntax are both supported by the sdk.
-     * It aims to choose the right resource file according to whether gss is enabled or not. If gss is
-     * enabled, it will try to find the resource file ending by .gss first. If GSS is disabled it will
-     * try to find the .css file. This logic is applied even if a
-     * {@link ClientBundle.Source} annotation is used to define
-     * the resource file.
-     * <p>
-     * This method can be deleted once the support for the old CssResource is removed and use directly
-     * ResourceGeneratorUtil.findResources().
-     *//*
-    static Resource findResource(TreeLogger logger, ResourceContext context, ExecutableElement method,
-                                 boolean gssEnabled) throws UnableToCompleteException {
-        String[] extensions = gssEnabled ?
-                new String[]{".gss", ".css"} : new String[]{".css", ".gss"};
-        String preferredExtension = gssEnabled ? ".gss" : ".css";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        Resource originalResources = ResourceGeneratorUtil.findResource(logger, context, method);
-        Resource resourcesToUse = null;
-        if (gssEnabled) {
-            return ResourceGeneratorUtil.findResource(logger, context, method, extensions);
-        } else {
-            Source annotation = method.getAnnotation(Source.class);
-            if (annotation != null) {
-                String[] sourceFiles = method.getAnnotation(Source.class).value();
-                for (int i = 0; i < sourceFiles.length; i++) {
-                    String original = sourceFiles[i];
-                    if (!original.endsWith(preferredExtension) && original.length() > 4) {
-                        String preferredFile = original.substring(0, original.length() - 4) + preferredExtension;
-
-                        // try to find the resource relative to the package
-                        String path = MoreElements.getPackage(method).getQualifiedName().toString().replace('.', '/') + '/';
-                        Resource preferredUrl = context.getGeneratorContext().getResourcesOracle().getResource(path, preferredFile);
-
-                        if (preferredUrl == null) {
-                            // if it doesn't exist, assume it is absolute
-                            preferredUrl = context.getGeneratorContext().getResourcesOracle().getResource("", preferredFile);
-                        }
-                        if (preferredUrl == null) {
-                            // avoid to mix gss and css, if one file with the preferred extension is missing
-                            return originalResources;
-                        }
-                        logger.log(TreeLogger.Type.DEBUG, "Preferred resource file found: " + preferredFile + ". This file " +
-                                "will be used in replacement of " + original);
-
-                        resourcesToUse = preferredUrl;
-                    } else {
-                        // gss and css files shouldn't be used together for a same resource. So if one of the file
-                        // is using the the preferred extension, return the original resources. If the dev has mixed
-                        // gss and ccs files, that will fail later.
-                        resourcesToUse =  originalResources;
-                    }
-
-                }
-
-
-            } else {
-                String preferredFile = method.getSimpleName().toString() + ".css";
-                String path = MoreElements.getPackage(method).getQualifiedName().toString().replace('.', '/') + '/';
-                Resource preferredUrl = context.getGeneratorContext().getResourcesOracle().getResource(path, preferredFile);
-                if (preferredUrl != null) {
-                    resourcesToUse = preferredUrl;
-                }
-            }
-        }
-        return resourcesToUse;
-    }*/
 
     @SuppressWarnings("serial")
     static class JClassOrderComparator implements Comparator<TypeElement>,

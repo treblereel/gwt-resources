@@ -36,4 +36,8 @@ public interface ConfigurationProperty {
      * @return the property values as a List of Strings.
      */
     List<String> getValues();
+
+    String asSingleValue() throws UnableToCompleteException;
+
+    Boolean asSingleBooleanValue() throws UnableToCompleteException;
 }

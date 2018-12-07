@@ -42,8 +42,8 @@ public class Spriter extends CssModVisitor {
     private Types types;
 
     public Spriter(TreeLogger logger, ResourceContext context) {
-        elements = context.getGeneratorContext().getAptContext().elementUtils;
-        types = context.getGeneratorContext().getAptContext().typeUtils;
+        elements = context.getGeneratorContext().getAptContext().elements;
+        types = context.getGeneratorContext().getAptContext().types;
 
         this.logger = logger.branch(TreeLogger.DEBUG,
                 "Creating image sprite classes");
@@ -54,8 +54,8 @@ public class Spriter extends CssModVisitor {
     public void endVisit(CssSprite x, Context ctx) {
         TypeElement bundleType = context.getClientBundleType();
         DotPathValue functionName = x.getResourceFunction();
-        elements = context.getGeneratorContext().getAptContext().elementUtils;
-        types = context.getGeneratorContext().getAptContext().typeUtils;
+        elements = context.getGeneratorContext().getAptContext().elements;
+        types = context.getGeneratorContext().getAptContext().types;
 
         if (functionName == null) {
             logger.log(TreeLogger.ERROR, "The @sprite rule " + x.getSelectors()
@@ -65,7 +65,7 @@ public class Spriter extends CssModVisitor {
 
         TypeElement imageResourceType = context.getGeneratorContext()
                 .getAptContext()
-                .elementUtils
+                .elements
                 .getTypeElement(ImageResource.class.getCanonicalName());
         assert imageResourceType != null;
 

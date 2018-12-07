@@ -22,16 +22,18 @@ public interface PropertyOracle {
 
     /**
      * Attempts to get a named configuration property. Throws
-     * <code>BadPropertyValueException</code> if the property is undefined. The
+     * <code>UnableToCompleteException</code> if the property is undefined. The
      * result of invoking this method with the same <code>propertyName</code> must
      * be stable.
      *
      * @param propertyName
      * @return the configuration property instance (never null)
-     * @throws BadPropertyValueException if the property is unknown or not a
-     *     configuration property
+     * @throws UnableToCompleteException if the property is unknown or not a
+     *                                   configuration property
      */
-    ConfigurationProperty getConfigurationProperty(String propertyName)
-            throws BadPropertyValueException;
+    ConfigurationProperty getConfigurationProperty(TreeLogger logger, String propertyName)
+            throws UnableToCompleteException;
 
+    SelectionProperty getSelectionProperty(TreeLogger logger, String propertyName)
+            throws UnableToCompleteException;
 }

@@ -1,6 +1,7 @@
 package org.gwtproject.resources.ext;
 
-import org.gwtproject.resources.rg.AptContext;
+import org.gwtproject.resources.context.AptContext;
+import org.gwtproject.resources.rg.resource.impl.PropertyOracleImpl;
 import org.gwtproject.resources.rg.resource.impl.ResourceOracleImpl;
 import org.gwtproject.resources.rg.util.DiskCache;
 import org.gwtproject.resources.rg.util.GeneratedUnit;
@@ -9,6 +10,9 @@ import org.gwtproject.resources.rg.util.Util;
 import javax.tools.JavaFileObject;
 import java.io.*;
 import java.util.*;
+
+import static org.gwtproject.resources.rg.resource.ConfigurationProperties.KEY_CLIENT_BUNDLE_CACHE_LOCATION;
+
 
 /**
  * @author Dmitrii Tikhomirov
@@ -23,10 +27,12 @@ public class StandardGeneratorContext implements GeneratorContext {
     private final Map<String, GeneratedUnit> committedGeneratedCups =
             new HashMap<>();
     private final Set<String> newlyGeneratedTypeNames = new HashSet<>();
-    private ResourceOracle resourceOracle = new ResourceOracleImpl();
+    private final ResourceOracle resourceOracle = new ResourceOracleImpl();
+    private final PropertyOracle propertyOracle;
 
     public StandardGeneratorContext(AptContext aptContext) {
         this.aptContext = aptContext;
+        propertyOracle = new PropertyOracleImpl(aptContext);
     }
 
     @Override
@@ -63,7 +69,8 @@ public class StandardGeneratorContext implements GeneratorContext {
             throw new UnableToCompleteException();
         }
 
-        try (OutputStream outputStream = new FileOutputStream(new File(aptContext.propertiesHolder.GWT_CACHE_DIR, pendingResource.partialPath))) {
+        String  gwtCacheDir = propertyOracle.getConfigurationProperty(logger, KEY_CLIENT_BUNDLE_CACHE_LOCATION).asSingleValue();
+        try (OutputStream outputStream = new FileOutputStream(new File(gwtCacheDir, pendingResource.partialPath))) {
             pendingResource.baos.writeTo(outputStream);
         } catch (IOException e) {
             logger.log(TreeLogger.ERROR, "Unable to write a file " + e.getMessage(), null);
@@ -73,7 +80,7 @@ public class StandardGeneratorContext implements GeneratorContext {
 
     @Override
     public PropertyOracle getPropertyOracle() {
-        return null;
+        return propertyOracle;
     }
 
     @Override

@@ -31,10 +31,10 @@ import static org.gwtproject.resources.client.DataResource.MimeType;
  */
 public final class DataResourceGenerator extends AbstractResourceGenerator {
     @Override
-    public String createAssignment(TreeLogger logger, ResourceContext context, AptContext aptContext, ExecutableElement method)
+    public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException {
 
-        Resource resource = ResourceGeneratorUtil.getResource(logger, method, aptContext);
+        Resource resource = ResourceGeneratorUtil.getResource(logger, method, context.getGeneratorContext().getAptContext());
 
 
         // Determine if a MIME Type has been specified

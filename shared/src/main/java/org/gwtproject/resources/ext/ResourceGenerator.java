@@ -15,8 +15,6 @@
  */
 package org.gwtproject.resources.ext;
 
-import org.gwtproject.resources.rg.AptContext;
-
 import javax.lang.model.element.ExecutableElement;
 
 /**
@@ -65,7 +63,7 @@ public interface ResourceGenerator {
      * new MySampleResource() { public Foo getFoo() { ... } }
      * </pre>
      */
-    String createAssignment(TreeLogger logger, ResourceContext context, AptContext aptContext,
+    String createAssignment(TreeLogger logger, ResourceContext context,
                             ExecutableElement method) throws UnableToCompleteException;
 
     /**
@@ -78,7 +76,7 @@ public interface ResourceGenerator {
      * method as operation on this object is not defined after the implementation
      * of this method returns.
      */
-    void createFields(TreeLogger logger, ResourceContext context, AptContext aptContext, ClientBundleFields fields) throws UnableToCompleteException;
+    void createFields(TreeLogger logger, ResourceContext context, ClientBundleFields fields) throws UnableToCompleteException;
 
     /**
      * Called at the end of the resource generation phase and can be used to
@@ -100,6 +98,6 @@ public interface ResourceGenerator {
      * This allows cross-resource state to be accumulated, such as for data
      * aggregation.
      */
-    void prepare(TreeLogger logger, ResourceContext context, AptContext aptContext, ExecutableElement method)
+    void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException;
 }

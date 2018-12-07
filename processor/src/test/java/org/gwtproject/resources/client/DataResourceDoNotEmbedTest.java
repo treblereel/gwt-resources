@@ -17,8 +17,6 @@ package org.gwtproject.resources.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-import static org.gwtproject.resources.client.ClientBundle.Source;
-
 /**
  * Tests for {@link DataResource.DoNotEmbed @DoNotEmbed} resource annotations.
  */

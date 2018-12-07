@@ -51,7 +51,7 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
     private CachedState shared;
 
     @Override
-    public String createAssignment(TreeLogger logger, ResourceContext context, AptContext aptContext, ExecutableElement method)
+    public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException {
         String name = method.getSimpleName().toString();
 
@@ -103,7 +103,7 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
      * create the bundled images.
      */
     @Override
-    public void createFields(TreeLogger logger, ResourceContext context, AptContext aptContext, ClientBundleFields fields)
+    public void createFields(TreeLogger logger, ResourceContext context, ClientBundleFields fields)
             throws UnableToCompleteException {
         renderImageMap(logger, context, fields, shared.externalImages);
     }
@@ -152,14 +152,14 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
      * ImageBundleBuilder or reencode an external image.
      */
     @Override
-    public void prepare(TreeLogger logger, ResourceContext context, AptContext aptContext, ExecutableElement method)
+    public void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException {
 
         ImageResourceDeclaration image = new ImageResourceDeclaration(method);
 
         LocalizedImage localized = LocalizedImage.create(logger, context, image);
 
-        Resource resource = ResourceGeneratorUtil.getResource(logger, method, aptContext);
+        Resource resource = ResourceGeneratorUtil.getResource(logger, method, context.getGeneratorContext().getAptContext());
 
         ImageRect rect = addImage(logger, resource.getUrl().getFile(), resource.getUrl());
 

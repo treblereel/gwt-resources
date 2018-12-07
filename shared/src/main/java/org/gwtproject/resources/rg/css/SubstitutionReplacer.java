@@ -52,8 +52,8 @@ public class SubstitutionReplacer extends CssVisitor {
         this.logger = logger;
         this.substitutions = substitutions;
 
-        elements = context.getGeneratorContext().getAptContext().elementUtils;
-        types = context.getGeneratorContext().getAptContext().typeUtils;
+        elements = context.getGeneratorContext().getAptContext().elements;
+        types = context.getGeneratorContext().getAptContext().types;
 
         dataResourceType = elements.getTypeElement(DataResource.class.getCanonicalName());
         imageResourceType = elements.getTypeElement(ImageResource.class.getCanonicalName());

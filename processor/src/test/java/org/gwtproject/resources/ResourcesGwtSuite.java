@@ -18,6 +18,7 @@ package org.gwtproject.resources;
 import com.google.gwt.junit.tools.GWTTestSuite;
 import junit.framework.Test;
 import org.gwtproject.resources.client.*;
+import org.gwtproject.resources.client.gss.*;
 
 /**
  * Test suite for SafeHtml GWTTestCases.
@@ -33,21 +34,20 @@ public class ResourcesGwtSuite {
         suite.addTestSuite(DataResourceDoNotEmbedTest.class);
         suite.addTestSuite(DataResourceMimeTypeTest.class);
         suite.addTestSuite(ExternalTextResourceTest.class);
-        //suite.addTestSuite(ImageResourceNoInliningTest.class);
         suite.addTestSuite(ImageResourceTest.class);
-        //suite.addTestSuite(NestedBundleTest.class);
+        suite.addTestSuite(NestedBundleTest.class);
         suite.addTestSuite(TextResourceTest.class);
         suite.addTestSuite(CSSResourceTest.class);
-        //suite.addTestSuite(CSSResourceWithGSSTest.class);
+        suite.addTestSuite(CSSResourceWithGSSTest.class);
 
         // GSS
-/*        suite.addTestSuite(AutoConversionTest.class);
+        suite.addTestSuite(AutoConversionTest.class);
         suite.addTestSuite(GssResourceTest.class);
         suite.addTestSuite(DebugObfuscationStyleTest.class);
         suite.addTestSuite(PrettyObfuscationStyleTest.class);
         suite.addTestSuite(StableShortTypeObfuscationStyleTest.class);
         suite.addTestSuite(StableNoTypeObfuscationStyleTest.class);
-        suite.addTestSuite(StableObfuscationStyleTest.class);*/
+        suite.addTestSuite(StableObfuscationStyleTest.class);
         return suite;
     }
 }

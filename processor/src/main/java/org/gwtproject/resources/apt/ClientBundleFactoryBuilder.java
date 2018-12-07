@@ -1,7 +1,7 @@
 package org.gwtproject.resources.apt;
 
 import com.google.auto.common.MoreElements;
-import org.gwtproject.resources.rg.AptContext;
+import org.gwtproject.resources.context.AptContext;
 
 import javax.lang.model.element.TypeElement;
 import javax.tools.JavaFileObject;

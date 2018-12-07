@@ -17,7 +17,6 @@ package org.gwtproject.resources.client;
 
 import org.gwtproject.resources.client.impl.CustomDataResourcePrototype;
 import org.gwtproject.resources.ext.*;
-import org.gwtproject.resources.rg.AptContext;
 import org.gwtproject.resources.rg.util.SourceWriter;
 import org.gwtproject.resources.rg.util.StringSourceWriter;
 import org.gwtproject.safehtml.shared.UriUtils;
@@ -30,7 +29,7 @@ import java.net.URL;
  */
 public class CustomDataResourceGenerator extends AbstractResourceGenerator {
     @Override
-    public String createAssignment(TreeLogger logger, ResourceContext context, AptContext aptContext, ExecutableElement method)
+    public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException {
 
         //TODO

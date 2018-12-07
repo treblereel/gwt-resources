@@ -15,8 +15,6 @@
  */
 package org.gwtproject.resources.ext;
 
-import org.gwtproject.resources.rg.AptContext;
-
 import javax.lang.model.element.ExecutableElement;
 
 /**
@@ -28,13 +26,13 @@ public abstract class AbstractResourceGenerator implements ResourceGenerator {
     protected static final boolean STRIP_COMMENTS = System.getProperty("gwt.resourceBundle.stripComments") != null;
 
     public abstract String createAssignment(TreeLogger logger,
-                                            ResourceContext context, AptContext aptContext,
+                                            ResourceContext context,
                                             ExecutableElement method) throws UnableToCompleteException;
 
     /**
      * A no-op implementation.
      */
-    public void createFields(TreeLogger logger, ResourceContext context, AptContext aptContext,
+    public void createFields(TreeLogger logger, ResourceContext context,
                              ClientBundleFields fields) throws UnableToCompleteException {
     }
 
@@ -55,7 +53,7 @@ public abstract class AbstractResourceGenerator implements ResourceGenerator {
     /**
      * A no-op implementation.
      */
-    public void prepare(TreeLogger logger, ResourceContext context, AptContext aptContext, ExecutableElement method)
+    public void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException {
     }
 }

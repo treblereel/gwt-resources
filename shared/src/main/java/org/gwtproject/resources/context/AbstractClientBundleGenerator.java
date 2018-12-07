@@ -22,7 +22,6 @@ import org.gwtproject.resources.client.ClientBundleWithLookup;
 import org.gwtproject.resources.client.Resource;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.resources.ext.*;
-import org.gwtproject.resources.rg.AptContext;
 import org.gwtproject.resources.rg.BundleResourceGenerator;
 import org.gwtproject.resources.rg.Generator;
 import org.gwtproject.resources.rg.NameFactory;
@@ -184,15 +183,15 @@ public abstract class AbstractClientBundleGenerator extends Generator {
     private Map<Class<? extends ResourceGenerator>, List<ExecutableElement>> createTaskList(
             TreeLogger logger, TypeElement sourceType, GeneratorContext generatorContext)
             throws UnableToCompleteException {
-        Types types = generatorContext.getAptContext().typeUtils;
-        Elements elements = generatorContext.getAptContext().elementUtils;
+        Types types = generatorContext.getAptContext().types;
+        Elements elements = generatorContext.getAptContext().elements;
         logger = logger.branch(TreeLogger.DEBUG, "Processing " + sourceType);
         Map<Class<? extends ResourceGenerator>, List<ExecutableElement>> toReturn = new LinkedHashMap<>();
 
-        TypeElement bundleWithLookupType = MoreTypeUtils.getTypeElementFromClass(ClientBundleWithLookup.class, aptContext.elementUtils);
+        TypeElement bundleWithLookupType = MoreTypeUtils.getTypeElementFromClass(ClientBundleWithLookup.class, aptContext.elements);
         assert bundleWithLookupType != null;
 
-        TypeElement resourcePrototypeType = MoreTypeUtils.getTypeElementFromClass(ResourcePrototype.class, aptContext.elementUtils);
+        TypeElement resourcePrototypeType = MoreTypeUtils.getTypeElementFromClass(ResourcePrototype.class, aptContext.elements);
         assert resourcePrototypeType != null;
 
         // Accumulate as many errors as possible before failing
@@ -249,11 +248,11 @@ public abstract class AbstractClientBundleGenerator extends Generator {
         if (aptContext.generators.containsKey(resourceType)) {
             return aptContext.generators.get(resourceType);
         } else {
-            List<? extends TypeMirror> parents = new ArrayList<>(aptContext.typeUtils.directSupertypes(resourceType.asType()));
+            List<? extends TypeMirror> parents = new ArrayList<>(aptContext.types.directSupertypes(resourceType.asType()));
 
             Collections.reverse(parents);
             for (TypeMirror p : parents) {
-                Element parent = aptContext.typeUtils.asElement(p);
+                Element parent = aptContext.types.asElement(p);
                 if (aptContext.generators.containsKey(parent)) {
                     return aptContext.generators.get(parent);
                 }
@@ -267,7 +266,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
              * This is a special case of ResourceGenerator that handles nested bundles.
              */
             if (parents.size() == 1) {
-                boolean theSame = aptContext.typeUtils.isSameType(parents.get(0), aptContext.elementUtils.getTypeElement(Object.class.getCanonicalName()).asType());
+                boolean theSame = aptContext.types.isSameType(parents.get(0), aptContext.elements.getTypeElement(Object.class.getCanonicalName()).asType());
                 if (theSame)
                     return BundleResourceGenerator.class;
             }
@@ -347,7 +346,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
         // expected to produce.
         for (ExecutableElement m : generatorMethods) {
             try {
-                rg.prepare(logger.branch(TreeLogger.DEBUG, "Preparing method " + m.getSimpleName().toString()), resourceContext, aptContext, m);
+                rg.prepare(logger.branch(TreeLogger.DEBUG, "Preparing method " + m.getSimpleName().toString()), resourceContext, m);
             } catch (UnableToCompleteException e) {
                 fail = true;
             }
@@ -396,7 +395,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
             f.addImport(ResourcePrototype.class.getName());
 
             // The whole point of this exercise
-            f.addImplementedInterface(Util.getQualifiedSourceName(bundle, aptContext.elementUtils));
+            f.addImplementedInterface(Util.getQualifiedSourceName(bundle, aptContext.elements));
 
             // All source gets written through this Writer
             SourceWriter sw = f.createSourceWriter(generatorContext, out);
@@ -516,7 +515,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
 
         // Write all field values
         try {
-            rg.createFields(logger.branch(TreeLogger.DEBUG, "Creating fields"), resourceContext, aptContext, fields);
+            rg.createFields(logger.branch(TreeLogger.DEBUG, "Creating fields"), resourceContext, fields);
         } catch (UnableToCompleteException e) {
 
             throw new NullPointerException(" createFieldsAndAssignments " + generatorMethods);
@@ -530,8 +529,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
 
             try {
                 rhs = rg.createAssignment(logger.branch(TreeLogger.DEBUG,
-                        "Creating assignment for " + m.getSimpleName().toString() + "()"), resourceContext, aptContext,
-                        m);
+                        "Creating assignment for " + m.getSimpleName().toString() + "()"), resourceContext, m);
             } catch (UnableToCompleteException e) {
                 fail = true;
                 continue;
@@ -563,7 +561,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
             sw.println("}");
 
             sw.print("static ");
-            sw.print(Util.getQualifiedSourceName(MoreTypes.asElement(m.getReturnType()), aptContext.elementUtils));
+            sw.print(Util.getQualifiedSourceName(MoreTypes.asElement(m.getReturnType()), aptContext.elements));
             sw.println(" get() {");
             sw.indentln("return " + ident + ";");
             sw.println("}");
@@ -574,7 +572,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
             // Strip off all but the access modifiers
             //sw.print( m.getReadableDeclaration(false, true, true, true, true));
             sw.print("public ");
-            sw.print(Util.getQualifiedSourceName(MoreTypes.asElement(m.getReturnType()), aptContext.elementUtils));
+            sw.print(Util.getQualifiedSourceName(MoreTypes.asElement(m.getReturnType()), aptContext.elements));
             sw.print(" ");
             sw.print(m.toString());
             //sw.print("m.getReadableDeclaration(false, true, true, true, true)");
