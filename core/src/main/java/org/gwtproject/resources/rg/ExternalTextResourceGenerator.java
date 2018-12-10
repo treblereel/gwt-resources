@@ -11,6 +11,7 @@ import org.gwtproject.safehtml.shared.UriUtils;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,9 +91,19 @@ public final class ExternalTextResourceGenerator extends AbstractResourceGenerat
     @Override
     public void prepare(TreeLogger logger, ResourceContext resourceContext, ExecutableElement method)
             throws UnableToCompleteException {
+        ResourceOracle resourceOracle = resourceContext.getGeneratorContext().getResourcesOracle();
 
-        Resource resource = ResourceGeneratorUtil.getResource(logger, method, resourceContext.getGeneratorContext().getAptContext());
-        String toWrite = ResourceGeneratorUtil.readInputStreamAsText(resource);
+        URL[] urls = resourceOracle.findResources(logger, method);
+
+        if (urls.length != 1) {
+            logger.log(TreeLogger.ERROR, "Exactly one resource must be specified",
+                    null);
+            throw new UnableToCompleteException();
+        }
+
+        URL resource = urls[0];
+
+        String toWrite = Util.readURLAsString(resource);
         // This de-duplicates strings in the bundle.
         if (!hashes.containsKey(toWrite)) {
             hashes.put(toWrite, currentIndex++);

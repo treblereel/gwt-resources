@@ -15,8 +15,8 @@
  */
 package org.gwtproject.resources.ext;
 
-import java.io.InputStream;
-import java.util.Set;
+import javax.lang.model.element.ExecutableElement;
+import java.net.URL;
 
 /**
  * An abstraction for finding and retrieving {@link Resource}s by abstract path
@@ -36,27 +36,14 @@ public interface ResourceOracle {
     /**
      * Returns the resource for the given path name or null if there is no such resource.
      */
-    Resource getResource(String packageName, String[] pathName) throws UnableToCompleteException;
+    URL[] findResources(CharSequence packageName, CharSequence[] pathName);
 
-    /**
-     * Returns the resource for the given path name or null if there is no such resource.
-     */
-    Resource getResource(String packageName, String pathName) throws UnableToCompleteException;
+    URL findResource(CharSequence pkg, CharSequence relativeName);
 
-    /**
-     * Returns the resource input stream for the given path name or null if there
-     * is no such resource.
-     */
-    InputStream getResourceAsStream(String pathName);
+    URL findResource(CharSequence fullPath);
 
-    /**
-     * Returns the resource input stream for the given path name or null if there
-     * is no such resource.
-     */
-    Resource getResource(String pathName) throws UnableToCompleteException;
+    URL[] findResources(TreeLogger logger, ExecutableElement method) throws UnableToCompleteException;
 
-    /**
-     * Returns an unmodifiable set of unique resources with constant lookup time.
-     */
-    Set<Resource> getResources();
+    URL[] findResources(TreeLogger logger, ExecutableElement method, String[] defaultSuffixes) throws UnableToCompleteException;
+
 }

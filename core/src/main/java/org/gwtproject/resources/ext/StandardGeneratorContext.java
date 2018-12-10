@@ -27,12 +27,13 @@ public class StandardGeneratorContext implements GeneratorContext {
     private final Map<String, GeneratedUnit> committedGeneratedCups =
             new HashMap<>();
     private final Set<String> newlyGeneratedTypeNames = new HashSet<>();
-    private final ResourceOracle resourceOracle = new ResourceOracleImpl();
+    private final ResourceOracle resourceOracle;
     private final PropertyOracle propertyOracle;
 
     public StandardGeneratorContext(AptContext aptContext) {
         this.aptContext = aptContext;
-        propertyOracle = new PropertyOracleImpl(aptContext);
+        this.resourceOracle = new ResourceOracleImpl(aptContext);
+        this.propertyOracle = new PropertyOracleImpl(aptContext);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class StandardGeneratorContext implements GeneratorContext {
             throw new UnableToCompleteException();
         }
 
-        String  gwtCacheDir = propertyOracle.getConfigurationProperty(logger, KEY_CLIENT_BUNDLE_CACHE_LOCATION).asSingleValue();
+        String gwtCacheDir = propertyOracle.getConfigurationProperty(logger, KEY_CLIENT_BUNDLE_CACHE_LOCATION).asSingleValue();
         try (OutputStream outputStream = new FileOutputStream(new File(gwtCacheDir, pendingResource.partialPath))) {
             pendingResource.baos.writeTo(outputStream);
         } catch (IOException e) {

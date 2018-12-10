@@ -158,9 +158,18 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
 
         LocalizedImage localized = LocalizedImage.create(logger, context, image);
 
-        Resource resource = ResourceGeneratorUtil.getResource(logger, method, context.getGeneratorContext().getAptContext());
+        ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
 
-        ImageRect rect = addImage(logger, resource.getUrl().getFile(), resource.getUrl());
+        URL[] resources = resourceOracle.findResources(logger, image.getMethod());
+
+        if (resources.length != 1) {
+            logger.log(TreeLogger.ERROR, "Exactly one image may be specified", null);
+            throw new UnableToCompleteException();
+        }
+
+        URL resource = resources[0];
+
+        ImageRect rect = addImage(logger, resource.getFile(), resource);
 
         if (rect.isAnimated() || rect.isLossy()) {
             // Don't re-encode
@@ -170,7 +179,7 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
              * they actually offer a space-savings.
              */
             try {
-                int originalSize = getContentLength(resource.getUrl());
+                int originalSize = getContentLength(resource);
                 // Re-encode the data
                 URL reencodedContents = reencodeToTempFile(logger, rect);
                 int newSize = getContentLength(reencodedContents);
@@ -768,9 +777,18 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
                                             ResourceContext context, ImageResourceDeclaration image)
                 throws UnableToCompleteException {
 
-            Resource resource = ResourceGeneratorUtil.getResource(logger, image.getMethod(), context.getGeneratorContext().getAptContext());
-            URL url = resource.getUrl();
-            LocalizedImage toReturn = new LocalizedImage(image, url);
+            ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
+
+            URL[] resources = resourceOracle.findResources(logger, image.getMethod());
+
+            if (resources.length != 1) {
+                logger.log(TreeLogger.ERROR, "Exactly one image may be specified 1 " + resources.length, null);
+                throw new UnableToCompleteException();
+            }
+
+            URL resource = resources[0];
+
+            LocalizedImage toReturn = new LocalizedImage(image, resource);
             return toReturn;
         }
 
