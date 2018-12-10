@@ -60,9 +60,7 @@ public class PermutationsCollector extends ExtendedConditionalNodeVisitor
 
         booleanExpressionNode.setValue(permutationName + ":" + permutationValue);
 
-        if (!permutationAxesSet.contains(permutationName)) {
           permutationAxesSet.add(permutationName);
-        }
       }
     }
   }

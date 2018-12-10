@@ -108,7 +108,7 @@ public abstract class TreeLogger {
     /**
      * Constructs a log type with an optional parent.
      */
-    private Type(boolean needsAttention) {
+    Type(boolean needsAttention) {
       this.needsAttention = needsAttention;
     }
 

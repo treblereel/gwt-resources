@@ -51,8 +51,7 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
     private CachedState shared;
 
     @Override
-    public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method)
-            throws UnableToCompleteException {
+    public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method) {
         String name = method.getSimpleName().toString();
 
         ImageResourceDeclaration image = new ImageResourceDeclaration(method);
@@ -534,11 +533,11 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
         }
 
         public boolean isFlipRtl() {
-            return options == null ? false : options.flipRtl();
+            return options != null && options.flipRtl();
         }
 
         public boolean isPreventInlining() {
-            return options == null ? false : options.preventInlining();
+            return options != null && options.preventInlining();
         }
     }
 
@@ -669,7 +668,7 @@ public class ImageResourceGenerator extends AbstractResourceGenerator {
             toReturn.translate(left, top);
 
             // Scale
-            assert !(height > 0 ^ width > 0);
+            assert height > 0 == width > 0;
             if (height > 0) {
                 toReturn.scale((double) height / intrinsicHeight, (double) width
                         / intrinsicWidth);

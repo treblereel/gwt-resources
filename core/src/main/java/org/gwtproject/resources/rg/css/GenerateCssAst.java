@@ -300,7 +300,7 @@ public class GenerateCssAst {
     }
 
     void parseDef(String atRule) {
-      String value = atRule.substring(4, atRule.length()).trim();
+      String value = atRule.substring(4).trim();
 
       InputSource s = new InputSource();
       s.setCharacterStream(new StringReader(value));
@@ -656,7 +656,7 @@ public class GenerateCssAst {
    */
   public static CssStylesheet exec(TreeLogger logger, URL... stylesheets)
       throws UnableToCompleteException {
-    List<URL> sheets = Arrays.asList(stylesheets);
+    URL[] sheets = stylesheets;
 
     Parser p = new Parser();
     Errors errors = new Errors(logger);

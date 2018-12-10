@@ -37,7 +37,7 @@ public final class ExternalTextResourceGenerator extends AbstractResourceGenerat
 
     @Override
     public String createAssignment(TreeLogger logger, ResourceContext context,
-                                   ExecutableElement method) throws UnableToCompleteException {
+                                   ExecutableElement method) {
         String name = method.getSimpleName().toString();
 
         SourceWriter sw = new StringSourceWriter();
@@ -77,8 +77,7 @@ public final class ExternalTextResourceGenerator extends AbstractResourceGenerat
     }
 
     @Override
-    public void init(TreeLogger logger, ResourceContext context)
-            throws UnableToCompleteException {
+    public void init(TreeLogger logger, ResourceContext context) {
 
         data = new StringBuffer("[\n");
         first = true;

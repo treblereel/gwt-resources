@@ -39,8 +39,7 @@ public abstract class AbstractResourceGenerator implements ResourceGenerator {
     /**
      * A no-op implementation.
      */
-    public void finish(TreeLogger logger, ResourceContext context)
-            throws UnableToCompleteException {
+    public void finish(TreeLogger logger, ResourceContext context) {
     }
 
     /**

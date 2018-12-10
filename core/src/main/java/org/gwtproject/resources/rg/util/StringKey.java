@@ -50,7 +50,7 @@ public abstract class StringKey implements Comparable<StringKey>, Serializable {
         if (o == null) {
             return false;
         }
-        return compareTo((StringKey) o) == 0 ? true : false;
+        return compareTo((StringKey) o) == 0;
     }
 
     /**

@@ -59,7 +59,7 @@ public class ValueFunction implements GssFunction {
   }
 
   @Override
-  public String getCallResultString(List<String> args) throws GssFunctionException {
+  public String getCallResultString(List<String> args) {
 
     String functionPath = args.get(0);
     String prefix = null;
