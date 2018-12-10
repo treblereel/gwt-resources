@@ -375,7 +375,7 @@ public class CSSResourceTest extends GWTTestCase {
     }
 
     @Resource
-    interface SiblingResources {
+    interface SiblingResources extends ClientBundle{
         @Source("siblingTestA.css")
         MyCssResourceA a();
 

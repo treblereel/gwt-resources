@@ -56,7 +56,7 @@ public class CssRuntimeConditionalRuleNode extends CssConditionalRuleNode {
     private void setRuntimeCondition(CssJavaExpressionNode condition) {
         Preconditions.checkState(getType() != Type.ELSE);
         Preconditions.checkState(getParametersCount() <= 1);
-        this.setParameters(ImmutableList.<CssValueNode>of(condition));
+        this.setParameters(ImmutableList.of(condition));
     }
 
     @Override

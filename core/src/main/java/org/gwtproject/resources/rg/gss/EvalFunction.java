@@ -37,8 +37,7 @@ public class EvalFunction implements GssFunction {
   }
 
   @Override
-  public List<CssValueNode> getCallResultNodes(List<CssValueNode> args, ErrorManager errorManager)
-      throws GssFunctionException {
+  public List<CssValueNode> getCallResultNodes(List<CssValueNode> args, ErrorManager errorManager) {
     CssValueNode functionToEval = args.get(0);
 
     SourceCodeLocation sourceCodeLocation = extractSourceCodeLocation(functionToEval);
@@ -50,7 +49,7 @@ public class EvalFunction implements GssFunction {
   }
 
   @Override
-  public String getCallResultString(List<String> args) throws GssFunctionException {
+  public String getCallResultString(List<String> args) {
     return args.get(0);
   }
 

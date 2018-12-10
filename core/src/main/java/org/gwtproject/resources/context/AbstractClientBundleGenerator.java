@@ -169,9 +169,8 @@ public abstract class AbstractClientBundleGenerator extends Generator {
      * @param logger  a TreeLogger
      * @param context the GeneratorContext
      * @param fields  ClentBundle fields
-     * @throws UnableToCompleteException if an error occurs.
      */
-    protected void doAddFields(TreeLogger logger, GeneratorContext context, FieldsImpl fields) throws UnableToCompleteException {
+    protected void doAddFields(TreeLogger logger, GeneratorContext context, FieldsImpl fields) {
     }
 
     /**
@@ -209,7 +208,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
             } else if (theReturn == null) {
                 // Primitives and random other abstract methods
                 logger.log(TreeLogger.ERROR, "Unable to process method '" + method.getSimpleName().toString()
-                        + "' from " + method.getEnclosingElement() + " because " + ((ExecutableElement) method).getReturnType() + " does not derive from "
+                        + "' from " + method.getEnclosingElement() + " because " + method.getReturnType() + " does not derive from "
                         + MoreTypeUtils.getQualifiedSourceName(resourcePrototypeType));
                 throwException = true;
                 continue;
@@ -401,20 +400,18 @@ public abstract class AbstractClientBundleGenerator extends Generator {
      * @param generatorContext          the GeneratoContext
      * @param fields                    ClientBundle fields
      * @param generatedSimpleSourceName a String
-     * @throws UnableToCompleteException if an error occurs.
      */
     protected void doCreateBundleForPermutation(TreeLogger logger,
                                                 GeneratorContext generatorContext, FieldsImpl fields,
-                                                String generatedSimpleSourceName) throws UnableToCompleteException {
+                                                String generatedSimpleSourceName) {
     }
 
     /**
      * Provides a hook for finalizing generated resources.
      *
      * @param logger a TreeLogger
-     * @throws UnableToCompleteException if an error occurs.
      */
-    protected void doFinish(TreeLogger logger) throws UnableToCompleteException {
+    protected void doFinish(TreeLogger logger) {
     }
 
     /**
@@ -540,11 +537,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
             sw.println("}");
         }
 
-        if (fail) {
-            return false;
-        }
-
-        return true;
+        return !fail;
     }
 
     /**

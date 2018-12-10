@@ -30,7 +30,7 @@ public class ExternalTextResourceTest extends GWTTestCase {
         return "org.gwtproject.resources.ResourcesTestsModule";
     }
 
-    public void testExternal() throws ResourceException {
+    public void testExternal() {
 
         final ExternalTextResources r = ClientBundleFactory.get(ExternalTextResources.class);
         assertEquals("helloWorldExternal", r.getResource("helloWorldExternal").getName());

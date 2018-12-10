@@ -81,13 +81,12 @@ public class CssTestCase extends TestCase {
     private static class FakeContext implements ResourceContext {
         @Override
         public String deploy(String suggestedFileName, String mimeType,
-                             byte[] data, boolean forceExternal) throws UnableToCompleteException {
+                             byte[] data, boolean forceExternal) {
             return null;
         }
 
         @Override
-        public String deploy(URL resource, String mimeType, boolean forceExternal)
-                throws UnableToCompleteException {
+        public String deploy(URL resource, String mimeType, boolean forceExternal) {
             return null;
         }
 

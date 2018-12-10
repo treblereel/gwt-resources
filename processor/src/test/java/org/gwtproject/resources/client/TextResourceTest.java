@@ -32,7 +32,7 @@ public class TextResourceTest extends GWTTestCase {
         assertEquals(HELLO, r.helloWorldAbsolute().getText());
     }
 
-    public void testMeta() throws ResourceException {
+    public void testMeta() {
         Resources r = ClientBundleFactory.get(Resources.class);
 
         //assertEquals(GWT.getModuleBaseForStaticFiles(), DomGlobal.location.getOrigin());
@@ -46,7 +46,7 @@ public class TextResourceTest extends GWTTestCase {
         assertEquals(6, resources.length);
     }
 
-    public void testAnotatelessExternalText() throws InterruptedException {
+    public void testAnotatelessExternalText() {
         Resources r = ClientBundleFactory.get(Resources.class);
 
         try {

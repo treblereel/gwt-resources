@@ -201,7 +201,7 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
          * so we want to append a trailing character to the end of the search in
          * case the obfuscated class name is exactly equal to one of the prefixes.
          */
-        String search = target.toString().toLowerCase(Locale.ROOT) + " ";
+        String search = target.toLowerCase(Locale.ROOT) + " ";
         SortedSet<String> headSet = prefixes.headSet(search);
         if (!headSet.isEmpty()) {
             String prefix = headSet.last();
@@ -588,7 +588,7 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
     protected void outputAdditionalArtifacts(TreeLogger logger,
                                              ResourceContext context, ExecutableElement method,
                                              Map<ExecutableElement, String> actualReplacements, TypeElement cssResourceSubtype,
-                                             CssStylesheet stylesheet) throws UnableToCompleteException {
+                                             CssStylesheet stylesheet) {
     }
 
     private Map<ExecutableElement, String> optimize(TreeLogger logger,
@@ -1024,8 +1024,7 @@ public class CssResourceGenerator extends AbstractCssResourceGenerator {
         stylesheetMap.put(method, sheet);
     }
 
-    protected void checkSheet(TreeLogger logger, CssStylesheet stylesheet)
-            throws UnableToCompleteException {
+    protected void checkSheet(TreeLogger logger, CssStylesheet stylesheet) {
         // Do nothing
     }
 

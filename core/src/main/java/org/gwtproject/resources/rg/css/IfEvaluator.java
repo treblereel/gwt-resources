@@ -34,7 +34,7 @@ public class IfEvaluator extends CssModVisitor {
     }
 
     @Override
-    public void endVisit(CssIf x, Context ctx) throws UnableToCompleteException {
+    public void endVisit(CssIf x, Context ctx) {
         if (x.getExpression() != null) {
             // This gets taken care of by the runtime substitution visitor
         } else {

@@ -34,7 +34,7 @@ public class CssUrl extends CssDef {
 
   public CssUrl(String key, DotPathValue functionValue) {
     super(key);
-    values = Collections.<Value> singletonList(functionValue);
+    values = Collections.singletonList(functionValue);
   }
 
   @Override

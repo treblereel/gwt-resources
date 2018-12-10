@@ -34,7 +34,7 @@ public class ClassSourceFileComposerFactory {
      * class, later should support abstract class, static class, etc.
      */
     enum JavaSourceCategory {
-        CLASS, INTERFACE;
+        CLASS, INTERFACE
     }
 
     private List<String> annotations = new ArrayList<String>();

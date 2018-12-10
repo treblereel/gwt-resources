@@ -3,6 +3,7 @@ package org.w3c.flute.parser;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 
@@ -241,7 +242,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
             // My DOM level 2 implementation doesn't use this case.
             if (source.getEncoding() == null) {
                 // unknown encoding, use ASCII as default.
-                return new InputStreamReader(source.getByteStream(), "ASCII");
+                return new InputStreamReader(source.getByteStream(), StandardCharsets.US_ASCII);
             } else {
                 return new InputStreamReader(source.getByteStream(),
                                              source.getEncoding());
@@ -427,7 +428,6 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         break;
       default:
         jj_la1[0] = jj_gen;
-        ;
       }
       label_1:
       while (true) {
@@ -436,8 +436,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         case CDO:
         case CDC:
         case ATKEYWORD:
-          ;
-          break;
+            break;
         default:
           jj_la1[1] = jj_gen;
           break label_1;
@@ -461,8 +460,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case IMPORT_SYM:
-          ;
-          break;
+            break;
         default:
           jj_la1[3] = jj_gen;
           break label_2;
@@ -474,8 +472,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
           case CDO:
           case CDC:
           case ATKEYWORD:
-            ;
-            break;
+              break;
           default:
             jj_la1[4] = jj_gen;
             break label_3;
@@ -485,8 +482,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
           while (true) {
             switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
             case S:
-              ;
-              break;
+                break;
             default:
               jj_la1[5] = jj_gen;
               break label_4;
@@ -510,8 +506,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[6] = jj_gen;
           break label_5;
@@ -523,8 +518,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[7] = jj_gen;
           break label_6;
@@ -550,8 +544,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
  Locator l;
     label_7:
     while (true) {
-      ;
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case LBRACKET:
       case ANY:
       case DOT:
@@ -587,8 +580,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         case CDO:
         case CDC:
         case ATKEYWORD:
-          ;
-          break;
+            break;
         default:
           jj_la1[9] = jj_gen;
           break label_8;
@@ -598,8 +590,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case S:
-            ;
-            break;
+              break;
           default:
             jj_la1[10] = jj_gen;
             break label_9;
@@ -643,8 +634,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[12] = jj_gen;
           break label_10;
@@ -674,8 +664,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[14] = jj_gen;
           break label_11;
@@ -688,15 +677,13 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         break;
       default:
         jj_la1[15] = jj_gen;
-        ;
       }
       jj_consume_token(SEMICOLON);
       label_12:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[16] = jj_gen;
           break label_12;
@@ -729,8 +716,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[17] = jj_gen;
           break label_13;
@@ -744,8 +730,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[18] = jj_gen;
           break label_14;
@@ -785,8 +770,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         case UNICODERANGE:
         case FUNCTION:
         case UNKNOWN:
-          ;
-          break;
+            break;
         default:
           jj_la1[19] = jj_gen;
           break label_15;
@@ -837,8 +821,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[21] = jj_gen;
           break label_16;
@@ -864,8 +847,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
-        break;
+          break;
       default:
         jj_la1[22] = jj_gen;
         break label_17;
@@ -875,8 +857,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[23] = jj_gen;
           break label_18;
@@ -899,8 +880,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[24] = jj_gen;
         break label_19;
@@ -925,8 +905,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[25] = jj_gen;
           break label_20;
@@ -940,8 +919,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case S:
-            ;
-            break;
+              break;
           default:
             jj_la1[26] = jj_gen;
             break label_21;
@@ -951,7 +929,6 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         break;
       default:
         jj_la1[27] = jj_gen;
-        ;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COLON:
@@ -959,7 +936,6 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         break;
       default:
         jj_la1[28] = jj_gen;
-        ;
       }
           if (n != null) {
               page = convertIdent(n.image);
@@ -969,8 +945,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[29] = jj_gen;
           break label_22;
@@ -985,14 +960,12 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         break;
       default:
         jj_la1[30] = jj_gen;
-        ;
       }
       label_23:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case SEMICOLON:
-          ;
-          break;
+            break;
         default:
           jj_la1[31] = jj_gen;
           break label_23;
@@ -1002,8 +975,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case S:
-            ;
-            break;
+              break;
           default:
             jj_la1[32] = jj_gen;
             break label_24;
@@ -1016,7 +988,6 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
           break;
         default:
           jj_la1[33] = jj_gen;
-          ;
         }
       }
       jj_consume_token(RBRACE);
@@ -1024,8 +995,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[34] = jj_gen;
           break label_25;
@@ -1058,8 +1028,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[35] = jj_gen;
         break label_26;
@@ -1078,8 +1047,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[36] = jj_gen;
           break label_27;
@@ -1091,8 +1059,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[37] = jj_gen;
           break label_28;
@@ -1106,14 +1073,12 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         break;
       default:
         jj_la1[38] = jj_gen;
-        ;
       }
       label_29:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case SEMICOLON:
-          ;
-          break;
+            break;
         default:
           jj_la1[39] = jj_gen;
           break label_29;
@@ -1123,8 +1088,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case S:
-            ;
-            break;
+              break;
           default:
             jj_la1[40] = jj_gen;
             break label_30;
@@ -1137,7 +1101,6 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
           break;
         default:
           jj_la1[41] = jj_gen;
-          ;
         }
       }
       jj_consume_token(RBRACE);
@@ -1145,8 +1108,7 @@ public class Parser implements org.w3c.css.sac.Parser, ParserConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[42] = jj_gen;
           break label_31;
@@ -1280,8 +1242,7 @@ char connector = ' ';
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[44] = jj_gen;
           break label_32;
@@ -1296,8 +1257,7 @@ char connector = ' ';
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[45] = jj_gen;
           break label_33;
@@ -1329,8 +1289,7 @@ char connector = ' ';
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case S:
-            ;
-            break;
+              break;
           default:
             jj_la1[47] = jj_gen;
             break label_34;
@@ -1340,7 +1299,6 @@ char connector = ' ';
         break;
       default:
         jj_la1[48] = jj_gen;
-        ;
       }
                {if (true) return connector;}
       break;
@@ -1362,8 +1320,7 @@ char connector = ' ';
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[50] = jj_gen;
         break label_35;
@@ -1390,8 +1347,7 @@ char connector = ' ';
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[51] = jj_gen;
           break label_36;
@@ -1406,14 +1362,12 @@ char connector = ' ';
         break;
       default:
         jj_la1[52] = jj_gen;
-        ;
       }
       label_37:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case SEMICOLON:
-          ;
-          break;
+            break;
         default:
           jj_la1[53] = jj_gen;
           break label_37;
@@ -1423,8 +1377,7 @@ char connector = ' ';
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
           case S:
-            ;
-            break;
+              break;
           default:
             jj_la1[54] = jj_gen;
             break label_38;
@@ -1437,7 +1390,6 @@ char connector = ' ';
           break;
         default:
           jj_la1[55] = jj_gen;
-          ;
         }
       }
       jj_consume_token(RBRACE);
@@ -1445,8 +1397,7 @@ char connector = ' ';
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[56] = jj_gen;
           break label_39;
@@ -1482,8 +1433,7 @@ char connector = ' ';
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case COMMA:
-        ;
-        break;
+          break;
       default:
         jj_la1[57] = jj_gen;
         break label_40;
@@ -1493,8 +1443,7 @@ char connector = ' ';
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[58] = jj_gen;
           break label_41;
@@ -1520,7 +1469,6 @@ char connector = ' ';
       label_42:
       while (true) {
         if (jj_2_1(2)) {
-          ;
         } else {
           break label_42;
         }
@@ -1531,8 +1479,7 @@ char connector = ' ';
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[59] = jj_gen;
           break label_43;
@@ -1584,8 +1531,7 @@ char connector = ' ';
         case DOT:
         case COLON:
         case HASH:
-          ;
-          break;
+            break;
         default:
           jj_la1[60] = jj_gen;
           break label_44;
@@ -1618,8 +1564,7 @@ char connector = ' ';
         case LBRACKET:
         case DOT:
         case COLON:
-          ;
-          break;
+            break;
         default:
           jj_la1[62] = jj_gen;
           break label_45;
@@ -1650,8 +1595,7 @@ char connector = ' ';
         case DOT:
         case COLON:
         case HASH:
-          ;
-          break;
+            break;
         default:
           jj_la1[64] = jj_gen;
           break label_46;
@@ -1685,8 +1629,7 @@ char connector = ' ';
         case DOT:
         case COLON:
         case HASH:
-          ;
-          break;
+            break;
         default:
           jj_la1[66] = jj_gen;
           break label_47;
@@ -1720,8 +1663,7 @@ char connector = ' ';
         case DOT:
         case COLON:
         case HASH:
-          ;
-          break;
+            break;
         default:
           jj_la1[68] = jj_gen;
           break label_48;
@@ -1840,8 +1782,7 @@ Condition c;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[72] = jj_gen;
         break label_49;
@@ -1853,8 +1794,7 @@ Condition c;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[73] = jj_gen;
         break label_50;
@@ -1887,8 +1827,7 @@ Condition c;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[75] = jj_gen;
           break label_51;
@@ -1914,8 +1853,7 @@ Condition c;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[77] = jj_gen;
           break label_52;
@@ -1925,7 +1863,6 @@ Condition c;
       break;
     default:
       jj_la1[78] = jj_gen;
-      ;
     }
     jj_consume_token(RBRACKET);
       String name = convertIdent(att.image);
@@ -1972,7 +1909,6 @@ Token language;
       break;
     default:
       jj_la1[79] = jj_gen;
-      ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IDENT:
@@ -2003,8 +1939,7 @@ Token language;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[80] = jj_gen;
           break label_53;
@@ -2016,8 +1951,7 @@ Token language;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[81] = jj_gen;
           break label_54;
@@ -2079,8 +2013,7 @@ Token language;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[83] = jj_gen;
           break label_55;
@@ -2094,7 +2027,6 @@ Token language;
         break;
       default:
         jj_la1[84] = jj_gen;
-        ;
       }
          documentHandler.property(name, exp, important);
     } catch (JumpException e) {
@@ -2140,8 +2072,7 @@ Token language;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[85] = jj_gen;
         break label_56;
@@ -2164,8 +2095,7 @@ Token language;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[86] = jj_gen;
           break label_57;
@@ -2182,8 +2112,7 @@ Token language;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[87] = jj_gen;
           break label_58;
@@ -2241,8 +2170,7 @@ Token language;
       case HASH:
       case UNICODERANGE:
       case FUNCTION:
-        ;
-        break;
+          break;
       default:
         jj_la1[89] = jj_gen;
         break label_59;
@@ -2254,7 +2182,6 @@ Token language;
         break;
       default:
         jj_la1[90] = jj_gen;
-        ;
       }
       res = term(res);
     }
@@ -2319,7 +2246,6 @@ Token language;
         break;
       default:
         jj_la1[92] = jj_gen;
-        ;
       }
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case NUMBER:
@@ -2500,8 +2426,7 @@ Token language;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[96] = jj_gen;
         break label_60;
@@ -2524,8 +2449,7 @@ Token language;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[97] = jj_gen;
         break label_61;
@@ -2563,7 +2487,6 @@ Token language;
       break;
     default:
       jj_la1[98] = jj_gen;
-      ;
     }
     jj_consume_token(LPARAN);
         if (operator != ' ') {
@@ -3022,8 +2945,7 @@ Token language;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[99] = jj_gen;
         break label_62;
@@ -3071,8 +2993,7 @@ Token language;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[101] = jj_gen;
         break label_63;
@@ -3087,8 +3008,7 @@ Token language;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[102] = jj_gen;
         break label_64;
@@ -3103,8 +3023,7 @@ Token language;
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case S:
-        ;
-        break;
+          break;
       default:
         jj_la1[103] = jj_gen;
         break label_65;
@@ -3117,14 +3036,12 @@ Token language;
       break;
     default:
       jj_la1[104] = jj_gen;
-      ;
     }
     label_66:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case SEMICOLON:
-        ;
-        break;
+          break;
       default:
         jj_la1[105] = jj_gen;
         break label_66;
@@ -3134,8 +3051,7 @@ Token language;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[106] = jj_gen;
           break label_67;
@@ -3148,7 +3064,6 @@ Token language;
         break;
       default:
         jj_la1[107] = jj_gen;
-        ;
       }
     }
   }
@@ -3160,8 +3075,7 @@ Token language;
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case S:
-          ;
-          break;
+            break;
         default:
           jj_la1[108] = jj_gen;
           break label_68;
@@ -3208,56 +3122,47 @@ Token language;
     jj_scanpos = xsp;
     if (jj_3R_72()) {
     jj_scanpos = xsp;
-    if (jj_3R_73()) return true;
+        return jj_3R_73();
     }
     }
     return false;
   }
 
   final private boolean jj_3R_78() {
-    if (jj_3R_84()) return true;
-    return false;
+      return jj_3R_84();
   }
 
   final private boolean jj_3_1() {
     if (jj_3R_69()) return true;
-    if (jj_3R_70()) return true;
-    return false;
+      return jj_3R_70();
   }
 
   final private boolean jj_3R_77() {
-    if (jj_3R_83()) return true;
-    return false;
+      return jj_3R_83();
   }
 
   final private boolean jj_3R_76() {
-    if (jj_3R_82()) return true;
-    return false;
+      return jj_3R_82();
   }
 
   final private boolean jj_3R_82() {
-    if (jj_scan_token(DOT)) return true;
-    return false;
+      return jj_scan_token(DOT);
   }
 
   final private boolean jj_3R_75() {
-    if (jj_3R_81()) return true;
-    return false;
+      return jj_3R_81();
   }
 
   final private boolean jj_3R_83() {
-    if (jj_scan_token(COLON)) return true;
-    return false;
+      return jj_scan_token(COLON);
   }
 
   final private boolean jj_3R_81() {
-    if (jj_scan_token(HASH)) return true;
-    return false;
+      return jj_scan_token(HASH);
   }
 
   final private boolean jj_3R_74() {
-    if (jj_3R_80()) return true;
-    return false;
+      return jj_3R_80();
   }
 
   final private boolean jj_3R_70() {
@@ -3271,7 +3176,7 @@ Token language;
     jj_scanpos = xsp;
     if (jj_3R_77()) {
     jj_scanpos = xsp;
-    if (jj_3R_78()) return true;
+        return jj_3R_78();
     }
     }
     }
@@ -3280,23 +3185,19 @@ Token language;
   }
 
   final private boolean jj_3R_84() {
-    if (jj_scan_token(LBRACKET)) return true;
-    return false;
+      return jj_scan_token(LBRACKET);
   }
 
   final private boolean jj_3R_88() {
-    if (jj_scan_token(ANY)) return true;
-    return false;
+      return jj_scan_token(ANY);
   }
 
   final private boolean jj_3R_86() {
-    if (jj_scan_token(PRECEDES)) return true;
-    return false;
+      return jj_scan_token(PRECEDES);
   }
 
   final private boolean jj_3R_85() {
-    if (jj_scan_token(PLUS)) return true;
-    return false;
+      return jj_scan_token(PLUS);
   }
 
   final private boolean jj_3R_79() {
@@ -3304,14 +3205,13 @@ Token language;
     xsp = jj_scanpos;
     if (jj_3R_85()) {
     jj_scanpos = xsp;
-    if (jj_3R_86()) return true;
+        return jj_3R_86();
     }
     return false;
   }
 
   final private boolean jj_3R_87() {
-    if (jj_scan_token(IDENT)) return true;
-    return false;
+      return jj_scan_token(IDENT);
   }
 
   final private boolean jj_3R_80() {
@@ -3319,7 +3219,7 @@ Token language;
     xsp = jj_scanpos;
     if (jj_3R_87()) {
     jj_scanpos = xsp;
-    if (jj_3R_88()) return true;
+        return jj_3R_88();
     }
     return false;
   }

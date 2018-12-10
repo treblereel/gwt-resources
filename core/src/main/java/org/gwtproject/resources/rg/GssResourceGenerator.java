@@ -478,7 +478,7 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
     }
 
     @Override
-    protected String getCssExpression(TreeLogger logger, ResourceContext context, ExecutableElement method) throws UnableToCompleteException {
+    protected String getCssExpression(TreeLogger logger, ResourceContext context, ExecutableElement method) {
         CssTree cssTree = cssParsingResultMap.get(method).tree;
         String standard = printCssTree(cssTree);
         // TODO add configuration properties for swapLtrRtlInUrl, swapLeftRightInUrl and

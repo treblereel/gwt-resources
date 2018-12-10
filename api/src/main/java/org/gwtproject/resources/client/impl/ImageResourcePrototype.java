@@ -28,6 +28,16 @@ import static elemental2.dom.DomGlobal.document;
  */
 public class ImageResourcePrototype implements ImageResource {
 
+    /**
+     * Marker class for bundled {@code ImageResourcePrototype}.
+     */
+    public static class Bundle extends ImageResourcePrototype {
+        public Bundle(String name, SafeUri url, int left, int top, int width, int height,
+                      boolean animated, boolean lossy) {
+            super(name, url, left, top, width, height, animated, lossy);
+        }
+    }
+
     private final boolean animated;
     private final boolean lossy;
     private final String name;

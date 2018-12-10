@@ -138,7 +138,7 @@ public class ResourceUrlFunction implements GssFunction {
     }
 
     @Override
-    public String getCallResultString(List<String> strings) throws GssFunctionException {
+    public String getCallResultString(List<String> strings) {
         return strings.get(0);
     }
 
