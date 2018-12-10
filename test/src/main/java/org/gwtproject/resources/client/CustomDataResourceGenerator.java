@@ -21,22 +21,24 @@ import org.gwtproject.resources.rg.util.StringSourceWriter;
 import org.gwtproject.safehtml.shared.UriUtils;
 
 import javax.lang.model.element.ExecutableElement;
+import java.net.URL;
 
 public class CustomDataResourceGenerator extends AbstractResourceGenerator {
     @Override
     public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException {
 
-        //TODO
-        org.gwtproject.resources.ext.Resource resource = ResourceGeneratorUtil.findResource(logger, method);
+        ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
+        URL[] resources = resourceOracle.findResources(logger, method);
 
-
-        String outputUrlExpression = context.deploy(resource.getUrl(), null, false);
-
-/*        if (resources.length != 1) {
+        if (resources.length != 1) {
             logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);
             throw new UnableToCompleteException();
-        }*/
+        }
+
+        URL resource = resources[0];
+
+        String outputUrlExpression = context.deploy(resource, null, false);
 
         SourceWriter sw = new StringSourceWriter();
         sw.println("new org.gwtproject.resources.client.impl.CustomDataResourcePrototype(");

@@ -3,8 +3,10 @@ package org.gwtproject.resources.rg;
 import org.gwtproject.resources.ext.*;
 import org.gwtproject.resources.rg.util.SourceWriter;
 import org.gwtproject.resources.rg.util.StringSourceWriter;
+import org.gwtproject.resources.rg.util.Util;
 
 import javax.lang.model.element.ExecutableElement;
+import java.net.URL;
 
 /**
  * @author Dmitrii Tikhomirov
@@ -21,8 +23,18 @@ public final class TextResourceGenerator extends AbstractResourceGenerator {
     @Override
     public String createAssignment(TreeLogger logger, ResourceContext context,
                                    ExecutableElement method) throws UnableToCompleteException {
+        ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
 
-        Resource resource = ResourceGeneratorUtil.getResource(logger, method, context.getGeneratorContext().getAptContext());
+        URL[] resources = resourceOracle.findResources(logger, method);
+
+        if (resources.length != 1) {
+            logger.log(TreeLogger.ERROR, "Exactly one resource must be specified",
+                    null);
+            throw new UnableToCompleteException();
+        }
+
+        URL resource = resources[0];
+
         SourceWriter sw = new StringSourceWriter();
         // Write the expression to create the subtype.
         sw.println("new " + method.getReturnType() + "() {");
@@ -30,16 +42,13 @@ public final class TextResourceGenerator extends AbstractResourceGenerator {
 
         if (!AbstractResourceGenerator.STRIP_COMMENTS) {
             // Convenience when examining the generated code.
-            sw.println("// " + resource.getUrl().getFile());
+            sw.println("// " + resource.toExternalForm());
         }
 
         sw.println("public String getText() {");
         sw.indent();
 
-        //String toWrite = Util.readURLAsString(resource);
-
-        //String toWrite = Util.readURLAsString(resource);
-        String toWrite = ResourceGeneratorUtil.readInputStreamAsText(resource);
+        String toWrite = Util.readURLAsString(resource);
 
         if (toWrite.length() > MAX_STRING_CHUNK) {
             writeLongString(sw, toWrite);

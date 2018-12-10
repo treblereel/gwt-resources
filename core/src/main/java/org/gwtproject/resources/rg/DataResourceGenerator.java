@@ -22,6 +22,7 @@ import org.gwtproject.resources.rg.util.StringSourceWriter;
 import org.gwtproject.safehtml.shared.UriUtils;
 
 import javax.lang.model.element.ExecutableElement;
+import java.net.URL;
 
 import static org.gwtproject.resources.client.DataResource.DoNotEmbed;
 import static org.gwtproject.resources.client.DataResource.MimeType;
@@ -33,9 +34,13 @@ public final class DataResourceGenerator extends AbstractResourceGenerator {
     @Override
     public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException {
+        ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
+        URL[] resources = resourceOracle.findResources(logger, method);
 
-        Resource resource = ResourceGeneratorUtil.getResource(logger, method, context.getGeneratorContext().getAptContext());
-
+        if (resources.length != 1) {
+            logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);
+            throw new UnableToCompleteException();
+        }
 
         // Determine if a MIME Type has been specified
         MimeType mimeTypeAnnotation = method.getAnnotation(MimeType.class);
@@ -45,12 +50,13 @@ public final class DataResourceGenerator extends AbstractResourceGenerator {
         DoNotEmbed doNotEmbed = method.getAnnotation(DoNotEmbed.class);
         boolean forceExternal = (doNotEmbed != null);
 
-        String outputUrlExpression = context.deploy(resource.getUrl(), mimeType, forceExternal);
+        URL resource = resources[0];
+        String outputUrlExpression = context.deploy(resource, mimeType, forceExternal);
 
         SourceWriter sw = new StringSourceWriter();
         // Convenience when examining the generated code.
         if (!AbstractResourceGenerator.STRIP_COMMENTS) {
-            sw.println("// " + resource.getUrl().getFile());
+            sw.println("// " + resource.toExternalForm());
         }
         sw.println("new " + DataResourcePrototype.class.getName() + "(");
         sw.indent();
