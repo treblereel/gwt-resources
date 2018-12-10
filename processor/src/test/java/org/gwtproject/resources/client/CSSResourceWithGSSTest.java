@@ -88,14 +88,14 @@ public class CSSResourceWithGSSTest extends CSSResourceTest {
             + Resources.INSTANCE.dataMethod().getSafeUri().asString() + ")"));
     assertTrue(text.contains("backgroundNested:url("
             + Resources.INSTANCE.nested().dataMethod().getSafeUri().asString() + ")"));
-   // assertTrue(text.contains("backgroundCustom:url("
-   //         + Resources.INSTANCE.customDataMethod().getSafeUri().asString() + ")"));
+    assertTrue(text.contains("backgroundCustom:url("
+            + Resources.INSTANCE.customDataMethod().getSafeUri().asString() + ")"));
     assertTrue(text.contains("backgroundImage:url("
             + Resources.INSTANCE.spriteMethod().getSafeUri().asString() + ")"));
     assertTrue(text.contains("backgroundImageNested:url("
             + Resources.INSTANCE.nested().spriteMethod().getSafeUri().asString() + ")"));
-    //assertTrue(text.contains("backgroundImageCustom:url("
-    //        + Resources.INSTANCE.customSpriteMethod().getSafeUri().asString() + ")"));
+    assertTrue(text.contains("backgroundImageCustom:url("
+            + Resources.INSTANCE.customSpriteMethod().getSafeUri().asString() + ")"));
 
     // Check @eval expansion
     assertTrue(text.contains(red()));

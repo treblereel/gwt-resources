@@ -475,16 +475,12 @@ public abstract class AbstractClientBundleGenerator extends Generator {
                                                ClientBundleFields fields) {
         // Defer failure until this phase has ended
         boolean fail = false;
-
         resourceContext.setCurrentResourceGenerator(rg);
-
         // Write all field values
         try {
             rg.createFields(logger.branch(TreeLogger.DEBUG, "Creating fields"), resourceContext, fields);
         } catch (UnableToCompleteException e) {
-
-            throw new NullPointerException(" createFieldsAndAssignments " + generatorMethods);
-            //return false;
+            return false;
         }
 
         // Create the instance variables in the IRB subclass by calling
@@ -535,12 +531,10 @@ public abstract class AbstractClientBundleGenerator extends Generator {
             sw.println("}");
 
             // Strip off all but the access modifiers
-            //sw.print( m.getReadableDeclaration(false, true, true, true, true));
             sw.print("public ");
             sw.print(Util.getQualifiedSourceName(MoreTypes.asElement(m.getReturnType()), aptContext.elements));
             sw.print(" ");
             sw.print(m.toString());
-            //sw.print("m.getReadableDeclaration(false, true, true, true, true)");
             sw.println(" {");
             sw.indentln("return " + initializerName + ".get();");
             sw.println("}");

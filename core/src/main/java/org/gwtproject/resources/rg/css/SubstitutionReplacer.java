@@ -117,8 +117,9 @@ public class SubstitutionReplacer extends CssVisitor {
                     e.printStackTrace();
                 }
 
-                boolean is = types.isAssignable(dataResourceType.asType(), methodType.asType());
-                boolean is2 = types.isAssignable(imageResourceType.asType(), methodType.asType());
+                boolean is = types.isSubtype(methodType.asType(), dataResourceType.asType());
+                boolean is2 = types.isSubtype(methodType.asType(), imageResourceType.asType());
+
 
                 boolean isClientBundle = methodType.getAnnotation(Resource.class) != null &&
                         types.isSubtype(methodType.asType(), clientBundleType.asType());

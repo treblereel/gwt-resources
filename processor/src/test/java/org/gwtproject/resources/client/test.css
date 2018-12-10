@@ -18,10 +18,10 @@
 @eval RED org.gwtproject.resources.client.CSSResourceTest.red();
 @url BACKGROUND dataMethod;
 @url NESTEDBACKGROUND nested.dataMethod;
-/*@url CUSTOMBACKGROUND customDataMethod;*/
+@url CUSTOMBACKGROUND customDataMethod;
 @url BACKGROUNDIMAGE spriteMethod;
 @url NESTEDBACKGROUNDIMAGE nested.spriteMethod;
-/*@url CUSTOMBACKGROUNDIMAGE customSpriteMethod;*/
+@url CUSTOMBACKGROUNDIMAGE customSpriteMethod;
 
 /* Check @def expansion */
 @def SPRITEWIDTH value("spriteMethod.getWidth", "px");

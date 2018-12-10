@@ -14,7 +14,6 @@ import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,42 +57,15 @@ public class AptContext {
     }
 
     private void userDefinedGenerators() {
-
-
         roundEnvironment.getElementsAnnotatedWith(ResourceGeneratorType.class).forEach(e -> {
-/*            e.getAnnotationMirrors().forEach(a -> {
-
-                System.out.println("A " + a);
-                a.getElementValues().forEach((k,v ) ->{
-                    System.out.println("??? " + k.getSimpleName().toString().equals("value") + " "  + v);
-                    String value = v.getValue().toString();
-                    System.out.println(value);
-                    try {
-                        Class.forName(value);
-                    } catch (ClassNotFoundException e1) {
-                        e1.printStackTrace();
-                    }
-                });
-
-            });*/
-
-
             ResourceGeneratorType resourceGeneratorType = e.getAnnotation(ResourceGeneratorType.class);
             String resourceGeneratorName = getResourceGeneratorType(resourceGeneratorType).toString();
-            URL location = AptContext.class.getProtectionDomain().getCodeSource().getLocation();
-            System.out.println(location.getFile());
-
-            System.out.println("? " + resourceGeneratorName);
-/*            try {
-
-
-                Class.forName(resourceGeneratorName);
-
+           try {
                 generators.put(e, (Class<? extends ResourceGenerator>) Class.forName(resourceGeneratorName));
             } catch (ClassNotFoundException e1) {
                 e1.printStackTrace();
                 throw new Error(e1);
-            }*/
+            }
         });
     }
 
@@ -101,11 +73,6 @@ public class AptContext {
         try {
             annotation.value();
         } catch (MirroredTypeException mte) {
-            //TypeMirror typeMirror = mte.getTypeMirror();
-            //System.out.println("? " + typeMirror.getKind());
-            //System.out.println("? " + MoreTypes.asElement(typeMirror).getEnclosingElement());
-            //System.out.println("? " + MoreTypes.asElement(typeMirror).getSimpleName().toString());
-            //MoreTypes.asElement(typeMirror).getAnnotationMirrors();
             return mte.getTypeMirror();
         }
         return null;
