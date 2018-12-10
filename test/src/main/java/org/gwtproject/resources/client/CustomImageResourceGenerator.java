@@ -15,7 +15,6 @@
  */
 package org.gwtproject.resources.client;
 
-import org.gwtproject.resources.client.impl.CustomDataResourcePrototype;
 import org.gwtproject.resources.ext.*;
 import org.gwtproject.resources.rg.util.SourceWriter;
 import org.gwtproject.resources.rg.util.StringSourceWriter;
@@ -24,24 +23,25 @@ import org.gwtproject.safehtml.shared.UriUtils;
 import javax.lang.model.element.ExecutableElement;
 import java.net.URL;
 
-/**
- * Generator for {@link CustomDataResource}.
- */
-public class CustomDataResourceGenerator extends AbstractResourceGenerator {
+
+public class CustomImageResourceGenerator extends AbstractResourceGenerator {
+
     @Override
     public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException {
 
         //TODO
-        URL resource = ResourceGeneratorUtil.findResource(logger, method).getUrl();
+/*        URL[] resources = ResourceGeneratorUtil.findResources(logger, context, method);
 
-/*        if (resources.length != 1) {
+        if (resources.length != 1) {
             logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);
             throw new UnableToCompleteException();
         }*/
 
+        URL resource = ResourceGeneratorUtil.findResource(logger, method).getUrl();
+
         SourceWriter sw = new StringSourceWriter();
-        sw.println("new " + CustomDataResourcePrototype.class.getName() + "(");
+        sw.println("new org.gwtproject.resources.client.impl.CustomImageResourcePrototype(");
         sw.indent();
         sw.println('"' + method.getSimpleName().toString() + "\",");
         // We don't care about it actually working, so just use the resource URL

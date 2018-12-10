@@ -102,16 +102,14 @@ public class CSSResourceTest extends GWTTestCase {
         assertTrue(text.contains("backgroundTopLevel:url('"
                 + Resources.INSTANCE.dataMethod().getSafeUri().asString() + "')"));
 
-        //assertEquals(text, "ZZ");
-
         assertTrue(text.contains("backgroundNested:url('"
                 + Resources.INSTANCE.nested().dataMethod().getSafeUri().asString() + "')"));
-        //assertTrue(text.contains("backgroundCustom:url('" + Resources.INSTANCE.customDataMethod().getSafeUri().asString() + "')"));
+        assertTrue(text.contains("backgroundCustom:url('" + Resources.INSTANCE.customDataMethod().getSafeUri().asString() + "')"));
         assertTrue(text.contains("backgroundImage:url('"
                 + Resources.INSTANCE.spriteMethod().getSafeUri().asString() + "')"));
         assertTrue(text.contains("backgroundImageNested:url('"
                 + Resources.INSTANCE.nested().spriteMethod().getSafeUri().asString() + "')"));
-        //assertTrue(text.contains("backgroundImageCustom:url('" + Resources.INSTANCE.customSpriteMethod().getSafeUri().asString() + "')"));
+        assertTrue(text.contains("backgroundImageCustom:url('" + Resources.INSTANCE.customSpriteMethod().getSafeUri().asString() + "')"));
 
         // Check @eval expansion
         assertTrue(text.contains(red() + ";"));
@@ -274,7 +272,7 @@ public class CSSResourceTest extends GWTTestCase {
         return "org.gwtproject.resources.ResourcesTestsModule";
     }
 
-    //@Resource
+    @Resource
     interface ChildResources extends Resources {
         ChildResources INSTANCE = ClientBundleFactory.get(ChildResources.class);
 
@@ -284,7 +282,7 @@ public class CSSResourceTest extends GWTTestCase {
     }
 
 
-    //@Resource
+    @Resource
     interface ConcatenatedResources {
         @Source(value = {"concatenatedA.css", "concatenatedB.css"})
         CssResource css();
@@ -376,7 +374,7 @@ public class CSSResourceTest extends GWTTestCase {
         String thisDoesNotMatter();
     }
 
-    //@Resource
+    @Resource
     interface SiblingResources {
         @Source("siblingTestA.css")
         MyCssResourceA a();
@@ -438,8 +436,8 @@ public class CSSResourceTest extends GWTTestCase {
         String myClass();
     }
 
-    //@Resource
-    interface NestedResources {
+    @Resource
+    interface NestedResources extends ClientBundle {
         @Source("32x32.png")
         DataResource dataMethod();
 
@@ -447,7 +445,7 @@ public class CSSResourceTest extends GWTTestCase {
         ImageResource spriteMethod();
     }
 
-    //@Resource
+    @Resource
     interface Resources {
         Resources INSTANCE = ClientBundleFactory.get(Resources.class);
 
@@ -460,6 +458,11 @@ public class CSSResourceTest extends GWTTestCase {
         @Source("test.css")
         FullTestCss css();
 
+        @Source("32x32.png")
+        CustomDataResource customDataMethod();
+
+        @Source("16x16.png")
+        CustomImageResource customSpriteMethod();
 
         @Source("32x32.png")
         DataResource dataMethod();

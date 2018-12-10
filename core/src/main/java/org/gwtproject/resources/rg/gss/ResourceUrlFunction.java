@@ -23,6 +23,7 @@ import com.google.common.css.compiler.ast.*;
 import com.google.common.css.compiler.gssfunctions.GssFunctions;
 import org.gwtproject.resources.client.DataResource;
 import org.gwtproject.resources.client.ImageResource;
+import org.gwtproject.resources.client.Resource;
 import org.gwtproject.resources.ext.NotFoundException;
 import org.gwtproject.resources.ext.ResourceContext;
 import org.gwtproject.resources.ext.ResourceGeneratorUtil;
@@ -59,6 +60,7 @@ public class ResourceUrlFunction implements GssFunction {
         types = context.getGeneratorContext().getAptContext().types;
 
         this.methodByPathHelper = methodByPathHelper;
+
 
         dataResourceType = elements.getTypeElement(DataResource.class.getCanonicalName());
         imageResourceType = elements.getTypeElement(ImageResource.class.getCanonicalName());
@@ -109,14 +111,19 @@ public class ResourceUrlFunction implements GssFunction {
             throw new GssFunctionException(message, e);
         }
 
-        boolean is = types.isAssignable(dataResourceType.asType(), methodType.asType());
-        boolean is2 = types.isAssignable(imageResourceType.asType(), methodType.asType());
+        boolean isClientBundle = methodType.getAnnotation(Resource.class) != null &&
+                types.isSubtype(methodType.asType(), methodType.asType());
 
-        if (!is && !is2) {
-            String message = "Invalid method type for url substitution: " + methodType + ". " +
-                    "Only DataResource and ImageResource are supported.";
-            errorManager.report(new GssError(message, location));
-            throw new GssFunctionException(message);
+        boolean is = types.isSubtype(methodType.asType(), dataResourceType.asType());
+        boolean is2 = types.isSubtype(methodType.asType(), imageResourceType.asType());
+
+        if (!isClientBundle) {
+            if (!is && !is2) {
+                String message = "Invalid method type for url substitution: " + methodType + ". " +
+                        "Only DataResource and ImageResource are supported.";
+                errorManager.report(new GssError(message, location));
+                throw new GssFunctionException(message);
+            }
         }
     }
 

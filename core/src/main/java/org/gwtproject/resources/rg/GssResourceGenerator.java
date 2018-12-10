@@ -628,7 +628,6 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
                                                        Set<String> configurationProperties, TreeLogger logger) throws UnableToCompleteException {
         ImmutableSet.Builder<String> setBuilder = ImmutableSet.builder();
         PropertyOracle oracle = context.getGeneratorContext().getPropertyOracle();
-
         for (String property : configurationProperties) {
             SelectionProperty confProp = oracle.getSelectionProperty(logger, property);
             if (!"true".equals(confProp.getCurrentValue()) && !"false".equals(confProp.getCurrentValue())) {
@@ -648,7 +647,6 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
                                                             List<String> permutationAxes, TreeLogger logger) throws UnableToCompleteException {
         PropertyOracle oracle = context.getGeneratorContext().getPropertyOracle();
         ImmutableSet.Builder<String> setBuilder = ImmutableSet.builder();
-
         for (String permutationAxis : permutationAxes) {
             SelectionProperty selProp = oracle.getSelectionProperty(logger,
                     permutationAxis);

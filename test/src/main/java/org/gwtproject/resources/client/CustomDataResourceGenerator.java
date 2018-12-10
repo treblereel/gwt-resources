@@ -15,40 +15,35 @@
  */
 package org.gwtproject.resources.client;
 
-import org.gwtproject.resources.client.impl.CustomImageResourcePrototype;
 import org.gwtproject.resources.ext.*;
 import org.gwtproject.resources.rg.util.SourceWriter;
 import org.gwtproject.resources.rg.util.StringSourceWriter;
 import org.gwtproject.safehtml.shared.UriUtils;
 
 import javax.lang.model.element.ExecutableElement;
-import java.net.URL;
 
-/**
- * Generator for {@link CustomImageResource}.
- */
-public class CustomImageResourceGenerator extends AbstractResourceGenerator {
-
+public class CustomDataResourceGenerator extends AbstractResourceGenerator {
     @Override
     public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException {
 
         //TODO
-/*        URL[] resources = ResourceGeneratorUtil.findResources(logger, context, method);
+        org.gwtproject.resources.ext.Resource resource = ResourceGeneratorUtil.findResource(logger, method);
 
-        if (resources.length != 1) {
+
+        String outputUrlExpression = context.deploy(resource.getUrl(), null, false);
+
+/*        if (resources.length != 1) {
             logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);
             throw new UnableToCompleteException();
         }*/
 
-        URL resource = ResourceGeneratorUtil.findResource(logger, method).getUrl();
-
         SourceWriter sw = new StringSourceWriter();
-        sw.println("new " + CustomImageResourcePrototype.class.getName() + "(");
+        sw.println("new org.gwtproject.resources.client.impl.CustomDataResourcePrototype(");
         sw.indent();
         sw.println('"' + method.getSimpleName().toString() + "\",");
         // We don't care about it actually working, so just use the resource URL
-        sw.println(UriUtils.class.getName() + ".fromTrustedString(\"" + resource.toExternalForm() + "\")");
+        sw.println(UriUtils.class.getCanonicalName() + ".fromTrustedString(" + outputUrlExpression + ")");
         sw.outdent();
         sw.print(")");
 
