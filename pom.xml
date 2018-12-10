@@ -58,6 +58,7 @@
         <auto.common.version>0.10</auto.common.version>
         <auto.service.version>1.0-rc4</auto.service.version>
         <commons-io.version>2.6</commons-io.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
         <junit.version>4.11</junit.version>
         <maven.compiler.version>3.6.0</maven.compiler.version>
         <maven.checkstyle.plugin>2.17</maven.checkstyle.plugin>
@@ -100,6 +101,11 @@
             <groupId>org.gwtproject.http</groupId>
             <artifactId>gwt-http</artifactId>
             <version>HEAD-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb-api.version}</version>
         </dependency>
     </dependencies>
 
