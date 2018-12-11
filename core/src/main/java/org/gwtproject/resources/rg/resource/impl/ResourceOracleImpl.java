@@ -98,7 +98,6 @@ public class ResourceOracleImpl implements ResourceOracle {
         } else {
             // The user has put an @Source annotation on the accessor method
             String[] resources = resourceAnnotation.value();
-
             toReturn = findResources(MoreElements.getPackage(method.getEnclosingElement()).getQualifiedName().toString(), resources);
             if (toReturn == null) {
                 error = true;
@@ -132,6 +131,11 @@ public class ResourceOracleImpl implements ResourceOracle {
             URL resource = findResource(packageName, pathName[i]);
             if (resource != null) {
                 result.add(resource);
+            } else {
+                resource = findResource(pathName[i]);
+                if (resource != null) {
+                    result.add(resource);
+                }
             }
         }
         if (result.size() > 0) {
@@ -175,16 +179,9 @@ public class ResourceOracleImpl implements ResourceOracle {
         }
         for (Location location : searchLocations) {
             try {
-                //try relative first
                 FileObject fileObject = aptContext.filer.getResource(location, pkg, relativeName);
                 if (new File(fileObject.getName()).exists()) {
                     return fileObject.toUri().toURL();
-                } else {
-                    //try absolute
-                    fileObject = aptContext.filer.getResource(location, "", relativeName);
-                    if (new File(fileObject.getName()).exists()) {
-                        return fileObject.toUri().toURL();
-                    }
                 }
             } catch (IOException ignored) {
                 // ignored
