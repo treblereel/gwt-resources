@@ -127,12 +127,8 @@ public class ResourceOracleImpl implements ResourceOracle {
 
     @Override
     public URL[] findResources(CharSequence packageName, CharSequence[] pathName) {
-
-        System.out.println(" findResources packageName " + packageName);
-
         List<URL> result = new ArrayList<>();
         for (int i = 0; i < pathName.length; i++) {
-            System.out.println(" in " + pathName[i]);
             URL resource = findResource(packageName, pathName[i]);
             if (resource != null) {
                 result.add(resource);
