@@ -179,17 +179,20 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
      */
     static URL[] findResources(TreeLogger logger, ResourceContext context, ExecutableElement method,
                                boolean gssEnabled) throws UnableToCompleteException {
+
         boolean isSourceAnnotationUsed = method.getAnnotation(Source.class) != null;
+
+        ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
 
         if (!isSourceAnnotationUsed) {
             // ResourceGeneratorUtil will try to find automatically the resource file. Give him the right
             // extension to use first
             String[] extensions = gssEnabled ?
                     new String[]{".gss", ".css"} : new String[]{".css", ".gss"};
-            return ResourceGeneratorUtil.findResources(logger, method, extensions);
+            return resourceOracle.findResources(logger, method, extensions);
         }
         // find the original resource files specified by the @Source annotation
-        URL[] originalResources = ResourceGeneratorUtil.findResources(logger, method);
+        URL[] originalResources = resourceOracle.findResources(logger, method);
         URL[] resourcesToUse = new URL[originalResources.length];
 
         String preferredExtension = gssEnabled ? ".gss" : ".css";
@@ -206,12 +209,11 @@ public class GssResourceGenerator extends AbstractCssResourceGenerator {
 
                 // try to find the resource relative to the package
                 String path = MoreElements.getPackage(method).getQualifiedName().toString().replace('.', '/') + '/';
-                URL preferredUrl = ResourceGeneratorUtil
-                        .tryFindResource(path + preferredFile, null);
+                URL preferredUrl = resourceOracle.findResource(path + preferredFile);
 
                 if (preferredUrl == null) {
                     // if it doesn't exist, assume it is absolute
-                    preferredUrl = ResourceGeneratorUtil.tryFindResource(preferredFile, null);
+                    preferredUrl = resourceOracle.findResource(preferredFile);
                 }
 
                 if (preferredUrl == null) {

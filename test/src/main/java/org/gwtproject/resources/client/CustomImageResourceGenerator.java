@@ -30,15 +30,15 @@ public class CustomImageResourceGenerator extends AbstractResourceGenerator {
     public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method)
             throws UnableToCompleteException {
 
-        //TODO
-/*        URL[] resources = ResourceGeneratorUtil.findResources(logger, context, method);
+        ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
+        URL[] resources = resourceOracle.findResources(logger, method);
 
         if (resources.length != 1) {
             logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);
             throw new UnableToCompleteException();
-        }*/
+        }
 
-        URL resource = ResourceGeneratorUtil.findResource(logger, method).getUrl();
+        URL resource = resources[0];
 
         SourceWriter sw = new StringSourceWriter();
         sw.println("new org.gwtproject.resources.client.impl.CustomImageResourcePrototype(");
