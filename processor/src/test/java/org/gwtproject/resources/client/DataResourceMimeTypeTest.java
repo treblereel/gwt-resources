@@ -73,7 +73,7 @@ public class DataResourceMimeTypeTest extends GWTTestCase {
     }
 
     public void testMimeTypeAnnotationMissingDefaultsToContentUnknown() {
-        DataResourceMimeType r = new DataResourceMimeTypeTestDataResourceMimeTypeImpl();
+        DataResourceMimeType r = new DataResourceMimeTypeTest_DataResourceMimeTypeImpl();
         String url = r.resourceMimeTypeNoAnnotation().getSafeUri().asString();
         if (url.startsWith("http")) {
             // Skip test, MIME Type will be provided by the HTTP server
@@ -83,7 +83,7 @@ public class DataResourceMimeTypeTest extends GWTTestCase {
     }
 
     public void testMimeTypeAnnotationOverridesDefaultMimeType() {
-        DataResourceMimeType r = new DataResourceMimeTypeTestDataResourceMimeTypeImpl();
+        DataResourceMimeType r = new DataResourceMimeTypeTest_DataResourceMimeTypeImpl();
         String url = r.resourceMimeTypeAnnotationAudioOgg().getSafeUri().asString();
         if (url.startsWith("http")) {
             // Skip test, MIME Type will be provided by the HTTP server
@@ -93,7 +93,7 @@ public class DataResourceMimeTypeTest extends GWTTestCase {
     }
 
     public void testMimeTypeAnnotationWithCodecs() {
-        DataResourceMimeType r = new DataResourceMimeTypeTestDataResourceMimeTypeImpl();
+        DataResourceMimeType r = new DataResourceMimeTypeTest_DataResourceMimeTypeImpl();
         String url = r.resourceMimeTypeAnnotationWithCodecs().getSafeUri().asString();
         if (url.startsWith("http")) {
             // Skip test, MIME Type will be provided by the HTTP server
@@ -103,7 +103,7 @@ public class DataResourceMimeTypeTest extends GWTTestCase {
     }
 
     public void testMimeTypeAnnotationWithQuotedCodecsList() {
-        DataResourceMimeType r = new DataResourceMimeTypeTestDataResourceMimeTypeImpl();
+        DataResourceMimeType r = new DataResourceMimeTypeTest_DataResourceMimeTypeImpl();
         String url = r.resourceMimeTypeAnnotationWithQuotedCodecsList().getSafeUri().asString();
         if (url.startsWith("http")) {
             // Skip test, MIME Type will be provided by the HTTP server

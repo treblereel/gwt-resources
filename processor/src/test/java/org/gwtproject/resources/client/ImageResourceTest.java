@@ -69,7 +69,7 @@ public class ImageResourceTest extends GWTTestCase {
     }
 
     public void testAnimated() {
-        ImageResources r = new ImageResourceTestImageResourcesImpl();
+        ImageResources r = new ImageResourceTest_ImageResourcesImpl();
 
         ImageResource a = r.animated();
 
@@ -83,7 +83,7 @@ public class ImageResourceTest extends GWTTestCase {
     }
 
     public void testDedup() {
-        ImageResources r = new ImageResourceTestImageResourcesImpl();
+        ImageResources r = new ImageResourceTest_ImageResourcesImpl();
 
         ImageResource a = r.i64x64();
         ImageResource b = r.i64x64Dup();
@@ -93,7 +93,7 @@ public class ImageResourceTest extends GWTTestCase {
     }
 
     public void testPacking() {
-        ImageResources r = new ImageResourceTestImageResourcesImpl();
+        ImageResources r = new ImageResourceTest_ImageResourcesImpl();
 
         ImageResource i64 = r.i64x64();
         ImageResource lossy = r.largeLossy();
@@ -120,7 +120,7 @@ public class ImageResourceTest extends GWTTestCase {
     }
 
     public void testPreventInlining() {
-        ImageResources r = new ImageResourceTestImageResourcesImpl();
+        ImageResources r = new ImageResourceTest_ImageResourcesImpl();
         ImageResource a = r.i16x16();
         ImageResource b = r.i32x32();
         ImageResource c = r.linuxLogo();

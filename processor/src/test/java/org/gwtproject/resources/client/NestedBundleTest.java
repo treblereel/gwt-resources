@@ -37,12 +37,12 @@ public class NestedBundleTest extends GWTTestCase {
   }
 
   public void testNestedBundle() {
-    NestedBundle b = new NestedBundleTestNestedBundleImpl();
+    NestedBundle b = new NestedBundleTest_NestedBundleImpl();
     assertSame(b.hello(), b.nested().hello());
   }
 
   public void testNestedCreateOverride() {
-    NestedBundle b = new NestedBundleTestNestedBundleImpl();
+    NestedBundle b = new NestedBundleTest_NestedBundleImpl();
     assertTrue(b.nested() instanceof NestedBundle);
   }
 }

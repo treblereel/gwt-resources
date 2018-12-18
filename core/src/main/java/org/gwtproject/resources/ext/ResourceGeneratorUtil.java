@@ -2,19 +2,18 @@ package org.gwtproject.resources.ext;
 
 import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
+import com.google.common.base.Joiner;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.ElementKindVisitor8;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 
 /**
  * @author Dmitrii Tikhomirov
@@ -93,13 +92,14 @@ public class ResourceGeneratorUtil {
      * class based on accumulated requirements.
      */
     public static String generateSimpleSourceName(TreeLogger logger, TypeElement element) {
-        StringBuilder toReturn = new StringBuilder();
-        if (!element.getEnclosingElement().getKind().equals(ElementKind.PACKAGE)) {
-            toReturn.append(element.getEnclosingElement().getSimpleName().toString());
+        List<String> hierarchy = new ArrayList<>();
+        Element enclosingElement = element;
+        while (!enclosingElement.getKind().equals(ElementKind.PACKAGE)) {
+          hierarchy.add(enclosingElement.getSimpleName().toString());
+          enclosingElement = enclosingElement.getEnclosingElement();
         }
-        toReturn.append(element.getSimpleName().toString().replaceAll("[.$]", "_"));
-        toReturn.append("Impl");
-        return toReturn.toString();
+        Collections.reverse(hierarchy);
+        return Joiner.on("_").join(hierarchy) + "Impl";
     }
 
     public static Set<TypeMirror> getAllParents(TypeElement candidate) {

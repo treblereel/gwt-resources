@@ -52,14 +52,14 @@ public class DataResourceDoNotEmbedTest extends GWTTestCase {
     }
 
     public void testDoNotEmbedAnnotationMissingShouldEmbed() {
-        DataResourcesDoNotEmbed r = new DataResourceDoNotEmbedTestDataResourcesDoNotEmbedImpl();
+        DataResourcesDoNotEmbed r = new DataResourceDoNotEmbedTest_DataResourcesDoNotEmbedImpl();
         String url = r.resourceDoNotEmbedAnnotationMissing().getSafeUri().asString();
         assertTrue("url '" + url + "' doesn't start with'" + DATA_URL_SCHEME + "'",
                 url.startsWith(DATA_URL_SCHEME));
     }
 
     public void testDoNotEmbedAnnotationPresentShouldNotEmbed() {
-        DataResourcesDoNotEmbed r = new DataResourceDoNotEmbedTestDataResourcesDoNotEmbedImpl();
+        DataResourcesDoNotEmbed r = new DataResourceDoNotEmbedTest_DataResourcesDoNotEmbedImpl();
         String url = r.resourceDoNotEmbedAnnotationPresent().getSafeUri().asString();
         assertFalse(
                 "url '" + url + "' mustn't start with'" + DATA_URL_SCHEME + "'",
