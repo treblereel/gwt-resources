@@ -17,7 +17,6 @@ package org.gwtproject.resources.client.gss;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.resources.client.ClientBundle;
-import org.gwtproject.resources.client.ClientBundleFactory;
 import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.Resource;
 import org.junit.Ignore;
@@ -32,7 +31,7 @@ public class GssResourceRTLTest extends GWTTestCase {
     String a();
   }
 
-//  @Resource
+  @Resource
   public interface Resources extends ClientBundle {
     @Source("rtl.css")
     Css css();
@@ -44,7 +43,7 @@ public class GssResourceRTLTest extends GWTTestCase {
   }
 
   public void test() {
-    Resources r = ClientBundleFactory.get(Resources.class);
+    Resources r = new GssResourceRTLTestResourcesImpl();
 
     String css = r.css().getText();
     assertTrue(css.contains("direction:ltr"));
