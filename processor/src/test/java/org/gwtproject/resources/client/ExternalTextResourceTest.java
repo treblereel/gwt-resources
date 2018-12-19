@@ -32,7 +32,7 @@ public class ExternalTextResourceTest extends GWTTestCase {
 
     public void testExternal() {
 
-        final ExternalTextResources r = ClientBundleFactory.get(ExternalTextResources.class);
+        final ExternalTextResources r = new ExternalTextResourceTestExternalTextResourcesImpl();
         assertEquals("helloWorldExternal", r.getResource("helloWorldExternal").getName());
         assertEquals("needsEscapeExternal", r.getResource("needsEscapeExternal").getName());
 

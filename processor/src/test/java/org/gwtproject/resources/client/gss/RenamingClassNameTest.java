@@ -17,7 +17,6 @@
 package org.gwtproject.resources.client.gss;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.resources.client.ClientBundleFactory;
 
 import static org.gwtproject.resources.client.gss.TestResources.*;
 
@@ -59,7 +58,7 @@ public abstract class RenamingClassNameTest extends GWTTestCase {
   }
 
   public void testObfuscationScope() {
-    ScopeResource res = ClientBundleFactory.get(ScopeResource.class);
+    ScopeResource res = new ScopeResourceImpl();
 
     assertEquals(res.scopeA().foo(), res.scopeA2().foo());
     assertNotSame(res.scopeA().foo(), res.scopeB().foo());
@@ -69,7 +68,7 @@ public abstract class RenamingClassNameTest extends GWTTestCase {
 
   public void testImportAndImportWithPrefix() {
     TestImportCss css = res().testImportCss();
-    ImportResource importResource = ClientBundleFactory.get(ImportResource.class);
+    ImportResource importResource = new ImportResourceImpl();
     ImportResource.ImportCss importCss = importResource.importCss();
     ImportResource.ImportWithPrefixCss importWithPrefixCss = importResource.importWithPrefixCss();
 
@@ -80,7 +79,7 @@ public abstract class RenamingClassNameTest extends GWTTestCase {
   }
 
   public void testSharedScope() {
-    ScopeResource res = ClientBundleFactory.get(ScopeResource.class);
+    ScopeResource res = new ScopeResourceImpl();
     TestResources res2 = res();
 
     // shareClassName1 is shared
@@ -113,6 +112,6 @@ public abstract class RenamingClassNameTest extends GWTTestCase {
   public abstract void testClassesRenaming();
 
   protected TestResources res() {
-    return ClientBundleFactory.get(TestResources.class);
+    return new TestResourcesImpl();
   }
 }

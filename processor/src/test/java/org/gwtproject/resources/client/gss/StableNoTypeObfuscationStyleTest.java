@@ -17,7 +17,6 @@
 package org.gwtproject.resources.client.gss;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.resources.client.ClientBundleFactory;
 import org.junit.Ignore;
 
 import static org.gwtproject.resources.client.gss.TestResources.ClassNameAnnotation;
@@ -34,7 +33,7 @@ public class StableNoTypeObfuscationStyleTest extends GWTTestCase {
   }
 
   public void testClassesRenaming() {
-    TestResources testResources  = ClientBundleFactory.get(TestResources.class);
+    TestResources testResources  = new TestResourcesImpl();
     ClassNameAnnotation classNameAnnotation = testResources.classNameAnnotation();
 
     String renamedClass = classNameAnnotation.renamedClass();

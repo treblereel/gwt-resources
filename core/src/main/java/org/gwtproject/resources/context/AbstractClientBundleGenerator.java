@@ -101,20 +101,14 @@ public abstract class AbstractClientBundleGenerator extends Generator {
     private AptContext aptContext;
 
     @Override
-    public Map<TypeElement, String> generate(TreeLogger logger, GeneratorContext generatorContext, Set<TypeElement> bundles) throws UnableToCompleteException {
+    public void generate(TreeLogger logger, GeneratorContext generatorContext, Set<TypeElement> bundles) throws UnableToCompleteException {
         this.aptContext = generatorContext.getAptContext();
-        Map<TypeElement, String> generatedSimpleSourceNames = new HashMap<>();
-
         for (TypeElement bundle : bundles) {
             initAndPrepare(logger, generatorContext, bundle);
         }
-
         for (TypeElement bundle : bundles) {
-            String generatedSimpleSourceName = process(logger, generatorContext, bundle);
-            generatedSimpleSourceNames.put(bundle, generatedSimpleSourceName);
+            process(logger, generatorContext, bundle);
         }
-
-        return generatedSimpleSourceNames;
     }
 
     private void initAndPrepare(TreeLogger logger, GeneratorContext generatorContext, TypeElement bundle) throws UnableToCompleteException {
@@ -335,7 +329,7 @@ public abstract class AbstractClientBundleGenerator extends Generator {
         throw new UnableToCompleteException();
     }
 
-    private String process(TreeLogger logger, GeneratorContext generatorContext, TypeElement bundle) throws UnableToCompleteException {
+    private void process(TreeLogger logger, GeneratorContext generatorContext, TypeElement bundle) throws UnableToCompleteException {
         Map<Class<? extends ResourceGenerator>, List<ExecutableElement>> taskList = taskListByTypeElement.get(bundle);
         FieldsImpl fields = typeElementFieldsMap.get(bundle);
         AbstractResourceContext resourceContext = typeElementResourceContextsMap.get(bundle);
@@ -389,7 +383,6 @@ public abstract class AbstractClientBundleGenerator extends Generator {
 
         finish(logger, resourceContext, generators.keySet());
         doFinish(logger);
-        return generatedSimpleSourceName;
     }
 
     /**

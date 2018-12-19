@@ -29,7 +29,6 @@ public class ClientBundleClassBuilder {
     public void process() throws UnableToCompleteException {
         StandardGeneratorContext standardGeneratorContext = new StandardGeneratorContext(context);
         InlineClientBundleGenerator inlineClientBundleGenerator = new InlineClientBundleGenerator();
-        Map<TypeElement, String> generatedSimpleSourceNames = inlineClientBundleGenerator.generate(logger, standardGeneratorContext, elements);
-        new ClientBundleFactoryBuilder(generatedSimpleSourceNames, context).build();
+        inlineClientBundleGenerator.generate(logger, standardGeneratorContext, elements);
     }
 }

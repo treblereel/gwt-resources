@@ -17,7 +17,6 @@
 package org.gwtproject.resources.client.gss;
 
 import com.google.gwt.junit.client.GWTTestCase;
-import org.gwtproject.resources.client.ClientBundleFactory;
 
 import static org.gwtproject.resources.client.gss.AutoConversionBundle.*;
 
@@ -70,7 +69,7 @@ public class AutoConversionTest extends GWTTestCase {
   }
 
   private AutoConversionBundle res() {
-    return ClientBundleFactory.get(AutoConversionBundle.class);
+    return new AutoConversionBundleImpl();
   }
 
 }
