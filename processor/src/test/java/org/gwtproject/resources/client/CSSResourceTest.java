@@ -29,15 +29,15 @@ import static org.gwtproject.resources.client.CssResource.*;
 public class CSSResourceTest extends GWTTestCase {
 
     public void testChildResources() {
-        Resources parentResource = new CSSResourceTestResourcesImpl();
-        ChildResources childResource = new CSSResourceTestChildResourcesImpl();
+        Resources parentResource = new CSSResourceTest_ResourcesImpl();
+        ChildResources childResource = new CSSResourceTest_ChildResourcesImpl();
 
         assertEquals(parentResource.dataMethod().getName(),
                 childResource.dataMethod().getName());
     }
 
     public void testConcatenatedResource() {
-        ConcatenatedResources r = new CSSResourceTestConcatenatedResourcesImpl();
+        ConcatenatedResources r = new CSSResourceTest_ConcatenatedResourcesImpl();
         String text = r.css().getText();
         assertTrue(text.contains(".partA"));
         assertTrue(text.contains(".partB"));
@@ -158,7 +158,7 @@ public class CSSResourceTest extends GWTTestCase {
     }
 
     public void testDefines() {
-        Resources r = new CSSResourceTestResourcesImpl();
+        Resources r = new CSSResourceTest_ResourcesImpl();
         CssWithDefines defines = r.deftest();
 
         assertEquals(1, defines.rawInt());
@@ -188,13 +188,13 @@ public class CSSResourceTest extends GWTTestCase {
     }
 
     public void testEnsureInjected() {
-        Resources r = new CSSResourceTestResourcesImpl();
+        Resources r = new CSSResourceTest_ResourcesImpl();
         assertTrue(r.empty().ensureInjected());
 
-        r = new CSSResourceTestResourcesImpl();
+        r = new CSSResourceTest_ResourcesImpl();
         assertFalse(r.empty().ensureInjected());
 
-        r = new CSSResourceTestChildResourcesImpl();
+        r = new CSSResourceTest_ChildResourcesImpl();
         assertTrue(r.empty().ensureInjected());
     }
 
@@ -228,8 +228,8 @@ public class CSSResourceTest extends GWTTestCase {
     }
 
     public void testMultipleBundles() {
-        Resources r1 = new CSSResourceTestResourcesImpl();
-        SiblingResources r2 = new CSSResourceTestSiblingResourcesImpl();
+        Resources r1 = new CSSResourceTest_ResourcesImpl();
+        SiblingResources r2 = new CSSResourceTest_SiblingResourcesImpl();
 
         assertEquals(r1.a().replacement(), r2.a().replacement());
         assertEquals(r1.b().replacement(), r2.b().replacement());
@@ -248,7 +248,7 @@ public class CSSResourceTest extends GWTTestCase {
     }
 
     public void testSiblingCSS() {
-        SiblingResources r = new CSSResourceTestSiblingResourcesImpl();
+        SiblingResources r = new CSSResourceTest_SiblingResourcesImpl();
 
         assertFalse(r.a().replacement().equals(r.b().replacement()));
         assertFalse(r.a().local().equals(r.b().local()));
@@ -274,7 +274,7 @@ public class CSSResourceTest extends GWTTestCase {
 
     @Resource
     interface ChildResources extends Resources {
-        ChildResources INSTANCE = new CSSResourceTestChildResourcesImpl();
+        ChildResources INSTANCE = new CSSResourceTest_ChildResourcesImpl();
 
         @Override
         @Source("16x16.png")
@@ -447,7 +447,7 @@ public class CSSResourceTest extends GWTTestCase {
 
     @Resource
     interface Resources {
-        Resources INSTANCE = new CSSResourceTestResourcesImpl();
+        Resources INSTANCE = new CSSResourceTest_ResourcesImpl();
 
         @Source("siblingTestA.css")
         MyCssResourceA a();

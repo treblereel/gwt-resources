@@ -43,7 +43,7 @@ public class GssResourceRTLTest extends GWTTestCase {
   }
 
   public void test() {
-    Resources r = new GssResourceRTLTestResourcesImpl();
+    Resources r = new GssResourceRTLTest_ResourcesImpl();
 
     String css = r.css().getText();
     assertTrue(css.contains("direction:ltr"));

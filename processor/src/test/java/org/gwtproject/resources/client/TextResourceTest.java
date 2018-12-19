@@ -20,20 +20,20 @@ public class TextResourceTest extends GWTTestCase {
      * when run in Development Mode.
      */
     public void testBigTextResource() {
-        final Resources r = new TextResourceTestResourcesImpl();
+        final Resources r = new TextResourceTest_ResourcesImpl();
         String result = r.bigTextResource().getText();
         int length = result.length();
         assertEquals(12737792, length);
     }
 
     public void testInline() {
-        Resources r = new TextResourceTestResourcesImpl();
+        Resources r = new TextResourceTest_ResourcesImpl();
         assertEquals(HELLO, r.helloWorldRelative().getText());
         assertEquals(HELLO, r.helloWorldAbsolute().getText());
     }
 
     public void testMeta() {
-        Resources r = new TextResourceTestResourcesImpl();
+        Resources r = new TextResourceTest_ResourcesImpl();
 
         //assertEquals(GWT.getModuleBaseForStaticFiles(), DomGlobal.location.getOrigin());
 
@@ -47,7 +47,7 @@ public class TextResourceTest extends GWTTestCase {
     }
 
     public void testAnotatelessExternalText() {
-        Resources r = new TextResourceTestResourcesImpl();
+        Resources r = new TextResourceTest_ResourcesImpl();
 
         try {
             r.helloWorldExternal().getText(new ResourceCallback<TextResource>() {
@@ -68,12 +68,12 @@ public class TextResourceTest extends GWTTestCase {
     }
 
     public void testAnotatelessText() {
-        Resources r = new TextResourceTestResourcesImpl();
+        Resources r = new TextResourceTest_ResourcesImpl();
         assertEquals(HELLO, r.hello().getText());
     }
 
     public void testOutsideResourceOracle() {
-        Resources r = new TextResourceTestResourcesImpl();
+        Resources r = new TextResourceTest_ResourcesImpl();
         assertTrue(r.helloWorldOutsideResourceOracle().getText().startsWith(HELLO));
     }
 
