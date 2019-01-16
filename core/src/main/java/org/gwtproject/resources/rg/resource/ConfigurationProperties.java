@@ -90,13 +90,13 @@ public final class ConfigurationProperties {
 
             String cacheLocation = System.getProperty(KEY_CLIENT_BUNDLE_CACHE_LOCATION);
             if (cacheLocation != null) {
-                gwtCacheDir = new File(path.toUri().getPath() + cacheLocation);
+                gwtCacheDir = new File(cacheLocation);
             } else {
                 gwtCacheDir = new File(path.toUri().getPath() + CLIENT_BUNDLE_DEFAULT_CACHE_LOCATION);
             }
 
             if (!gwtCacheDir.exists()) {
-                gwtCacheDir.mkdir();
+                gwtCacheDir.mkdirs();
             }
             holder.put(KEY_CLIENT_BUNDLE_CACHE_LOCATION,
                     new DefaultConfigurationProperty(KEY_CLIENT_BUNDLE_CACHE_LOCATION, Arrays.asList(gwtCacheDir.toString())));

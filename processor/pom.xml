@@ -192,7 +192,7 @@
                                 </property>
                                 <property>
                                     <name>ClientBundle.cacheLocation</name>
-                                    <value>src/test/java/org/gwtproject/resources/cache/gwt-cache</value>
+                                    <value>processor/src/test/java/org/gwtproject/resources/cache/gwt-cache</value>
                                 </property>
                                 <property>
                                     <name>ClientBundle.cacheUrl</name>
