@@ -3,7 +3,11 @@ package org.gwtproject.resources.rg.resource.impl;
 import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
 import org.gwtproject.resources.context.AptContext;
-import org.gwtproject.resources.ext.*;
+import org.gwtproject.resources.ext.DefaultExtensions;
+import org.gwtproject.resources.ext.ResourceGeneratorUtil;
+import org.gwtproject.resources.ext.ResourceOracle;
+import org.gwtproject.resources.ext.TreeLogger;
+import org.gwtproject.resources.ext.UnableToCompleteException;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
@@ -182,6 +186,13 @@ public class ResourceOracleImpl implements ResourceOracle {
                 FileObject fileObject = aptContext.filer.getResource(location, pkg, relativeName);
                 if (new File(fileObject.getName()).exists()) {
                     return fileObject.toUri().toURL();
+                } else {
+                    fileObject = aptContext.filer.getResource(location, "", relativeName);
+                    if (new File(fileObject.getName()).exists()) {
+                        return fileObject.toUri().toURL();
+                    } else {
+                        return readFileFromClasspath(pkg.toString(), relativeName.toString());
+                    }
                 }
             } catch (IOException ignored) {
                 // ignored
@@ -189,5 +200,17 @@ public class ResourceOracleImpl implements ResourceOracle {
         }
         // unable to locate, return null.
         return null;
+    }
+
+    public URL readFileFromClasspath(String pkg, String fileName) {
+        if(!pkg.isEmpty()) {
+            pkg = pkg.replaceAll("\\.","/")+"/";
+        }
+        URL fileUrl = getClass().getClassLoader().getResource(pkg + fileName);
+        if(fileUrl != null) {
+            return fileUrl;
+        } else {
+            return null;
+        }
     }
 }

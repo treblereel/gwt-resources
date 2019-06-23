@@ -19,14 +19,36 @@ import org.gwtproject.resources.ext.Resource;
 import org.gwtproject.resources.ext.TreeLogger;
 import org.gwtproject.resources.ext.UnableToCompleteException;
 import org.gwtproject.resources.rg.util.tools.Utility;
-import org.w3c.dom.*;
+import org.w3c.dom.Attr;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
-import javax.xml.bind.DatatypeConverter;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.net.URL;
 import java.net.URLConnection;
@@ -40,6 +62,8 @@ public final class Util {
 
     private static final String FILE_PROTOCOL = "file";
     private static final String JAR_PROTOCOL = "jar";
+    private static final char[] hexCode = "0123456789ABCDEF".toCharArray();
+
     /**
      * The size of a {@link #threadLocalBuf}, which should be large enough for
      * efficient data transfer but small enough to fit easily into the L2 cache of
@@ -93,7 +117,21 @@ public final class Util {
         for (int i = 0; i < contents.length; i++) {
             md5.update(contents[i]);
         }
-        return DatatypeConverter.printHexBinary(md5.digest()).toUpperCase();
+        return printHexBinary(md5.digest()).toUpperCase();
+    }
+
+    public static String printHexBinary(byte[] data) {
+        StringBuilder r = new StringBuilder(data.length * 2);
+        byte[] var3 = data;
+        int var4 = data.length;
+
+        for(int var5 = 0; var5 < var4; ++var5) {
+            byte b = var3[var5];
+            r.append(hexCode[b >> 4 & 15]);
+            r.append(hexCode[b & 15]);
+        }
+
+        return r.toString();
     }
 
     /**
@@ -459,7 +497,6 @@ public final class Util {
     }
 
     public static byte[] readURLConnectionAsBytes(URLConnection connection) {
-        // ENH: add a weak cache that has an additional check against the file date
         InputStream input = null;
         try {
             input = connection.getInputStream();
@@ -467,7 +504,6 @@ public final class Util {
             if (contentLength < 0) {
                 return null;
             }
-
             return readBytesFromInputStream(input, contentLength);
         } catch (IOException e) {
             return null;
@@ -484,7 +520,6 @@ public final class Util {
         if (bytes != null) {
             return toString(bytes, DEFAULT_ENCODING);
         }
-
         return null;
     }
 
