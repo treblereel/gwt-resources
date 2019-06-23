@@ -31,7 +31,6 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
-import javax.xml.bind.DatatypeConverter;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -63,6 +62,8 @@ public final class Util {
 
     private static final String FILE_PROTOCOL = "file";
     private static final String JAR_PROTOCOL = "jar";
+    private static final char[] hexCode = "0123456789ABCDEF".toCharArray();
+
     /**
      * The size of a {@link #threadLocalBuf}, which should be large enough for
      * efficient data transfer but small enough to fit easily into the L2 cache of
@@ -116,7 +117,21 @@ public final class Util {
         for (int i = 0; i < contents.length; i++) {
             md5.update(contents[i]);
         }
-        return DatatypeConverter.printHexBinary(md5.digest()).toUpperCase();
+        return printHexBinary(md5.digest()).toUpperCase();
+    }
+
+    public static String printHexBinary(byte[] data) {
+        StringBuilder r = new StringBuilder(data.length * 2);
+        byte[] var3 = data;
+        int var4 = data.length;
+
+        for(int var5 = 0; var5 < var4; ++var5) {
+            byte b = var3[var5];
+            r.append(hexCode[b >> 4 & 15]);
+            r.append(hexCode[b & 15]);
+        }
+
+        return r.toString();
     }
 
     /**
