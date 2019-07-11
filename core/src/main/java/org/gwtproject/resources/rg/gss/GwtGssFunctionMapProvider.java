@@ -40,7 +40,7 @@ public class GwtGssFunctionMapProvider extends DefaultGssFunctionMapProvider {
 
     return ImmutableMap.<String, GssFunction>builder().putAll(gssFunctionMap)
         // TODO add a namespace for gwt-specific function ?
-        .put(com.google.gwt.resources.gss.EvalFunction.getName(), new EvalFunction())
+        .put(EvalFunction.getName(), new EvalFunction())
         .put(ValueFunction.getName(), new ValueFunction())
         .put(ResourceUrlFunction.getName(), new ResourceUrlFunction(context))
         .build();
