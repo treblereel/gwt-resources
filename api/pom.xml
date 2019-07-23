@@ -50,6 +50,16 @@
             <groupId>org.gwtproject.dom</groupId>
             <artifactId>gwt-dom</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vertispan.j2cl</groupId>
+                    <artifactId>junit-emul</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.vertispan.j2cl</groupId>
+                    <artifactId>gwttestcase-emul</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.http</groupId>
