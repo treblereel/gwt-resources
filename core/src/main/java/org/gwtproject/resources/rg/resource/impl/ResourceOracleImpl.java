@@ -9,6 +9,7 @@ import org.gwtproject.resources.ext.ResourceOracle;
 import org.gwtproject.resources.ext.TreeLogger;
 import org.gwtproject.resources.ext.UnableToCompleteException;
 
+import javax.annotation.processing.FilerException;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.FileObject;
@@ -16,6 +17,7 @@ import javax.tools.JavaFileManager.Location;
 import javax.tools.StandardLocation;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +34,37 @@ public class ResourceOracleImpl implements ResourceOracle {
 
     public ResourceOracleImpl(AptContext context) {
         this.aptContext = context;
+    }
+
+    private URL[] getResourcesByExtensions(ExecutableElement method, String[] extensions) throws UnableToCompleteException {
+        String[] paths = new String[extensions.length];
+        for (int i = 0; i < extensions.length; i++) {
+            StringBuffer sb = new StringBuffer();
+            sb.append(method.getSimpleName().toString()).append(extensions[i]);
+            paths[i] = sb.toString();
+        }
+        return findResources(MoreElements.getPackage(method).getQualifiedName().toString(), paths);
+    }
+
+    @Override
+    public URL[] findResources(CharSequence packageName, CharSequence[] pathName) {
+        List<URL> result = new ArrayList<>();
+        for (int i = 0; i < pathName.length; i++) {
+            URL resource = findResource(packageName, pathName[i]);
+            if (resource != null) {
+                result.add(resource);
+            } else {
+                resource = findResource(pathName[i]);
+                if (resource != null) {
+                    result.add(resource);
+                }
+            }
+        }
+        if (result.size() > 0) {
+            return result.toArray(new URL[result.size()]);
+        }
+
+        return null;
     }
 
     /**
@@ -118,37 +151,6 @@ public class ResourceOracleImpl implements ResourceOracle {
         return toReturn;
     }
 
-    private URL[] getResourcesByExtensions(ExecutableElement method, String[] extensions) throws UnableToCompleteException {
-        String[] paths = new String[extensions.length];
-        for (int i = 0; i < extensions.length; i++) {
-            StringBuffer sb = new StringBuffer();
-            sb.append(method.getSimpleName().toString()).append(extensions[i]);
-            paths[i] = sb.toString();
-        }
-        return findResources(MoreElements.getPackage(method).getQualifiedName().toString(), paths);
-    }
-
-    @Override
-    public URL[] findResources(CharSequence packageName, CharSequence[] pathName) {
-        List<URL> result = new ArrayList<>();
-        for (int i = 0; i < pathName.length; i++) {
-            URL resource = findResource(packageName, pathName[i]);
-            if (resource != null) {
-                result.add(resource);
-            } else {
-                resource = findResource(pathName[i]);
-                if (resource != null) {
-                    result.add(resource);
-                }
-            }
-        }
-        if (result.size() > 0) {
-            return result.toArray(new URL[result.size()]);
-        }
-
-        return null;
-    }
-
     /**
      * Locates a resource by searching multiple locations.
      *
@@ -166,6 +168,7 @@ public class ResourceOracleImpl implements ResourceOracle {
         return findResource(
                 Arrays.asList(
                         StandardLocation.SOURCE_PATH,
+                        StandardLocation.SOURCE_OUTPUT,
                         StandardLocation.CLASS_PATH,
                         StandardLocation.CLASS_OUTPUT
                 ), pkg, relativeName);
@@ -182,35 +185,30 @@ public class ResourceOracleImpl implements ResourceOracle {
             return null;
         }
         for (Location location : searchLocations) {
+            String path = "";
+            if (pkg.length() > 0) {
+                path = String.valueOf(pkg).replace('.', File.separatorChar) + '/';
+            }
             try {
-                FileObject fileObject = aptContext.filer.getResource(location, pkg, relativeName);
+                FileObject fileObject = aptContext.filer.getResource(location, "", path + relativeName);
                 if (new File(fileObject.getName()).exists()) {
                     return fileObject.toUri().toURL();
-                } else {
-                    fileObject = aptContext.filer.getResource(location, "", relativeName);
-                    if (new File(fileObject.getName()).exists()) {
-                        return fileObject.toUri().toURL();
-                    } else {
-                        return readFileFromClasspath(pkg.toString(), relativeName.toString());
+                }
+            } catch (FilerException ignored) {
+                File openedfile = new File(ignored.getMessage().replace("Attempt to reopen a file for path ", ""));
+                if (openedfile.exists()) {
+                    try {
+                        return openedfile.toURI().toURL();
+                    } catch (MalformedURLException e) {
+                        // ignored
                     }
                 }
+                // ignored
             } catch (IOException ignored) {
                 // ignored
             }
         }
         // unable to locate, return null.
         return null;
-    }
-
-    public URL readFileFromClasspath(String pkg, String fileName) {
-        if(!pkg.isEmpty()) {
-            pkg = pkg.replaceAll("\\.","/")+"/";
-        }
-        URL fileUrl = getClass().getClassLoader().getResource(pkg + fileName);
-        if(fileUrl != null) {
-            return fileUrl;
-        } else {
-            return null;
-        }
     }
 }
