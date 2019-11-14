@@ -3,7 +3,7 @@ package org.gwtproject.resources.rg.util;
 import com.google.common.base.Strings;
 
 /**
- * @author Dmitrii Tikhomirov <chani@me.com>
+ * @author Dmitrii Tikhomirov <chani.liet@gmail.com>
  * Created by treblereel on 10/28/18.
  */
 public class CssUtils {

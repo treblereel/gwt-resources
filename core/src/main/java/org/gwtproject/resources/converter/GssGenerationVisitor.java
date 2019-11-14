@@ -252,7 +252,7 @@ public class GssGenerationVisitor extends ExtendedCssVisitor {
             } else {
                 treeLogger.log(Type.ERROR, "An external at-rule is not allowed inside a @media at-rule. " +
                         "[" + x + "].");
-                throw new com.google.gwt.resources.converter.Css2GssConversionException("An external at-rule is not allowed inside a @media" +
+                throw new Css2GssConversionException("An external at-rule is not allowed inside a @media" +
                         " at-rule.");
             }
         } else {
@@ -306,7 +306,7 @@ public class GssGenerationVisitor extends ExtendedCssVisitor {
                 treeLogger.log(Type.WARN, "This invalid external selector will be skipped: " + selector);
                 return false;
             } else {
-                throw new com.google.gwt.resources.converter.Css2GssConversionException(
+                throw new Css2GssConversionException(
                         "One of your external statements contains a pseudo class: " + selector);
             }
         }
@@ -404,7 +404,7 @@ public class GssGenerationVisitor extends ExtendedCssVisitor {
             } else {
                 treeLogger.log(Type.ERROR, "The following rule is not valid. " +
                         cssProperty);
-                throw new com.google.gwt.resources.converter.Css2GssConversionException("Invalid css rule", e);
+                throw new Css2GssConversionException("Invalid css rule", e);
             }
         }
 
@@ -686,7 +686,7 @@ public class GssGenerationVisitor extends ExtendedCssVisitor {
             String name = cssToGssConstantMapping.get(def.getKey());
 
             if (name == null) {
-                throw new com.google.gwt.resources.converter.Css2GssConversionException("unknown @" + atRule + " rule [" + def.getKey() + "]");
+                throw new Css2GssConversionException("unknown @" + atRule + " rule [" + def.getKey() + "]");
             }
 
             out.print(name);

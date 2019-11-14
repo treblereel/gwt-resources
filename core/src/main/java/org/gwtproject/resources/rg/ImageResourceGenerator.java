@@ -1,8 +1,13 @@
 package org.gwtproject.resources.rg;
 
-import com.google.gwt.i18n.client.LocaleInfo;
+import org.gwtproject.i18n.client.LocaleInfo;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
-import org.gwtproject.resources.ext.*;
+import org.gwtproject.resources.ext.AbstractResourceGenerator;
+import org.gwtproject.resources.ext.ClientBundleFields;
+import org.gwtproject.resources.ext.ResourceContext;
+import org.gwtproject.resources.ext.ResourceOracle;
+import org.gwtproject.resources.ext.TreeLogger;
+import org.gwtproject.resources.ext.UnableToCompleteException;
 import org.gwtproject.resources.rg.util.SourceWriter;
 import org.gwtproject.resources.rg.util.StringKey;
 import org.gwtproject.resources.rg.util.StringSourceWriter;

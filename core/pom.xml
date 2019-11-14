@@ -18,7 +18,7 @@
         <developer>
             <id>treblereel</id>
             <name>Dmitrii Tikhomirov</name>
-            <email>chani@me.com</email>
+            <email>chani.liet@gmail.com</email>
         </developer>
     </developers>
 
@@ -35,7 +35,6 @@
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.core</groupId>
@@ -46,12 +45,6 @@
             <groupId>org.gwtproject.safecss</groupId>
             <artifactId>gwt-safecss</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.gwt</groupId>
-                    <artifactId>gwt-user</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.regexp</groupId>
@@ -62,12 +55,6 @@
             <groupId>org.gwtproject.dom</groupId>
             <artifactId>gwt-dom</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.vertispan.j2cl</groupId>
-                    <artifactId>junit-emul</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.http</groupId>
@@ -102,7 +89,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.7</version>
+            <version>${commons-text.version}</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -120,25 +107,19 @@
             <version>${closure-stylesheets.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- class LocaleInfo-->
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons.codec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
 
@@ -148,6 +129,7 @@
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.java</include>
+                    <include>**/*.properties</include>
                 </includes>
             </resource>
             <resource>
@@ -166,6 +148,28 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <minimizeJar>true</minimizeJar>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*:*:*</artifact>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

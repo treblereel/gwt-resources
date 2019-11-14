@@ -17,7 +17,7 @@
         <developer>
             <id>treblereel</id>
             <name>Dmitrii Tikhomirov</name>
-            <email>chani@me.com</email>
+            <email>chani.liet@gmail.com</email>
         </developer>
     </developers>
 
@@ -33,55 +33,12 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.resources</groupId>
-            <artifactId>gwt-resources-test</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.auto</groupId>
-            <artifactId>auto-common</artifactId>
-            <version>${auto.common.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service</artifactId>
             <version>${auto.service.version}</version>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>${commons.codec.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>${json.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.timer</groupId>
-            <artifactId>gwt-timer</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-
 
     <build>
         <resources>
@@ -89,17 +46,6 @@
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
-        <testResources>
-            <testResource>
-                <directory>${project.basedir}/src/test/java</directory>
-            </testResource>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources</directory>
-            </testResource>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources</directory>
-            </testResource>
-        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -123,102 +69,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>${maven.properties.plugin}</version>
-                <executions>
-                    <execution>
-                        <id>test</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>set-system-properties</goal>
-                        </goals>
-                        <configuration>
-                            <properties>
-                                <property>
-                                    <name>CssResource.style</name>
-                                    <value>obf</value>
-                                </property>
-                                <property>
-                                    <name>CssResource.enableGss</name>
-                                    <value>true</value>
-                                </property>
-                                <property>
-                                    <!-- CssResourceTest empty -->
-                                    <name>CssResource.obfuscationPrefix</name>
-                                    <value>empty</value>
-                                </property>
-                                <property>
-                                    <name>CssResource.conversionMode</name>
-                                    <value>lenient</value>
-                                </property>
-                                <property>
-                                    <name>CssResource.allowedAtRules</name>
-                                    <value>extenal dontIgnoreThis dontIgnoreThisToo</value>
-                                </property>
-                                <property>
-                                    <name>CssResource.enableInlining</name>
-                                    <value>false</value>
-                                </property>
-                                <property>
-                                    <name>test.property</name>
-                                    <value>true</value>
-                                </property>
-                                <property>
-                                    <name>custom.one</name>
-                                    <value>bar</value>
-                                </property>
-                                <property>
-                                    <name>custom.two</name>
-                                    <value>bar</value>
-                                </property>
-                                <property>
-                                    <name>customProperty</name>
-                                    <value>true</value>
-                                </property>
-                                <property>
-                                    <name>customProperty2</name>
-                                    <value>foo</value>
-                                </property>
-                                <property>
-                                    <name>DISABLE_KENNEDY</name>
-                                    <value>false</value>
-                                </property>
-                                <property>
-                                    <name>TRUE_PROPERTY</name>
-                                    <value>true</value>
-                                </property>
-                                <property>
-                                    <name>ClientBundle.cacheLocation</name>
-                                    <value>processor/src/test/java/org/gwtproject/resources/cache/gwt-cache</value>
-                                </property>
-                                <property>
-                                    <name>ClientBundle.cacheUrl</name>
-                                    <value>/org.gwtproject.resources.ResourcesTestsModule.JUnit/gwt-cache/</value>
-                                </property>
-                            </properties>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin}</version>
-                <configuration>
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/generated-test-sources/test-annotations
-                        </additionalClasspathElement>
-                    </additionalClasspathElements>
-                    <useManifestOnlyJar>false</useManifestOnlyJar>
-                    <forkMode>always</forkMode>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -232,23 +82,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>${maven.clean.plugin}</version>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${basedir}</directory>
-                            <includes>
-                                <include>gwt-unitCache/</include>
-                                <include>src/test/java/org/gwtproject/resources/cache/gwt-cache/</include>
-                                <include>war/</include>
-                            </includes>
-                        </fileset>
-                    </filesets>
-                </configuration>
             </plugin>
         </plugins>
     </build>

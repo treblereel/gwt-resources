@@ -34,7 +34,7 @@ import javax.lang.model.util.Types;
 import java.util.List;
 
 import static com.google.common.css.compiler.ast.CssFunctionNode.Function;
-import static com.google.gwt.thirdparty.common.css.compiler.passes.PassUtil.ALTERNATE;
+import static com.google.common.css.compiler.passes.PassUtil.ALTERNATE;
 import static org.gwtproject.resources.client.ImageResource.ImageOptions;
 import static org.gwtproject.resources.client.ImageResource.RepeatStyle;
 

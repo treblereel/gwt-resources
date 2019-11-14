@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Dmitrii Tikhomirov <chani@me.com>
+ * @author Dmitrii Tikhomirov <chani.liet@gmail.com>
  * Created by treblereel on 10/26/18.
  */
 public class AptContext {

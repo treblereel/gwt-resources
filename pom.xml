@@ -16,6 +16,14 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>treblereel</id>
+            <name>Dmitrii Tikhomirov</name>
+            <email>chani.liet@gmail.com</email>
+        </developer>
+    </developers>
+
     <repositories>
         <repository>
             <id>vertispan</id>
@@ -51,12 +59,14 @@
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <gwt.version>2.8.2</gwt.version>
         <commons.codec.version>1.11</commons.codec.version>
+        <commons-text.version>1.7</commons-text.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
         <json.version>20180813</json.version>
-        <guava.version>27.0-jre</guava.version>
+        <guava.version>28.1-jre</guava.version>
         <sac.version>1.3</sac.version>
         <closure-stylesheets.version>1.5.0</closure-stylesheets.version>
         <auto.common.version>0.10</auto.common.version>
-        <auto.service.version>1.0-rc4</auto.service.version>
+        <auto.service.version>1.0-rc6</auto.service.version>
         <commons-io.version>2.6</commons-io.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <junit.version>4.11</junit.version>
@@ -75,18 +85,11 @@
         <module>api</module>
         <module>processor</module>
         <module>core</module>
-        <module>test</module>
+        <module>gwt2-tests</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.google.gwt</groupId>
-                <artifactId>gwt</artifactId>
-                <version>${gwt.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -95,14 +98,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.gwtproject.http</groupId>
-            <artifactId>gwt-http</artifactId>
-            <version>HEAD-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <pluginManagement>

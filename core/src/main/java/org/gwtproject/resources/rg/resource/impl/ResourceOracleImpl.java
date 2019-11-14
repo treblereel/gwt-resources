@@ -26,7 +26,7 @@ import java.util.List;
 import static org.gwtproject.resources.client.ClientBundle.Source;
 
 /**
- * @author Dmitrii Tikhomirov <chani@me.com>
+ * @author Dmitrii Tikhomirov <chani.liet@gmail.com>
  * Created by treblereel on 10/8/18.
  */
 public class ResourceOracleImpl implements ResourceOracle {
@@ -63,7 +63,6 @@ public class ResourceOracleImpl implements ResourceOracle {
         if (result.size() > 0) {
             return result.toArray(new URL[result.size()]);
         }
-
         return null;
     }
 
@@ -170,7 +169,8 @@ public class ResourceOracleImpl implements ResourceOracle {
                         StandardLocation.SOURCE_PATH,
                         StandardLocation.SOURCE_OUTPUT,
                         StandardLocation.CLASS_PATH,
-                        StandardLocation.CLASS_OUTPUT
+                        StandardLocation.CLASS_OUTPUT,
+                        StandardLocation.ANNOTATION_PROCESSOR_PATH
                 ), pkg, relativeName);
     }
 

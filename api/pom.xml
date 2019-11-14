@@ -18,7 +18,7 @@
         <developer>
             <id>treblereel</id>
             <name>Dmitrii Tikhomirov</name>
-            <email>chani@me.com</email>
+            <email>chani.liet@gmail.com</email>
         </developer>
     </developers>
 
@@ -47,19 +47,14 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-datetimeformat</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.gwtproject.dom</groupId>
             <artifactId>gwt-dom</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.vertispan.j2cl</groupId>
-                    <artifactId>junit-emul</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.vertispan.j2cl</groupId>
-                    <artifactId>gwttestcase-emul</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.http</groupId>
