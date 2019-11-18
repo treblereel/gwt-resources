@@ -9,5 +9,5 @@
     <!-- not ready yet
     <inherits name="org.gwtproject.i18n.I18n"/> -->
 
-    <inherits name="com.google.gwt.i18n.I18N"/>
+    <inherits name="org.gwtproject.i18n.I18N"/>
 </module>

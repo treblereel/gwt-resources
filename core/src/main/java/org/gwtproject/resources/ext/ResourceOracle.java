@@ -15,35 +15,30 @@
  */
 package org.gwtproject.resources.ext;
 
-import javax.lang.model.element.ExecutableElement;
 import java.net.URL;
+import javax.lang.model.element.ExecutableElement;
 
 /**
- * An abstraction for finding and retrieving {@link Resource}s by abstract path
- * name. Intuitively, it works like a jar in that each URL is uniquely located
- * somewhere in an abstract namespace. The abstract names must be constructed
- * from a series of zero or more valid Java identifiers followed by the '/'
- * character and finally ending in a valid filename, for example,
- * <code>com/google/gwt/blah.txt</code>.
+ * An abstraction for finding and retrieving {@link Resource}s by abstract path name. Intuitively,
+ * it works like a jar in that each URL is uniquely located somewhere in an abstract namespace. The
+ * abstract names must be constructed from a series of zero or more valid Java identifiers followed
+ * by the '/' character and finally ending in a valid filename, for example, <code>
+ * com/google/gwt/blah.txt</code>.
  *
- * <p>
- * The identity of the returned sets and maps will change when the underlying
- * module is refreshed.
- * </p>
+ * <p>The identity of the returned sets and maps will change when the underlying module is
+ * refreshed.
  */
 public interface ResourceOracle {
 
-    /**
-     * Returns the resource for the given path name or null if there is no such resource.
-     */
-    URL[] findResources(CharSequence packageName, CharSequence[] pathName);
+  /** Returns the resource for the given path name or null if there is no such resource. */
+  URL[] findResources(CharSequence packageName, CharSequence[] pathName);
 
-    URL findResource(CharSequence pkg, CharSequence relativeName);
+  URL findResource(CharSequence pkg, CharSequence relativeName);
 
-    URL findResource(CharSequence fullPath);
+  URL findResource(CharSequence fullPath);
 
-    URL[] findResources(TreeLogger logger, ExecutableElement method) throws UnableToCompleteException;
+  URL[] findResources(TreeLogger logger, ExecutableElement method) throws UnableToCompleteException;
 
-    URL[] findResources(TreeLogger logger, ExecutableElement method, String[] defaultSuffixes) throws UnableToCompleteException;
-
+  URL[] findResources(TreeLogger logger, ExecutableElement method, String[] defaultSuffixes)
+      throws UnableToCompleteException;
 }

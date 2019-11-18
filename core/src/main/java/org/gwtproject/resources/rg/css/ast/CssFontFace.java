@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an {@code @font-face} declaration. This is almost like a
- * {@link CssRule} except that it cannot be merged.
+ * Represents an {@code @font-face} declaration. This is almost like a {@link CssRule} except that
+ * it cannot be merged.
  */
 public class CssFontFace extends CssNode implements HasProperties {
   private final List<CssProperty> properties = new ArrayList<CssProperty>();
@@ -30,7 +30,7 @@ public class CssFontFace extends CssNode implements HasProperties {
   }
 
   @Override
-    public boolean isStatic() {
+  public boolean isStatic() {
     return true;
   }
 

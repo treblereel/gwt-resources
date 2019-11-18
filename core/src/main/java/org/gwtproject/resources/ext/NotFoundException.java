@@ -15,13 +15,10 @@
  */
 package org.gwtproject.resources.ext;
 
-/**
- * Indicates that the requested type info element could not be found.
- */
-public class NotFoundException extends Exception{
+/** Indicates that the requested type info element could not be found. */
+public class NotFoundException extends Exception {
 
-  public NotFoundException() {
-  }
+  public NotFoundException() {}
 
   public NotFoundException(String message, Throwable cause) {
     super(message, cause);
@@ -34,5 +31,4 @@ public class NotFoundException extends Exception{
   public NotFoundException(Throwable cause) {
     super(cause);
   }
-
 }

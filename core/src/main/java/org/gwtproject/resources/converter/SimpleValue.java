@@ -18,9 +18,7 @@ package org.gwtproject.resources.converter;
 import org.gwtproject.resources.rg.Generator;
 import org.gwtproject.resources.rg.css.ast.CssProperty;
 
-/**
- * A simple property value class.
- */
+/** A simple property value class. */
 public class SimpleValue extends CssProperty.Value {
 
   private String value;

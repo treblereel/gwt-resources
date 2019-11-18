@@ -15,20 +15,17 @@
  */
 package org.gwtproject.resources.rg.gss;
 
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.css.SourceCodeLocation;
 import com.google.common.css.compiler.ast.CssValueNode;
 import com.google.common.css.compiler.ast.ErrorManager;
 import com.google.common.css.compiler.ast.GssFunction;
-import com.google.common.css.compiler.ast.GssFunctionException;
+import java.util.List;
 import org.gwtproject.resources.rg.gss.ast.CssJavaExpressionNode;
 
-import java.util.List;
-
 /**
- * GSS function that creates a {@link CssJavaExpressionNode}
- * in order to evaluate a Java expression at runtime.
+ * GSS function that creates a {@link CssJavaExpressionNode} in order to evaluate a Java expression
+ * at runtime.
  */
 public class EvalFunction implements GssFunction {
 
@@ -42,8 +39,8 @@ public class EvalFunction implements GssFunction {
 
     SourceCodeLocation sourceCodeLocation = extractSourceCodeLocation(functionToEval);
 
-    CssJavaExpressionNode result = new CssJavaExpressionNode(functionToEval.getValue(),
-        sourceCodeLocation);
+    CssJavaExpressionNode result =
+        new CssJavaExpressionNode(functionToEval.getValue(), sourceCodeLocation);
 
     return ImmutableList.of(result);
   }

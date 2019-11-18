@@ -15,25 +15,21 @@
  */
 package org.gwtproject.resources.ext;
 
-/**
- * Provides deferred binding property values.
- */
+/** Provides deferred binding property values. */
 public interface PropertyOracle {
 
-    /**
-     * Attempts to get a named configuration property. Throws
-     * <code>UnableToCompleteException</code> if the property is undefined. The
-     * result of invoking this method with the same <code>propertyName</code> must
-     * be stable.
-     *
-     * @param propertyName
-     * @return the configuration property instance (never null)
-     * @throws UnableToCompleteException if the property is unknown or not a
-     *                                   configuration property
-     */
-    ConfigurationProperty getConfigurationProperty(TreeLogger logger, String propertyName)
-            throws UnableToCompleteException;
+  /**
+   * Attempts to get a named configuration property. Throws <code>UnableToCompleteException</code>
+   * if the property is undefined. The result of invoking this method with the same <code>
+   * propertyName</code> must be stable.
+   *
+   * @param propertyName
+   * @return the configuration property instance (never null)
+   * @throws UnableToCompleteException if the property is unknown or not a configuration property
+   */
+  ConfigurationProperty getConfigurationProperty(TreeLogger logger, String propertyName)
+      throws UnableToCompleteException;
 
-    SelectionProperty getSelectionProperty(TreeLogger logger, String propertyName)
-            throws UnableToCompleteException;
+  SelectionProperty getSelectionProperty(TreeLogger logger, String propertyName)
+      throws UnableToCompleteException;
 }

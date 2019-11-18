@@ -21,47 +21,36 @@ import org.gwtproject.resources.ext.TreeLogger;
  * A mechanism to write source files.
  *
  * @see JavaSourceWriterBuilder
- * <p>
- * Experimental API - subject to change.
+ *     <p>Experimental API - subject to change.
  */
 public interface SourceWriter {
 
-    /**
-     * Begin emitting a JavaDoc comment.
-     */
-    void beginJavaDocComment();
+  /** Begin emitting a JavaDoc comment. */
+  void beginJavaDocComment();
 
-    void commit(TreeLogger logger);
+  void commit(TreeLogger logger);
 
-    /**
-     * End emitting a JavaDoc comment.
-     */
-    void endJavaDocComment();
+  /** End emitting a JavaDoc comment. */
+  void endJavaDocComment();
 
-    void indent();
+  void indent();
 
-    void indentln(String s);
+  void indentln(String s);
 
-    /**
-     * Emit a printf-style string.
-     */
-    void indentln(String s, Object... args);
+  /** Emit a printf-style string. */
+  void indentln(String s, Object... args);
 
-    void outdent();
+  void outdent();
 
-    void print(String s);
+  void print(String s);
 
-    /**
-     * Emit a printf-style string.
-     */
-    void print(String s, Object... args);
+  /** Emit a printf-style string. */
+  void print(String s, Object... args);
 
-    void println();
+  void println();
 
-    void println(String s);
+  void println(String s);
 
-    /**
-     * Emit a printf-style string.
-     */
-    void println(String s, Object... args);
+  /** Emit a printf-style string. */
+  void println(String s, Object... args);
 }

@@ -18,9 +18,7 @@ package org.gwtproject.resources.rg.util;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-/**
- * An abstract base type to build TextOutput implementations.
- */
+/** An abstract base type to build TextOutput implementations. */
 public abstract class AbstractTextOutput implements TextOutput {
   private final boolean compact;
   private int identLevel = 0;

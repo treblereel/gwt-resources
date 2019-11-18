@@ -15,14 +15,11 @@
  */
 package org.gwtproject.resources.rg;
 
-/**
- * Simple serial number dispenser, handy for hanging off
- * of caches.
- */
+/** Simple serial number dispenser, handy for hanging off of caches. */
 class Counter {
-    private int i;
+  private int i;
 
-    int next() {
-        return i++;
-    }
+  int next() {
+    return i++;
+  }
 }

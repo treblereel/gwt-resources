@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,9 +17,7 @@ package org.gwtproject.resources.rg.css.ast;
 
 import java.util.List;
 
-/**
- * A visitor that can make structural modifications to a CSS tree.
- */
+/** A visitor that can make structural modifications to a CSS tree. */
 @SuppressWarnings("unchecked")
 public class CssModVisitor extends CssVisitor {
   private class ListContext<T extends CssNode> implements Context {
@@ -88,8 +86,7 @@ public class CssModVisitor extends CssVisitor {
       throw new CssCompilerException("Cannot replace with null");
     }
     if (newNode == origNode) {
-      throw new CssCompilerException(
-          "The replacement is the same as the original");
+      throw new CssCompilerException("The replacement is the same as the original");
     }
   }
 

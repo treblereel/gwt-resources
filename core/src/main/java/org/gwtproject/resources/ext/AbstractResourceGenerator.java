@@ -23,36 +23,24 @@ import javax.lang.model.element.ExecutableElement;
  * @see ResourceGeneratorUtil
  */
 public abstract class AbstractResourceGenerator implements ResourceGenerator {
-    protected static final boolean STRIP_COMMENTS = System.getProperty("gwt.resourceBundle.stripComments") != null;
+  protected static final boolean STRIP_COMMENTS =
+      System.getProperty("gwt.resourceBundle.stripComments") != null;
 
-    public abstract String createAssignment(TreeLogger logger,
-                                            ResourceContext context,
-                                            ExecutableElement method) throws UnableToCompleteException;
+  public abstract String createAssignment(
+      TreeLogger logger, ResourceContext context, ExecutableElement method)
+      throws UnableToCompleteException;
 
-    /**
-     * A no-op implementation.
-     */
-    public void createFields(TreeLogger logger, ResourceContext context,
-                             ClientBundleFields fields) throws UnableToCompleteException {
-    }
+  /** A no-op implementation. */
+  public void createFields(TreeLogger logger, ResourceContext context, ClientBundleFields fields)
+      throws UnableToCompleteException {}
 
-    /**
-     * A no-op implementation.
-     */
-    public void finish(TreeLogger logger, ResourceContext context) {
-    }
+  /** A no-op implementation. */
+  public void finish(TreeLogger logger, ResourceContext context) {}
 
-    /**
-     * A no-op implementation.
-     */
-    public void init(TreeLogger logger, ResourceContext context)
-            throws UnableToCompleteException {
-    }
+  /** A no-op implementation. */
+  public void init(TreeLogger logger, ResourceContext context) throws UnableToCompleteException {}
 
-    /**
-     * A no-op implementation.
-     */
-    public void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method)
-            throws UnableToCompleteException {
-    }
+  /** A no-op implementation. */
+  public void prepare(TreeLogger logger, ResourceContext context, ExecutableElement method)
+      throws UnableToCompleteException {}
 }

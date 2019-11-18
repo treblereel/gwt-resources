@@ -18,49 +18,49 @@ package org.gwtproject.resources.rg.gss.ast;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.css.compiler.ast.CssConditionalRuleNode;
-import com.google.common.css.compiler.ast.CssValueNode;
 
-/**
- * Represents a conditional rule that needs to be evaluated at runtime.
- */
+/** Represents a conditional rule that needs to be evaluated at runtime. */
 public class CssRuntimeConditionalRuleNode extends CssConditionalRuleNode {
 
-    public CssRuntimeConditionalRuleNode(CssConditionalRuleNode node,
-                                         CssJavaExpressionNode condition) {
-        super(node.getType(), node.getName().deepCopy(), null,
-                node.getBlock() != null ? node.getBlock().deepCopy() : null);
-        setSourceCodeLocation(node.getSourceCodeLocation());
+  public CssRuntimeConditionalRuleNode(
+      CssConditionalRuleNode node, CssJavaExpressionNode condition) {
+    super(
+        node.getType(),
+        node.getName().deepCopy(),
+        null,
+        node.getBlock() != null ? node.getBlock().deepCopy() : null);
+    setSourceCodeLocation(node.getSourceCodeLocation());
 
-        setRuntimeCondition(condition);
+    setRuntimeCondition(condition);
+  }
+
+  /**
+   * Copy constructor.
+   *
+   * @param node
+   */
+  public CssRuntimeConditionalRuleNode(CssRuntimeConditionalRuleNode node) {
+    this(node, node.getRuntimeCondition());
+  }
+
+  public CssJavaExpressionNode getRuntimeCondition() {
+    if (getType() == Type.ELSE) {
+      Preconditions.checkState(getParametersCount() == 0);
+      return null;
     }
 
-    /**
-     * Copy constructor.
-     *
-     * @param node
-     */
-    public CssRuntimeConditionalRuleNode(CssRuntimeConditionalRuleNode node) {
-        this(node, node.getRuntimeCondition());
-    }
+    Preconditions.checkState(getParametersCount() == 1);
+    return (CssJavaExpressionNode) this.getParameters().get(0);
+  }
 
-    public CssJavaExpressionNode getRuntimeCondition() {
-        if (getType() == Type.ELSE) {
-            Preconditions.checkState(getParametersCount() == 0);
-            return null;
-        }
+  private void setRuntimeCondition(CssJavaExpressionNode condition) {
+    Preconditions.checkState(getType() != Type.ELSE);
+    Preconditions.checkState(getParametersCount() <= 1);
+    this.setParameters(ImmutableList.of(condition));
+  }
 
-        Preconditions.checkState(getParametersCount() == 1);
-        return (CssJavaExpressionNode) this.getParameters().get(0);
-    }
-
-    private void setRuntimeCondition(CssJavaExpressionNode condition) {
-        Preconditions.checkState(getType() != Type.ELSE);
-        Preconditions.checkState(getParametersCount() <= 1);
-        this.setParameters(ImmutableList.of(condition));
-    }
-
-    @Override
-    public CssConditionalRuleNode deepCopy() {
-        return new CssRuntimeConditionalRuleNode(this);
-    }
+  @Override
+  public CssConditionalRuleNode deepCopy() {
+    return new CssRuntimeConditionalRuleNode(this);
+  }
 }

@@ -16,7 +16,6 @@
 package org.gwtproject.resources.rg.gss;
 
 import com.google.common.css.SubstitutionMap;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,10 +25,10 @@ import java.util.Set;
 /**
  * This SubstitutionMap is used for renaming each style classes of the ast by its corresponding
  * obfuscated name.
- * <p/>
- * It takes care of eventual prefix and does not rename external style classes.
- * <p/>
- * It lists the eventual external style class candidates (class without associated obfuscation
+ *
+ * <p>It takes care of eventual prefix and does not rename external style classes.
+ *
+ * <p>It lists the eventual external style class candidates (class without associated obfuscation
  * name)
  */
 public class RenamingSubstitutionMap implements SubstitutionMap {

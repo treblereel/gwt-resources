@@ -22,7 +22,7 @@ import java.util.Set;
 /**
  * Argument handler for boolean flags that have no parameters.
  *
- * Supports toggling the boolean value on and off using -label and -nolabel tag variants and
+ * <p>Supports toggling the boolean value on and off using -label and -nolabel tag variants and
  * calculating a meaningful purpose including default value.
  */
 public abstract class ArgHandlerFlag extends ArgHandler {
@@ -34,9 +34,7 @@ public abstract class ArgHandlerFlag extends ArgHandler {
     valuesByTag.put(tag, value);
   }
 
-  /**
-   * Returns the default value that will appear in help messages.
-   */
+  /** Returns the default value that will appear in help messages. */
   public abstract boolean getDefaultValue();
 
   @Override
@@ -46,12 +44,8 @@ public abstract class ArgHandlerFlag extends ArgHandler {
 
   /**
    * The root String that will be munged into -label and -nolabel variants for flag value toggling.
-   * Should follow the verb[Adjective]Noun naming pattern. For example:
-   *
-   * @Override
-   * public String getLabel() {
-   *   return "allowMissingSrc";
-   * }
+   * Should follow the verb[Adjective]Noun naming pattern. For example: @Override public String
+   * getLabel() { return "allowMissingSrc"; }
    */
   public String getLabel() {
     return "";
@@ -59,8 +53,12 @@ public abstract class ArgHandlerFlag extends ArgHandler {
 
   @Override
   public final String getPurpose() {
-    return (isExperimental() ? "EXPERIMENTAL: " : "") + getPurposeSnippet() + " " + "(defaults to "
-        + (getDefaultValue() ? "ON" : "OFF") + ")";
+    return (isExperimental() ? "EXPERIMENTAL: " : "")
+        + getPurposeSnippet()
+        + " "
+        + "(defaults to "
+        + (getDefaultValue() ? "ON" : "OFF")
+        + ")";
   }
 
   /**
@@ -69,9 +67,7 @@ public abstract class ArgHandlerFlag extends ArgHandler {
    */
   public abstract String getPurposeSnippet();
 
-  /**
-   * The primary tag matched by this argument handler.
-   */
+  /** The primary tag matched by this argument handler. */
   @Override
   public final String getTag() {
     String label = getLabel();

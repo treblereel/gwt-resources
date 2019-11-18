@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,14 +20,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-/**
- * Clones CssNodes.
- */
+/** Clones CssNodes. */
 public class CssNodeCloner extends CssVisitor {
 
-  /**
-   * Clone a list of nodes.
-   */
+  /** Clone a list of nodes. */
   public static <T extends CssNode> List<T> clone(Class<T> clazz, List<T> nodes) {
 
     // Push a fake context that will contain the cloned node
@@ -37,16 +33,18 @@ public class CssNodeCloner extends CssVisitor {
 
     CssNodeCloner cloner = new CssNodeCloner();
     cloner.curentNodes.push(topContext);
-    cloner.currentHasProperties = new HasProperties() {
-      public List<CssProperty> getProperties() {
-        return topProperties;
-      }
-    };
-    cloner.currentHasSelectors = new HasSelectors() {
-      public List<CssSelector> getSelectors() {
-        return topSelectors;
-      }
-    };
+    cloner.currentHasProperties =
+        new HasProperties() {
+          public List<CssProperty> getProperties() {
+            return topProperties;
+          }
+        };
+    cloner.currentHasSelectors =
+        new HasSelectors() {
+          public List<CssSelector> getSelectors() {
+            return topSelectors;
+          }
+        };
 
     // Process the nodes
     cloner.accept(nodes);
@@ -64,14 +62,21 @@ public class CssNodeCloner extends CssVisitor {
       toIterate = topContext;
     }
 
-    assert toIterate.size() == nodes.size() : "Wrong number of nodes in top "
-        + "context. Expecting: " + nodes.size() + " Found: " + toIterate.size();
+    assert toIterate.size() == nodes.size()
+        : "Wrong number of nodes in top "
+            + "context. Expecting: "
+            + nodes.size()
+            + " Found: "
+            + toIterate.size();
 
     // Create the final return value
     List<T> toReturn = new ArrayList<T>(toIterate.size());
     for (Object node : toIterate) {
-      assert clazz.isInstance(node) : "Return type mismatch. Expecting: "
-          + clazz.getName() + " Found: " + node.getClass().getName();
+      assert clazz.isInstance(node)
+          : "Return type mismatch. Expecting: "
+              + clazz.getName()
+              + " Found: "
+              + node.getClass().getName();
 
       // Cast to the correct type to avoid an unchecked generic cast
       toReturn.add(clazz.cast(node));
@@ -80,9 +85,7 @@ public class CssNodeCloner extends CssVisitor {
     return toReturn;
   }
 
-  /**
-   * Clone a single node.
-   */
+  /** Clone a single node. */
   public static <T extends CssNode> T clone(Class<T> clazz, T node) {
     return clone(clazz, Collections.singletonList(node)).get(0);
   }
@@ -93,8 +96,7 @@ public class CssNodeCloner extends CssVisitor {
 
   private final Stack<List<CssNode>> curentNodes = new Stack<List<CssNode>>();
 
-  private CssNodeCloner() {
-  }
+  private CssNodeCloner() {}
 
   @Override
   public void endVisit(CssMediaRule x, Context ctx) {
@@ -139,10 +141,7 @@ public class CssNodeCloner extends CssVisitor {
     return true;
   }
 
-  /**
-   * A CssIf has two lists of nodes, so we want to handle traversal in this
-   * visitor.
-   */
+  /** A CssIf has two lists of nodes, so we want to handle traversal in this visitor. */
   @Override
   public boolean visit(CssIf x, Context ctx) {
     CssIf newIf = new CssIf();
@@ -202,8 +201,7 @@ public class CssNodeCloner extends CssVisitor {
 
   @Override
   public boolean visit(CssProperty x, Context ctx) {
-    CssProperty newProperty = new CssProperty(x.getName(), x.getValues(),
-        x.isImportant());
+    CssProperty newProperty = new CssProperty(x.getName(), x.getValues(), x.isImportant());
     currentHasProperties.getProperties().add(newProperty);
     return true;
   }
@@ -248,12 +246,11 @@ public class CssNodeCloner extends CssVisitor {
   public boolean visit(CssUrl x, Context ctx) {
     assert x.getValues().size() == 1;
     assert x.getValues().get(0).isDotPathValue() != null;
-    CssUrl newUrl = new CssUrl(x.getKey(),
-        x.getValues().get(0).isDotPathValue());
+    CssUrl newUrl = new CssUrl(x.getKey(), x.getValues().get(0).isDotPathValue());
     addToNodes(newUrl);
     return true;
   }
-  
+
   @Override
   public boolean visit(CssUnknownAtRule x, Context ctx) {
     CssUnknownAtRule newRule = new CssUnknownAtRule(x.getRule());
@@ -268,31 +265,30 @@ public class CssNodeCloner extends CssVisitor {
     return true;
   }
 
-  /**
-   * Add a cloned node instance to the output.
-   */
+  /** Add a cloned node instance to the output. */
   private void addToNodes(CssNode node) {
     curentNodes.peek().add(node);
 
-    currentHasProperties = node instanceof HasProperties ? (HasProperties) node
-        : null;
-    currentHasSelectors = node instanceof HasSelectors ? (HasSelectors) node
-        : null;
+    currentHasProperties = node instanceof HasProperties ? (HasProperties) node : null;
+    currentHasSelectors = node instanceof HasSelectors ? (HasSelectors) node : null;
   }
 
   /**
    * Remove a frame.
-   * 
-   * @param original the node that was being cloned so that validity checks may
-   *          be performed
+   *
+   * @param original the node that was being cloned so that validity checks may be performed
    */
   private List<CssNode> popNodes(HasNodes original) {
     List<CssNode> toReturn = curentNodes.pop();
 
     if (toReturn.size() != original.getNodes().size()) {
-      throw new RuntimeException("Insufficient number of nodes for a "
-          + original.getClass().getName() + " Expected: "
-          + original.getNodes().size() + " Found: " + toReturn.size());
+      throw new RuntimeException(
+          "Insufficient number of nodes for a "
+              + original.getClass().getName()
+              + " Expected: "
+              + original.getNodes().size()
+              + " Found: "
+              + toReturn.size());
     }
 
     return toReturn;
@@ -300,11 +296,9 @@ public class CssNodeCloner extends CssVisitor {
 
   /**
    * Remove a frame.
-   * 
-   * @param original the node that was being cloned so that validity checks may
-   *          be performed
-   * @param expected the HasNodes whose nodes were being populated by the frame
-   *          being removed.
+   *
+   * @param original the node that was being cloned so that validity checks may be performed
+   * @param expected the HasNodes whose nodes were being populated by the frame being removed.
    */
   private List<CssNode> popNodes(HasNodes original, HasNodes expected) {
     List<CssNode> toReturn = popNodes(original);
@@ -316,21 +310,18 @@ public class CssNodeCloner extends CssVisitor {
     return toReturn;
   }
 
-  /**
-   * Push a new frame, adding the new parent as a child of the current parent.
-   */
+  /** Push a new frame, adding the new parent as a child of the current parent. */
   private <T extends CssNode & HasNodes> void pushNodes(T parent) {
     pushNodes(parent, true);
   }
 
   /**
    * Push a new frame.
-   * 
-   * @param addToNodes if <code>true</code> add the new parent node as a child
-   *          of the current parent.
+   *
+   * @param addToNodes if <code>true</code> add the new parent node as a child of the current
+   *     parent.
    */
-  private <T extends CssNode & HasNodes> void pushNodes(T parent,
-      boolean addToNodes) {
+  private <T extends CssNode & HasNodes> void pushNodes(T parent, boolean addToNodes) {
     if (addToNodes) {
       addToNodes(parent);
     }

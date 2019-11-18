@@ -18,17 +18,15 @@ package org.gwtproject.resources.rg.gss.ast;
 import com.google.common.base.Strings;
 import com.google.common.css.SourceCodeLocation;
 import com.google.common.css.compiler.ast.CssValueNode;
-import org.gwtproject.resources.rg.Generator;
-
 import java.util.Arrays;
 import java.util.List;
+import org.gwtproject.resources.rg.Generator;
 
-/**
- * Represents a sequence of no-arg method invocations.
- */
+/** Represents a sequence of no-arg method invocations. */
 public class CssDotPathNode extends CssValueNode {
 
-  public static String resolveExpression(String instance, String path, String prefix, String suffix) {
+  public static String resolveExpression(
+      String instance, String path, String prefix, String suffix) {
     String expression = path.replace(".", "().") + "()";
 
     if (!Strings.isNullOrEmpty(instance)) {
@@ -51,11 +49,16 @@ public class CssDotPathNode extends CssValueNode {
   private String path;
   private String instance;
 
-  public CssDotPathNode(String dotPath, String prefix, String suffix, SourceCodeLocation sourceCodeLocation) {
+  public CssDotPathNode(
+      String dotPath, String prefix, String suffix, SourceCodeLocation sourceCodeLocation) {
     this(null, dotPath, prefix, suffix, sourceCodeLocation);
   }
 
-  public CssDotPathNode(String instance, String dotPath, String prefix, String suffix,
+  public CssDotPathNode(
+      String instance,
+      String dotPath,
+      String prefix,
+      String suffix,
       SourceCodeLocation sourceCodeLocation) {
     super(resolveExpression(instance, dotPath, prefix, suffix), sourceCodeLocation);
 

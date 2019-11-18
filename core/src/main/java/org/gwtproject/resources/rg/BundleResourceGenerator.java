@@ -17,21 +17,22 @@ package org.gwtproject.resources.rg;
 
 import com.google.auto.common.MoreElements;
 import com.google.auto.common.MoreTypes;
-import org.gwtproject.resources.ext.*;
-
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.TypeMirror;
+import org.gwtproject.resources.ext.*;
 
-/**
- * This is a special case of ResourceGenerator that handles nested bundles.
- */
+/** This is a special case of ResourceGenerator that handles nested bundles. */
 public final class BundleResourceGenerator extends AbstractResourceGenerator {
 
-    @Override
-    public String createAssignment(TreeLogger logger, ResourceContext context,
-                                   ExecutableElement method) {
-        TypeMirror toReturn = method.getReturnType();
-        String implName = MoreElements.getPackage(MoreTypes.asTypeElement(toReturn)) + "." + ResourceGeneratorUtil.generateSimpleSourceName(logger, MoreTypes.asTypeElement(toReturn));
-        return "new "+implName+"();";
-    }
+  @Override
+  public String createAssignment(
+      TreeLogger logger, ResourceContext context, ExecutableElement method) {
+    TypeMirror toReturn = method.getReturnType();
+    String implName =
+        MoreElements.getPackage(MoreTypes.asTypeElement(toReturn))
+            + "."
+            + ResourceGeneratorUtil.generateSimpleSourceName(
+                logger, MoreTypes.asTypeElement(toReturn));
+    return "new " + implName + "();";
+  }
 }

@@ -18,16 +18,11 @@ package org.gwtproject.resources.ext;
 import java.io.InputStream;
 import java.net.URL;
 
-/**
- * Provides information about a file-like resource.
- */
+/** Provides information about a file-like resource. */
 public interface Resource {
 
-  /**
-   * Returns the contents of the resource. The caller is responsible for closing the stream.
-   */
+  /** Returns the contents of the resource. The caller is responsible for closing the stream. */
   InputStream openContents() throws UnableToCompleteException;
 
   URL getUrl();
-
 }

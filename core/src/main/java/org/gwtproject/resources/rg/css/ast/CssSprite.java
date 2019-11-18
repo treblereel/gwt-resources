@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,26 +15,24 @@
  */
 package org.gwtproject.resources.rg.css.ast;
 
+import static org.gwtproject.resources.rg.css.ast.CssProperty.*;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import static org.gwtproject.resources.rg.css.ast.CssProperty.*;
-
 /**
- * Represents a sprited image. This is basically a normal CssRule, except for
- * one well-known property {@value IMAGE_PROPERTY_NAME}, which
- * specifies the name of an ImageResource accessor.
+ * Represents a sprited image. This is basically a normal CssRule, except for one well-known
+ * property {@value IMAGE_PROPERTY_NAME}, which specifies the name of an ImageResource accessor.
  */
 public class CssSprite extends CssRule implements CssSubstitution {
 
   public static final String IMAGE_PROPERTY_NAME = "gwt-image";
 
   /**
-   * A facade for the underlying CssProperty list maintained by CssRule. We
-   * override the add and set methods to intercept the
-   * {@value IMAGE_PROPERTY_NAME} property.
+   * A facade for the underlying CssProperty list maintained by CssRule. We override the add and set
+   * methods to intercept the {@value IMAGE_PROPERTY_NAME} property.
    */
   private class SpritePropertyList implements List<CssProperty> {
     private final List<CssProperty> source;
@@ -214,8 +212,8 @@ public class CssSprite extends CssRule implements CssSubstitution {
       }
 
     } else {
-      throw new IllegalArgumentException("The " + IMAGE_PROPERTY_NAME
-          + " property of @sprite must have exactly one value");
+      throw new IllegalArgumentException(
+          "The " + IMAGE_PROPERTY_NAME + " property of @sprite must have exactly one value");
     }
   }
 }

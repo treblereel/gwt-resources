@@ -15,56 +15,55 @@
  */
 package org.gwtproject.resources.rg;
 
+import static org.gwtproject.resources.client.DataResource.DoNotEmbed;
+import static org.gwtproject.resources.client.DataResource.MimeType;
+
+import java.net.URL;
+import javax.lang.model.element.ExecutableElement;
 import org.gwtproject.resources.client.impl.DataResourcePrototype;
 import org.gwtproject.resources.ext.*;
 import org.gwtproject.resources.rg.util.SourceWriter;
 import org.gwtproject.resources.rg.util.StringSourceWriter;
 import org.gwtproject.safehtml.shared.UriUtils;
 
-import javax.lang.model.element.ExecutableElement;
-import java.net.URL;
-
-import static org.gwtproject.resources.client.DataResource.DoNotEmbed;
-import static org.gwtproject.resources.client.DataResource.MimeType;
-
-/**
- * Provides implementations of DataResource.
- */
+/** Provides implementations of DataResource. */
 public final class DataResourceGenerator extends AbstractResourceGenerator {
-    @Override
-    public String createAssignment(TreeLogger logger, ResourceContext context, ExecutableElement method)
-            throws UnableToCompleteException {
-        ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
-        URL[] resources = resourceOracle.findResources(logger, method);
+  @Override
+  public String createAssignment(
+      TreeLogger logger, ResourceContext context, ExecutableElement method)
+      throws UnableToCompleteException {
+    ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
+    URL[] resources = resourceOracle.findResources(logger, method);
 
-        if (resources.length != 1) {
-            logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);
-            throw new UnableToCompleteException();
-        }
-
-        // Determine if a MIME Type has been specified
-        MimeType mimeTypeAnnotation = method.getAnnotation(MimeType.class);
-        String mimeType = mimeTypeAnnotation != null ? mimeTypeAnnotation.value() : null;
-
-        // Determine if resource should not be embedded
-        DoNotEmbed doNotEmbed = method.getAnnotation(DoNotEmbed.class);
-        boolean forceExternal = (doNotEmbed != null);
-
-        URL resource = resources[0];
-        String outputUrlExpression = context.deploy(resource, mimeType, forceExternal);
-
-        SourceWriter sw = new StringSourceWriter();
-        // Convenience when examining the generated code.
-        if (!AbstractResourceGenerator.STRIP_COMMENTS) {
-            sw.println("// " + resource.toExternalForm());
-        }
-        sw.println("new " + DataResourcePrototype.class.getName() + "(");
-        sw.indent();
-        sw.println('"' + method.getSimpleName().toString() + "\",");
-        sw.println(UriUtils.class.getCanonicalName() + ".fromTrustedString(" + outputUrlExpression + ")");
-        sw.outdent();
-        sw.print(")");
-
-        return sw.toString();
+    if (resources.length != 1) {
+      logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);
+      throw new UnableToCompleteException();
     }
+
+    // Determine if a MIME Type has been specified
+    MimeType mimeTypeAnnotation = method.getAnnotation(MimeType.class);
+    String mimeType = mimeTypeAnnotation != null ? mimeTypeAnnotation.value() : null;
+
+    // Determine if resource should not be embedded
+    DoNotEmbed doNotEmbed = method.getAnnotation(DoNotEmbed.class);
+    boolean forceExternal = (doNotEmbed != null);
+
+    URL resource = resources[0];
+    String outputUrlExpression = context.deploy(resource, mimeType, forceExternal);
+
+    SourceWriter sw = new StringSourceWriter();
+    // Convenience when examining the generated code.
+    if (!AbstractResourceGenerator.STRIP_COMMENTS) {
+      sw.println("// " + resource.toExternalForm());
+    }
+    sw.println("new " + DataResourcePrototype.class.getName() + "(");
+    sw.indent();
+    sw.println('"' + method.getSimpleName().toString() + "\",");
+    sw.println(
+        UriUtils.class.getCanonicalName() + ".fromTrustedString(" + outputUrlExpression + ")");
+    sw.outdent();
+    sw.print(")");
+
+    return sw.toString();
+  }
 }

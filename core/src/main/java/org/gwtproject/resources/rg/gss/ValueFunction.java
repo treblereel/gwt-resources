@@ -20,9 +20,8 @@ import com.google.common.css.compiler.ast.CssValueNode;
 import com.google.common.css.compiler.ast.ErrorManager;
 import com.google.common.css.compiler.ast.GssFunction;
 import com.google.common.css.compiler.ast.GssFunctionException;
-import org.gwtproject.resources.rg.gss.ast.CssDotPathNode;
-
 import java.util.List;
+import org.gwtproject.resources.rg.gss.ast.CssDotPathNode;
 
 /**
  * Handles the value() function. This function takes a sequence of dot-separated identifiers
@@ -52,10 +51,10 @@ public class ValueFunction implements GssFunction {
       prefix = args.get(2).getValue();
     }
 
-    CssDotPathNode cssDotPathNode = new CssDotPathNode(functionPath, prefix, suffix,
-        args.get(0).getSourceCodeLocation());
+    CssDotPathNode cssDotPathNode =
+        new CssDotPathNode(functionPath, prefix, suffix, args.get(0).getSourceCodeLocation());
 
-    return ImmutableList.of( cssDotPathNode);
+    return ImmutableList.of(cssDotPathNode);
   }
 
   @Override
@@ -82,4 +81,3 @@ public class ValueFunction implements GssFunction {
     return null;
   }
 }
-

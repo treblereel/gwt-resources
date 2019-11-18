@@ -20,22 +20,19 @@ import org.gwtproject.resources.rg.css.ast.Context;
 import org.gwtproject.resources.rg.css.ast.CssIf;
 import org.gwtproject.resources.rg.css.ast.CssVisitor;
 
-/**
- * Analyzes a stylesheet to update the ClientBundleRequirements interface.
- */
+/** Analyzes a stylesheet to update the ClientBundleRequirements interface. */
 public class RequirementsCollector extends CssVisitor {
-    private final TreeLogger logger;
+  private final TreeLogger logger;
 
-    public RequirementsCollector(TreeLogger logger) {
-        this.logger = logger.branch(TreeLogger.DEBUG,
-                "Scanning CSS for requirements");
-    }
+  public RequirementsCollector(TreeLogger logger) {
+    this.logger = logger.branch(TreeLogger.DEBUG, "Scanning CSS for requirements");
+  }
 
-    @Override
-    public void endVisit(CssIf x, Context ctx) {
-        String propertyName = x.getPropertyName();
-        if (propertyName != null) {
-            logger.log(TreeLogger.Type.ALL, "RequirementsCollector " + propertyName);
-        }
+  @Override
+  public void endVisit(CssIf x, Context ctx) {
+    String propertyName = x.getPropertyName();
+    if (propertyName != null) {
+      logger.log(TreeLogger.Type.ALL, "RequirementsCollector " + propertyName);
     }
+  }
 }

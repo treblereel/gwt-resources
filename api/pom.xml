@@ -18,7 +18,7 @@
         <developer>
             <id>treblereel</id>
             <name>Dmitrii Tikhomirov</name>
-            <email>chani@me.com</email>
+            <email>chani.liet@gmail.com</email>
         </developer>
     </developers>
 
@@ -44,6 +44,11 @@
         <dependency>
             <groupId>org.gwtproject.regexp</groupId>
             <artifactId>gwt-regexp</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-datetimeformat</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -103,6 +108,39 @@
                         <phase>package</phase>
                         <goals>
                             <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${maven.licence.plugin}</version>
+                <configuration>
+                    <header>LICENSE.header</header>
+                    <encoding>UTF-8</encoding>
+                    <skipExistingHeaders>true</skipExistingHeaders>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                    <excludes>
+                        <exclude>**/README.md</exclude>
+                        <exclude>**/LICENSE</exclude>
+                        <exclude>**/LICENSE.header</exclude>
+                        <exclude>**/AUTHORS</exclude>
+                        <exclude>**/*.xml</exclude>
+                        <exclude>src/test/resources/**</exclude>
+                        <exclude>src/main/resources/**</exclude>
+                    </excludes>
+                    <properties>
+                        <year>${project.inceptionYear}</year>
+                        <name>${project.organization.name}</name>
+                    </properties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>

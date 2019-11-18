@@ -18,79 +18,78 @@ package org.gwtproject.resources.ext;
 import java.util.List;
 
 /**
- * Default immutable implementation of ConfigurationProperty that receives its
- * values in its constructor.
+ * Default immutable implementation of ConfigurationProperty that receives its values in its
+ * constructor.
  */
 public class DefaultConfigurationProperty implements ConfigurationProperty {
 
-    private final String name;
-    private final List<String> values;
+  private final String name;
+  private final List<String> values;
 
-    /**
-     * Construct a configuration property.
-     *
-     * @param name   the name of this property, must not be null
-     * @param values the list of possible values, must not be null and
-     *               will be returned to callers, so a copy should be passed into this
-     *               ctor if the caller will use this set later
-     */
-    public DefaultConfigurationProperty(String name, List<String> values) {
-        assert name != null;
-        assert values != null;
-        this.name = name;
-        this.values = values;
-    }
+  /**
+   * Construct a configuration property.
+   *
+   * @param name the name of this property, must not be null
+   * @param values the list of possible values, must not be null and will be returned to callers, so
+   *     a copy should be passed into this ctor if the caller will use this set later
+   */
+  public DefaultConfigurationProperty(String name, List<String> values) {
+    assert name != null;
+    assert values != null;
+    this.name = name;
+    this.values = values;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        DefaultConfigurationProperty other = (DefaultConfigurationProperty) obj;
-        return name.equals(other.name)
-                && values.equals(other.values);
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    DefaultConfigurationProperty other = (DefaultConfigurationProperty) obj;
+    return name.equals(other.name) && values.equals(other.values);
+  }
 
-    @Override
-    public List<String> getValues() {
-        return values;
-    }
+  @Override
+  public List<String> getValues() {
+    return values;
+  }
 
-    @Override
-    public String asSingleValue() throws UnableToCompleteException {
-        if (values.size() > 1) {
-            throw new UnableToCompleteException("The configuration property " + getName() + " cannot be a multi-valued property");
-        }
-        return values.get(0);
+  @Override
+  public String asSingleValue() throws UnableToCompleteException {
+    if (values.size() > 1) {
+      throw new UnableToCompleteException(
+          "The configuration property " + getName() + " cannot be a multi-valued property");
     }
+    return values.get(0);
+  }
 
-    @Override
-    public Boolean asSingleBooleanValue() throws UnableToCompleteException {
-        return Boolean.valueOf(asSingleValue());
-    }
+  @Override
+  public Boolean asSingleBooleanValue() throws UnableToCompleteException {
+    return Boolean.valueOf(asSingleValue());
+  }
 
-    @Override
-    public String getName() {
-        return name;
-    }
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + name.hashCode();
-        result = prime * result + values.hashCode();
-        return result;
-    }
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + name.hashCode();
+    result = prime * result + values.hashCode();
+    return result;
+  }
 
-    @Override
-    public String toString() {
-        return "ConfigProp " + name + ": " + values.toString();
-    }
+  @Override
+  public String toString() {
+    return "ConfigProp " + name + ": " + values.toString();
+  }
 }

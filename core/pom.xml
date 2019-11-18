@@ -18,7 +18,7 @@
         <developer>
             <id>treblereel</id>
             <name>Dmitrii Tikhomirov</name>
-            <email>chani@me.com</email>
+            <email>chani.liet@gmail.com</email>
         </developer>
     </developers>
 
@@ -35,7 +35,6 @@
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.core</groupId>
@@ -46,12 +45,6 @@
             <groupId>org.gwtproject.safecss</groupId>
             <artifactId>gwt-safecss</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.gwt</groupId>
-                    <artifactId>gwt-user</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.regexp</groupId>
@@ -94,6 +87,11 @@
             <version>${commons-io.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>${commons-text.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>${json.version}</version>
@@ -109,19 +107,19 @@
             <version>${closure-stylesheets.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <scope>test</scope>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons.codec.version}</version>
         </dependency>
-        <!-- class LocaleInfo-->
         <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
 
@@ -131,6 +129,7 @@
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.java</include>
+                    <include>**/*.properties</include>
                 </includes>
             </resource>
             <resource>
@@ -149,6 +148,61 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${maven.licence.plugin}</version>
+                <configuration>
+                    <header>LICENSE.header</header>
+                    <encoding>UTF-8</encoding>
+                    <skipExistingHeaders>true</skipExistingHeaders>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
+                    <excludes>
+                        <exclude>**/README.md</exclude>
+                        <exclude>**/LICENSE</exclude>
+                        <exclude>**/LICENSE.header</exclude>
+                        <exclude>**/AUTHORS</exclude>
+                        <exclude>**/*.xml</exclude>
+                        <exclude>src/test/resources/**</exclude>
+                        <exclude>src/main/resources/**</exclude>
+                    </excludes>
+                    <properties>
+                        <year>${project.inceptionYear}</year>
+                        <name>${project.organization.name}</name>
+                    </properties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <minimizeJar>true</minimizeJar>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*:*:*</artifact>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

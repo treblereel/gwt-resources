@@ -15,36 +15,30 @@
  */
 package org.gwtproject.resources.rg.gss;
 
-
 import com.google.common.base.Preconditions;
 import com.google.common.css.compiler.ast.CssClassSelectorNode;
 import com.google.common.css.compiler.ast.CssTree;
 import com.google.common.css.compiler.ast.DefaultTreeVisitor;
-import org.gwtproject.resources.rg.GssResourceGenerator;
-
-import javax.lang.model.element.TypeElement;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import javax.lang.model.element.TypeElement;
+import org.gwtproject.resources.rg.GssResourceGenerator;
 
-/**
- * Collect all CSS class names in a stylesheet.
- */
+/** Collect all CSS class names in a stylesheet. */
 public class ClassNamesCollector extends DefaultTreeVisitor {
-  private Set<String>  classNames;
+  private Set<String> classNames;
   private SortedSet<String> excludedPrefixes;
 
-  /**
-   * Extract all CSS class names in the provided stylesheet.
-   */
+  /** Extract all CSS class names in the provided stylesheet. */
   public Set<String> getClassNames(CssTree tree) {
     return getClassNames(tree, new HashSet<>());
   }
 
   /**
-   * Extract all CSS class names in the provided stylesheet, modulo those
-   * imported from another context.
+   * Extract all CSS class names in the provided stylesheet, modulo those imported from another
+   * context.
    */
   public Set<String> getClassNames(CssTree tree, Set<TypeElement> imports) {
     Preconditions.checkNotNull(tree, "tree cannot be null");

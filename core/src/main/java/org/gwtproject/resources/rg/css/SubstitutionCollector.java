@@ -15,33 +15,30 @@
  */
 package org.gwtproject.resources.rg.css;
 
-import org.gwtproject.resources.rg.css.ast.*;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.gwtproject.resources.rg.css.ast.*;
 
-/**
- * Collects all user-defined constant nodes in the stylesheet.
- */
+/** Collects all user-defined constant nodes in the stylesheet. */
 public class SubstitutionCollector extends CssVisitor {
-    private final Map<String, CssDef> substitutions = new HashMap<>();
+  private final Map<String, CssDef> substitutions = new HashMap<>();
 
-    @Override
-    public void endVisit(CssDef x, Context ctx) {
-        substitutions.put(x.getKey(), x);
-    }
+  @Override
+  public void endVisit(CssDef x, Context ctx) {
+    substitutions.put(x.getKey(), x);
+  }
 
-    @Override
-    public void endVisit(CssEval x, Context ctx) {
-        substitutions.put(x.getKey(), x);
-    }
+  @Override
+  public void endVisit(CssEval x, Context ctx) {
+    substitutions.put(x.getKey(), x);
+  }
 
-    @Override
-    public void endVisit(CssUrl x, Context ctx) {
-        substitutions.put(x.getKey(), x);
-    }
+  @Override
+  public void endVisit(CssUrl x, Context ctx) {
+    substitutions.put(x.getKey(), x);
+  }
 
-    public Map<String, CssDef> getSubstitutions() {
-        return substitutions;
-    }
+  public Map<String, CssDef> getSubstitutions() {
+    return substitutions;
+  }
 }

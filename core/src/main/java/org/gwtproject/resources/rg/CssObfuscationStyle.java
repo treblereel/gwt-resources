@@ -19,86 +19,89 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 
 /**
- * Evaluates the obfuscation style the user selected and formats the obfuscated
- * name accordingly.
+ * Evaluates the obfuscation style the user selected and formats the obfuscated name accordingly.
  */
 public enum CssObfuscationStyle {
-    VERBOSE(true, false, true, true),
-    DEBUG(true, false, true, false),
-    STABLE_FULL_CLASSNAME(true, true, true, true),
-    STABLE_SHORT_CLASSNAME(true, true, true, false),
-    STABLE_NO_CLASSNAME(true, true, false, false),
-    OBFUSCATED(false, false, false, false);
+  VERBOSE(true, false, true, true),
+  DEBUG(true, false, true, false),
+  STABLE_FULL_CLASSNAME(true, true, true, true),
+  STABLE_SHORT_CLASSNAME(true, true, true, false),
+  STABLE_NO_CLASSNAME(true, true, false, false),
+  OBFUSCATED(false, false, false, false);
 
-    private boolean isPretty;
-    private boolean isStable;
-    private boolean showClassName;
-    private boolean showPackageName;
-    CssObfuscationStyle(boolean isPretty, boolean isStable, boolean showClassName,
-                        boolean showPackageName) {
-        this.isPretty = isPretty;
-        this.isStable = isStable;
-        this.showClassName = showClassName;
-        this.showPackageName = showPackageName;
+  private boolean isPretty;
+  private boolean isStable;
+  private boolean showClassName;
+  private boolean showPackageName;
+
+  CssObfuscationStyle(
+      boolean isPretty, boolean isStable, boolean showClassName, boolean showPackageName) {
+    this.isPretty = isPretty;
+    this.isStable = isStable;
+    this.showClassName = showClassName;
+    this.showPackageName = showPackageName;
+  }
+
+  static CssObfuscationStyle getObfuscationStyle(String name) {
+    if (name.equalsIgnoreCase("pretty")) {
+      return VERBOSE;
+    } else if (name.equalsIgnoreCase("debug")) {
+      return DEBUG;
+    } else if (name.equalsIgnoreCase("stable")) {
+      return STABLE_FULL_CLASSNAME;
+    } else if (name.equalsIgnoreCase("stable-shorttype")) {
+      return STABLE_SHORT_CLASSNAME;
+    } else if (name.equalsIgnoreCase("stable-notype")) {
+      return STABLE_NO_CLASSNAME;
     }
+    return OBFUSCATED;
+  }
 
-    static CssObfuscationStyle getObfuscationStyle(String name) {
-        if (name.equalsIgnoreCase("pretty")) {
-            return VERBOSE;
-        } else if (name.equalsIgnoreCase("debug")) {
-            return DEBUG;
-        } else if (name.equalsIgnoreCase("stable")) {
-            return STABLE_FULL_CLASSNAME;
-        } else if (name.equalsIgnoreCase("stable-shorttype")) {
-            return STABLE_SHORT_CLASSNAME;
-        } else if (name.equalsIgnoreCase("stable-notype")) {
-            return STABLE_NO_CLASSNAME;
+  public String getPrettyName(String method, TypeElement type, String obfuscatedName) {
+    if (!isPretty()) {
+      return obfuscatedName;
+    }
+    String toReturn = method;
+
+    /*
+     * Note that by dropping the type, or using it's short name, you are
+     * allowing name collisions in the css selector names. These options should
+     * only be used if you are sure that your GWT application is ensuring that
+     * there are no namespace collisions.
+     */
+    if (showClassName) {
+      if (showPackageName) {
+        toReturn = getPrettyCssClass(type.getQualifiedName().toString(), toReturn);
+      } else {
+        String typeName;
+        if (type.getEnclosingElement().getKind().equals(ElementKind.PACKAGE)) {
+          typeName = type.getSimpleName().toString();
+        } else {
+          typeName =
+              type.getEnclosingElement().getSimpleName().toString()
+                  + "-"
+                  + type.getSimpleName().toString();
         }
-        return OBFUSCATED;
+        toReturn = getPrettyCssClass(typeName, toReturn);
+      }
     }
 
-    public String getPrettyName(String method, TypeElement type, String obfuscatedName) {
-        if (!isPretty()) {
-            return obfuscatedName;
-        }
-        String toReturn = method;
-
-        /*
-         * Note that by dropping the type, or using it's short name, you are
-         * allowing name collisions in the css selector names. These options should
-         * only be used if you are sure that your GWT application is ensuring that
-         * there are no namespace collisions.
-         */
-        if (showClassName) {
-            if (showPackageName) {
-                toReturn = getPrettyCssClass(type.getQualifiedName().toString(), toReturn);
-            } else {
-                String typeName;
-                if(type.getEnclosingElement().getKind().equals(ElementKind.PACKAGE)){
-                    typeName = type.getSimpleName().toString();
-                }else {
-                    typeName = type.getEnclosingElement().getSimpleName().toString()+"-"+type.getSimpleName().toString();
-                }
-                toReturn = getPrettyCssClass(typeName, toReturn);
-            }
-        }
-
-        /*
-         * For stable styles the obfuscated class name is dropped from the pretty
-         * output. This results in class names that are constant, no matter how
-         * many other selectors are added.
-         */
-        if (!isStable) {
-            toReturn = obfuscatedName += "-" + toReturn;
-        }
-        return toReturn;
+    /*
+     * For stable styles the obfuscated class name is dropped from the pretty
+     * output. This results in class names that are constant, no matter how
+     * many other selectors are added.
+     */
+    if (!isStable) {
+      toReturn = obfuscatedName += "-" + toReturn;
     }
+    return toReturn;
+  }
 
-    public boolean isPretty() {
-        return isPretty;
-    }
+  public boolean isPretty() {
+    return isPretty;
+  }
 
-    private static String getPrettyCssClass(String typeName, String cssClass) {
-        return typeName.replaceAll("[.$]", "-") + "-" + cssClass;
-    }
+  private static String getPrettyCssClass(String typeName, String cssClass) {
+    return typeName.replaceAll("[.$]", "-") + "-" + cssClass;
+  }
 }

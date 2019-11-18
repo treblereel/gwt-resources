@@ -17,11 +17,8 @@ package org.gwtproject.resources.client;
 
 import org.gwtproject.resources.ext.DefaultExtensions;
 
-/**
- * A resource that contains text that should be incorporated into the compiled
- * output.
- */
+/** A resource that contains text that should be incorporated into the compiled output. */
 @DefaultExtensions(value = {".txt"})
 public interface TextResource extends ResourcePrototype {
-    String getText();
+  String getText();
 }

@@ -16,15 +16,12 @@
 package org.gwtproject.resources.logger;
 
 import com.google.common.collect.ComparisonChain;
+import java.util.Comparator;
+import java.util.HashSet;
 import org.gwtproject.resources.ext.TreeLogger;
 import org.gwtproject.resources.ext.UnableToCompleteException;
 
-import java.util.Comparator;
-import java.util.HashSet;
-
-/**
- * Abstract base class for TreeLoggers.
- */
+/** Abstract base class for TreeLoggers. */
 public abstract class AbstractTreeLogger extends TreeLogger {
 
   public static final Comparator<String> LOG_LINE_COMPARATOR =
@@ -45,8 +42,7 @@ public abstract class AbstractTreeLogger extends TreeLogger {
     public final Type type;
     private final HelpInfo helpInfo;
 
-    public UncommittedBranchData(Type type, String message, Throwable caught,
-        HelpInfo helpInfo) {
+    public UncommittedBranchData(Type type, String message, Throwable caught, HelpInfo helpInfo) {
       this.caught = caught;
       this.message = message;
       this.type = type;
@@ -55,12 +51,14 @@ public abstract class AbstractTreeLogger extends TreeLogger {
   }
 
   // This message is package-protected so that the unit test can access it.
-  static final String OUT_OF_MEMORY_MSG = "Out of memory; to increase the "
-      + "amount of memory, use the -Xmx flag at startup (java -Xmx128M ...)";
+  static final String OUT_OF_MEMORY_MSG =
+      "Out of memory; to increase the "
+          + "amount of memory, use the -Xmx flag at startup (java -Xmx128M ...)";
 
   // This message is package-protected so that the unit test can access it.
-  static final String STACK_OVERFLOW_MSG = "Stack overflow; to increase the "
-      + "stack size, use the -Xss flag at startup (java -Xss1M ...)";
+  static final String STACK_OVERFLOW_MSG =
+      "Stack overflow; to increase the "
+          + "stack size, use the -Xss flag at startup (java -Xss1M ...)";
 
   public static String getStackTraceAsString(Throwable e) {
     // Show the exception info for anything other than "UnableToComplete".
@@ -113,19 +111,13 @@ public abstract class AbstractTreeLogger extends TreeLogger {
 
   private UncommittedBranchData uncommitted;
 
-  /**
-   * The constructor used when creating a top-level logger.
-   */
-  protected AbstractTreeLogger() {
-  }
+  /** The constructor used when creating a top-level logger. */
+  protected AbstractTreeLogger() {}
 
-  /**
-   * Implements branching behavior that supports lazy logging for low-priority
-   * branched loggers.
-   */
+  /** Implements branching behavior that supports lazy logging for low-priority branched loggers. */
   @Override
-  public final synchronized TreeLogger branch(Type type, String msg,
-                                              Throwable caught, HelpInfo helpInfo) {
+  public final synchronized TreeLogger branch(
+      Type type, String msg, Throwable caught, HelpInfo helpInfo) {
 
     if (msg == null) {
       msg = "(Null branch message)";
@@ -156,9 +148,7 @@ public abstract class AbstractTreeLogger extends TreeLogger {
     // child (or grandchild) tries to log something that is loggable,
     // in which case there will be cascading commits of the parent branches.
     //
-    childLogger.uncommitted = new UncommittedBranchData(type, msg, caught,
-        helpInfo);
-
+    childLogger.uncommitted = new UncommittedBranchData(type, msg, caught, helpInfo);
 
     // This logic is intertwined with log(). If a log message is associated
     // with a special error condition, then we turn it into a branch,
@@ -202,13 +192,12 @@ public abstract class AbstractTreeLogger extends TreeLogger {
   }
 
   /**
-   * Immediately logs or ignores the specified messages, based on the specified
-   * message type and this logger's settings. If the message is loggable, then
-   * parent branches may be lazily created before the log can take place.
+   * Immediately logs or ignores the specified messages, based on the specified message type and
+   * this logger's settings. If the message is loggable, then parent branches may be lazily created
+   * before the log can take place.
    */
   @Override
-  public final synchronized void log(Type type, String msg,
-                                     Throwable caught, HelpInfo helpInfo) {
+  public final synchronized void log(Type type, String msg, Throwable caught, HelpInfo helpInfo) {
 
     if (msg == null) {
       msg = "(Null log message)";
@@ -229,9 +218,8 @@ public abstract class AbstractTreeLogger extends TreeLogger {
   }
 
   /**
-   * @param type the log type representing the most detailed level of logging
-   *          that the caller is interested in, or <code>null</code> to choose
-   *          the default level.
+   * @param type the log type representing the most detailed level of logging that the caller is
+   *     interested in, or <code>null</code> to choose the default level.
    */
   public final synchronized void setMaxDetail(Type type) {
     if (type == null) {
@@ -253,8 +241,8 @@ public abstract class AbstractTreeLogger extends TreeLogger {
   }
 
   /**
-   * Commits the branch after ensuring that the parent logger (if there is one)
-   * has been committed first.
+   * Commits the branch after ensuring that the parent logger (if there is one) has been committed
+   * first.
    */
   protected synchronized void commitMyBranchEntryInMyParentLogger() {
     // (Only the root logger doesn't have a parent.)
@@ -267,8 +255,8 @@ public abstract class AbstractTreeLogger extends TreeLogger {
 
         // Let the subclass do its thing to commit this branch.
         //
-        parent.doCommitBranch(this, uncommitted.type, uncommitted.message,
-            uncommitted.caught, uncommitted.helpInfo);
+        parent.doCommitBranch(
+            this, uncommitted.type, uncommitted.message, uncommitted.caught, uncommitted.helpInfo);
 
         // Release the uncommitted state.
         //
@@ -277,35 +265,38 @@ public abstract class AbstractTreeLogger extends TreeLogger {
     }
   }
 
-  /**
-   * Derived classes should override this method to return a branched logger.
-   */
+  /** Derived classes should override this method to return a branched logger. */
   protected abstract AbstractTreeLogger doBranch();
 
   /**
-   * Derived classes should override this method to actually commit the
-   * specified message associated with this the root of this branch.
+   * Derived classes should override this method to actually commit the specified message associated
+   * with this the root of this branch.
    */
   protected abstract void doCommitBranch(
-      AbstractTreeLogger childBeingCommitted, Type type, String msg,
-      Throwable caught, HelpInfo helpInfo);
+      AbstractTreeLogger childBeingCommitted,
+      Type type,
+      String msg,
+      Throwable caught,
+      HelpInfo helpInfo);
 
   /**
-   * Derived classes should override this method to actually write a log
-   * message. Note that {@link #isLoggable(Type)} will have already
-   * been called.
+   * Derived classes should override this method to actually write a log message. Note that {@link
+   * #isLoggable(Type)} will have already been called.
    */
-  protected abstract void doLog(int indexOfLogEntryWithinParentLogger,
-      Type type, String msg, Throwable caught, HelpInfo helpInfo);
+  protected abstract void doLog(
+      int indexOfLogEntryWithinParentLogger,
+      Type type,
+      String msg,
+      Throwable caught,
+      HelpInfo helpInfo);
 
   /**
-   * Scans <code>t</code> and its causes for {@link OutOfMemoryError} or
-   * {@link StackOverflowError}.
+   * Scans <code>t</code> and its causes for {@link OutOfMemoryError} or {@link StackOverflowError}.
    *
    * @param t a possibly null {@link Throwable}
-   * @return true if {@link OutOfMemoryError} or {@link StackOverflowError}
-   *         appears anywhere in the cause list or if <code>t</code> is an
-   *         {@link OutOfMemoryError} or {@link StackOverflowError}
+   * @return true if {@link OutOfMemoryError} or {@link StackOverflowError} appears anywhere in the
+   *     cause list or if <code>t</code> is an {@link OutOfMemoryError} or {@link
+   *     StackOverflowError}
    */
   private String causedBySpecialError(Throwable t) {
     while (t != null) {

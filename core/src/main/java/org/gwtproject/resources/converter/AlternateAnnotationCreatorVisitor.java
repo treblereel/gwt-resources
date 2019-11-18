@@ -15,15 +15,12 @@
  */
 package org.gwtproject.resources.converter;
 
-import org.gwtproject.resources.rg.css.ast.*;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.gwtproject.resources.rg.css.ast.*;
 
-/**
- * Visitor that adds @alternate annotations where required in CSSRules.
- */
+/** Visitor that adds @alternate annotations where required in CSSRules. */
 public class AlternateAnnotationCreatorVisitor extends CssVisitor {
 
   @Override
