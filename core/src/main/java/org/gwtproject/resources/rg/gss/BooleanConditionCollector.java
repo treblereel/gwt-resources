@@ -20,26 +20,22 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.css.compiler.ast.CssBooleanExpressionNode;
 import com.google.common.css.compiler.ast.CssCompilerPass;
 import com.google.common.css.compiler.ast.MutatingVisitController;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 
 /**
- * Visitor that collects the simple boolean conditions that are mapped to configuration
- * properties.
- * <p>
- * <code>
+ * Visitor that collects the simple boolean conditions that are mapped to configuration properties.
+ *
+ * <p><code>
  *
  * &#064;if (MY_PROPERTY) {
  * ...
  * }
  * </code>
- * <p>will be evaluated to true if and only if a configuration property with the same name is set
- * to the value "true":
- * {@code
- * <set-configuration-property name="MY_PROPERTY" value="true" />
- * }
+ *
+ * <p>will be evaluated to true if and only if a configuration property with the same name is set to
+ * the value "true": {@code <set-configuration-property name="MY_PROPERTY" value="true" /> }
  */
 public class BooleanConditionCollector extends ExtendedConditionalNodeVisitor
     implements CssCompilerPass {

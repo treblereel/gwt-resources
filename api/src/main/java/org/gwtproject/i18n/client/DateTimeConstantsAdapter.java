@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,15 +18,14 @@ package org.gwtproject.i18n.client;
 import org.gwtproject.i18n.client.constants.DateTimeConstants;
 
 /**
- * Adapter that makes a {@link org.gwtproject.i18n.client.DateTimeFormatInfo}
- * implementation suitable for use with something that wants a
- * {@link DateTimeConstants}.
+ * Adapter that makes a {@link org.gwtproject.i18n.client.DateTimeFormatInfo} implementation
+ * suitable for use with something that wants a {@link DateTimeConstants}.
  */
 @SuppressWarnings("deprecation")
 class DateTimeConstantsAdapter implements DateTimeConstants {
 
   private final DateTimeFormatInfo dtfi;
-  
+
   public DateTimeConstantsAdapter(DateTimeFormatInfo dtfi) {
     this.dtfi = dtfi;
   }
@@ -37,8 +36,7 @@ class DateTimeConstantsAdapter implements DateTimeConstants {
 
   public String[] dateFormats() {
     return new String[] {
-        dtfi.dateFormatFull(), dtfi.dateFormatLong(), dtfi.dateFormatMedium(),
-        dtfi.dateFormatShort(),
+      dtfi.dateFormatFull(), dtfi.dateFormatLong(), dtfi.dateFormatMedium(), dtfi.dateFormatShort(),
     };
   }
 
@@ -108,8 +106,7 @@ class DateTimeConstantsAdapter implements DateTimeConstants {
 
   public String[] timeFormats() {
     return new String[] {
-        dtfi.timeFormatFull(), dtfi.timeFormatLong(), dtfi.timeFormatMedium(),
-        dtfi.dateFormatShort(),
+      dtfi.timeFormatFull(), dtfi.timeFormatLong(), dtfi.timeFormatMedium(), dtfi.dateFormatShort(),
     };
   }
 
@@ -119,8 +116,7 @@ class DateTimeConstantsAdapter implements DateTimeConstants {
 
   public String[] weekendRange() {
     return new String[] {
-        String.valueOf(dtfi.weekendStart() + 1),
-        String.valueOf(dtfi.weekendEnd() + 1),
+      String.valueOf(dtfi.weekendStart() + 1), String.valueOf(dtfi.weekendEnd() + 1),
     };
   }
 }

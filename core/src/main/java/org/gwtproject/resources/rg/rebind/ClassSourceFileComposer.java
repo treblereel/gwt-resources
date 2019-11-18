@@ -15,201 +15,200 @@
  */
 package org.gwtproject.resources.rg.rebind;
 
+import java.io.PrintWriter;
 import org.gwtproject.resources.ext.GeneratorContext;
 import org.gwtproject.resources.ext.TreeLogger;
 import org.gwtproject.resources.rg.util.SourceWriter;
 
-import java.io.PrintWriter;
-
 class ClassSourceFileComposer implements SourceWriter {
 
-    /**
-     * For the interior of a '*' style comment.
-     */
-    private static final String STAR_COMMENT_LINE = " * ";
-    private final GeneratorContext ctx;
-    private final PrintWriter printWriter;
-    private boolean atStart;
-    /**
-     * Either STAR/BLOCK comment line, not pulled out into a ENUM class because
-     * only used by this class.
-     */
-    private String commentIndicator;
-    /**
-     * Are you currently in a comment?
-     */
-    private boolean inComment;
-    private int indent;
+  /** For the interior of a '*' style comment. */
+  private static final String STAR_COMMENT_LINE = " * ";
 
-    ClassSourceFileComposer(GeneratorContext ctx, PrintWriter printWriter,
-                            String targetPackageName, String[] annotationDeclarations,
-                            String targetClassShortName, String superClassName,
-                            String[] interfaceNames, String[] imports, ClassSourceFileComposerFactory.JavaSourceCategory category,
-                            String classJavaDocComment) {
-        this.ctx = ctx;
-        this.printWriter = printWriter;
-        if (targetPackageName == null) {
-            throw new IllegalArgumentException("Cannot supply a null package name to"
-                    + targetClassShortName);
+  private final GeneratorContext ctx;
+  private final PrintWriter printWriter;
+  private boolean atStart;
+  /**
+   * Either STAR/BLOCK comment line, not pulled out into a ENUM class because only used by this
+   * class.
+   */
+  private String commentIndicator;
+  /** Are you currently in a comment? */
+  private boolean inComment;
+
+  private int indent;
+
+  ClassSourceFileComposer(
+      GeneratorContext ctx,
+      PrintWriter printWriter,
+      String targetPackageName,
+      String[] annotationDeclarations,
+      String targetClassShortName,
+      String superClassName,
+      String[] interfaceNames,
+      String[] imports,
+      ClassSourceFileComposerFactory.JavaSourceCategory category,
+      String classJavaDocComment) {
+    this.ctx = ctx;
+    this.printWriter = printWriter;
+    if (targetPackageName == null) {
+      throw new IllegalArgumentException(
+          "Cannot supply a null package name to" + targetClassShortName);
+    }
+    // TODO: support a user-specified file header
+    if (targetPackageName.length() > 0) {
+      println("package " + targetPackageName + ";");
+    }
+
+    if (imports != null && imports.length > 0) {
+      println();
+      for (int i = 0, n = imports.length; i < n; ++i) {
+        println("import " + imports[i] + ";");
+      }
+    }
+    if (classJavaDocComment != null) {
+      beginJavaDocComment();
+      print(classJavaDocComment);
+      endJavaDocComment();
+    } else {
+      // beginJavaDocComment adds its own leading newline, make up for it here.
+      println();
+    }
+    for (String annotation : annotationDeclarations) {
+      println(annotation);
+    }
+    if (category == ClassSourceFileComposerFactory.JavaSourceCategory.CLASS) {
+      emitClassDecl(targetClassShortName, superClassName, interfaceNames);
+    } else {
+      emitInterfaceDecl(targetClassShortName, superClassName, interfaceNames);
+    }
+    println(" {");
+    indent();
+  }
+
+  /** Begin emitting a JavaDoc comment. */
+  public void beginJavaDocComment() {
+    println("\n/**");
+    inComment = true;
+    commentIndicator = STAR_COMMENT_LINE;
+  }
+
+  public void commit(TreeLogger logger) {
+    outdent();
+    println("}");
+    printWriter.close();
+    // If generating a class on the command line, may not have a
+    if (ctx != null) {
+      ctx.commit(logger, printWriter);
+    }
+  }
+
+  public void outdent() {
+    --indent;
+  }
+
+  public void println(String s) {
+    print(s + "\n");
+    atStart = true;
+  }
+
+  public void print(String s) {
+    int pos = 0;
+    for (; ; ) {
+      // If we just printed a newline, print an indent.
+      if (atStart) {
+        for (int j = 0; j < indent; ++j) {
+          printWriter.print("  ");
         }
-        // TODO: support a user-specified file header
-        if (targetPackageName.length() > 0) {
-            println("package " + targetPackageName + ";");
+        if (inComment) {
+          printWriter.print(commentIndicator);
         }
+        atStart = false;
+      }
 
-        if (imports != null && imports.length > 0) {
-            println();
-            for (int i = 0, n = imports.length; i < n; ++i) {
-                println("import " + imports[i] + ";");
-            }
+      // Now find the next newline.
+      int nl = s.indexOf('\n', pos);
+
+      // If there's no newline or it's at the end of the string, just write
+      // the rest of the string, and we're done.
+      if (nl == -1 || nl == s.length() - 1) {
+        printWriter.write(s, pos, s.length() - pos);
+        return;
+      }
+
+      // Otherwise, write up to and including the newline, note that we just
+      // printed a newline, and loop on the rest of the string.
+      printWriter.write(s, pos, nl + 1 - pos);
+      atStart = true;
+      pos = nl + 1;
+    }
+  }
+
+  /** End emitting a JavaDoc comment. */
+  public void endJavaDocComment() {
+    inComment = false;
+    println("\n */");
+  }
+
+  public void indentln(String s, Object... args) {
+    indentln(String.format(s, args));
+  }
+
+  public void indentln(String s) {
+    indent();
+    println(s);
+    outdent();
+  }
+
+  public void indent() {
+    ++indent;
+  }
+
+  public void print(String s, Object... args) {
+    print(String.format(s, args));
+  }
+
+  public void println() {
+    print("\n");
+    atStart = true;
+  }
+
+  public void println(String s, Object... args) {
+    println(String.format(s, args));
+  }
+
+  private void emitClassDecl(
+      String targetClassShortName, String superClassName, String[] interfaceNames) {
+    print("public class " + targetClassShortName);
+    if (superClassName != null) {
+      print(" extends " + superClassName);
+    }
+    if (interfaceNames != null && interfaceNames.length > 0) {
+      print(" implements ");
+      for (int i = 0, n = interfaceNames.length; i < n; ++i) {
+        if (i > 0) {
+          print(", ");
         }
-        if (classJavaDocComment != null) {
-            beginJavaDocComment();
-            print(classJavaDocComment);
-            endJavaDocComment();
-        } else {
-            // beginJavaDocComment adds its own leading newline, make up for it here.
-            println();
+        print(interfaceNames[i]);
+      }
+    }
+  }
+
+  private void emitInterfaceDecl(
+      String targetClassShortName, String superClassName, String[] interfaceNames) {
+    if (superClassName != null) {
+      throw new IllegalArgumentException(
+          "Cannot set superclass name " + superClassName + " on a interface.");
+    }
+    print("public interface " + targetClassShortName);
+    if (interfaceNames != null && interfaceNames.length > 0) {
+      print(" extends ");
+      for (int i = 0; i < interfaceNames.length; ++i) {
+        if (i > 0) {
+          print(", ");
         }
-        for (String annotation : annotationDeclarations) {
-            println(annotation);
-        }
-        if (category == ClassSourceFileComposerFactory.JavaSourceCategory.CLASS) {
-            emitClassDecl(targetClassShortName, superClassName, interfaceNames);
-        } else {
-            emitInterfaceDecl(targetClassShortName, superClassName, interfaceNames);
-        }
-        println(" {");
-        indent();
+        print(interfaceNames[i]);
+      }
     }
-
-    /**
-     * Begin emitting a JavaDoc comment.
-     */
-    public void beginJavaDocComment() {
-        println("\n/**");
-        inComment = true;
-        commentIndicator = STAR_COMMENT_LINE;
-    }
-
-    public void commit(TreeLogger logger) {
-        outdent();
-        println("}");
-        printWriter.close();
-        // If generating a class on the command line, may not have a
-        if (ctx != null) {
-            ctx.commit(logger, printWriter);
-        }
-    }
-
-    public void outdent() {
-        --indent;
-    }
-
-    public void println(String s) {
-        print(s + "\n");
-        atStart = true;
-    }
-
-    public void print(String s) {
-        int pos = 0;
-        for (; ; ) {
-            // If we just printed a newline, print an indent.
-            if (atStart) {
-                for (int j = 0; j < indent; ++j) {
-                    printWriter.print("  ");
-                }
-                if (inComment) {
-                    printWriter.print(commentIndicator);
-                }
-                atStart = false;
-            }
-
-            // Now find the next newline.
-            int nl = s.indexOf('\n', pos);
-
-            // If there's no newline or it's at the end of the string, just write
-            // the rest of the string, and we're done.
-            if (nl == -1 || nl == s.length() - 1) {
-                printWriter.write(s, pos, s.length() - pos);
-                return;
-            }
-
-            // Otherwise, write up to and including the newline, note that we just
-            // printed a newline, and loop on the rest of the string.
-            printWriter.write(s, pos, nl + 1 - pos);
-            atStart = true;
-            pos = nl + 1;
-        }
-    }
-
-    /**
-     * End emitting a JavaDoc comment.
-     */
-    public void endJavaDocComment() {
-        inComment = false;
-        println("\n */");
-    }
-
-    public void indentln(String s, Object... args) {
-        indentln(String.format(s, args));
-    }
-
-    public void indentln(String s) {
-        indent();
-        println(s);
-        outdent();
-    }
-
-    public void indent() {
-        ++indent;
-    }
-
-    public void print(String s, Object... args) {
-        print(String.format(s, args));
-    }
-
-    public void println() {
-        print("\n");
-        atStart = true;
-    }
-
-    public void println(String s, Object... args) {
-        println(String.format(s, args));
-    }
-
-    private void emitClassDecl(String targetClassShortName,
-                               String superClassName, String[] interfaceNames) {
-        print("public class " + targetClassShortName);
-        if (superClassName != null) {
-            print(" extends " + superClassName);
-        }
-        if (interfaceNames != null && interfaceNames.length > 0) {
-            print(" implements ");
-            for (int i = 0, n = interfaceNames.length; i < n; ++i) {
-                if (i > 0) {
-                    print(", ");
-                }
-                print(interfaceNames[i]);
-            }
-        }
-    }
-
-    private void emitInterfaceDecl(String targetClassShortName,
-                                   String superClassName, String[] interfaceNames) {
-        if (superClassName != null) {
-            throw new IllegalArgumentException("Cannot set superclass name "
-                    + superClassName + " on a interface.");
-        }
-        print("public interface " + targetClassShortName);
-        if (interfaceNames != null && interfaceNames.length > 0) {
-            print(" extends ");
-            for (int i = 0; i < interfaceNames.length; ++i) {
-                if (i > 0) {
-                    print(", ");
-                }
-                print(interfaceNames[i]);
-            }
-        }
-    }
+  }
 }

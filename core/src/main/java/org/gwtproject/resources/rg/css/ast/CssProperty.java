@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,18 +15,14 @@
  */
 package org.gwtproject.resources.rg.css.ast;
 
-import java.util.*;
-
 import static org.gwtproject.resources.rg.Generator.escape;
 
-/**
- * Maps a named property to a Value.
- */
+import java.util.*;
+
+/** Maps a named property to a Value. */
 public class CssProperty extends CssNode implements CssSubstitution {
 
-  /**
-   * Represents a sequence of no-arg method invocations.
-   */
+  /** Represents a sequence of no-arg method invocations. */
   public static class DotPathValue extends Value {
     private final String path;
     private final String suffix;
@@ -81,14 +77,11 @@ public class CssProperty extends CssNode implements CssSubstitution {
 
     @Override
     public String toCss() {
-      return "value(\"" + path + "\""
-          + (suffix == null ? "" : (", \"" + suffix + "\"")) + ")";
+      return "value(\"" + path + "\"" + (suffix == null ? "" : (", \"" + suffix + "\"")) + ")";
     }
   }
 
-  /**
-   * Represents a literal Java expression.
-   */
+  /** Represents a literal Java expression. */
   public static class ExpressionValue extends Value {
     private final String expression;
 
@@ -116,18 +109,14 @@ public class CssProperty extends CssNode implements CssSubstitution {
       return "/* Java expression */";
     }
 
-    /**
-     * For debugging only.
-     */
+    /** For debugging only. */
     @Override
     public String toString() {
       return expression;
     }
   }
 
-  /**
-   * Represents a CSS function value.
-   */
+  /** Represents a CSS function value. */
   public static class FunctionValue extends Value {
     private final String name;
     private final ListValue values;
@@ -140,8 +129,7 @@ public class CssProperty extends CssNode implements CssSubstitution {
     @Override
     public String getExpression() {
       // "{name}(" + {valuesExpr} + ")"
-      return String.format("\"%s(\" + %s + \")\"",
-          escape(name), values.getExpression());
+      return String.format("\"%s(\" + %s + \")\"", escape(name), values.getExpression());
     }
 
     public String getName() {
@@ -168,9 +156,7 @@ public class CssProperty extends CssNode implements CssSubstitution {
     }
   }
 
-  /**
-   * Represents an identifier in the CSS source.
-   */
+  /** Represents an identifier in the CSS source. */
   public static class IdentValue extends Value {
     private final String ident;
 
@@ -198,9 +184,7 @@ public class CssProperty extends CssNode implements CssSubstitution {
     }
   }
 
-  /**
-   * Represents a space-separated list of Values.
-   */
+  /** Represents a space-separated list of Values. */
   public static class ListValue extends Value {
     private final List<Value> values;
 
@@ -216,7 +200,7 @@ public class CssProperty extends CssNode implements CssSubstitution {
     public String getExpression() {
       StringBuilder toReturn = new StringBuilder();
       boolean first = true;
-      for (Iterator<Value> i = values.iterator(); i.hasNext();) {
+      for (Iterator<Value> i = values.iterator(); i.hasNext(); ) {
         Value value = i.next();
         if (!first && value.isSpaceRequired()) {
           toReturn.append("\" \" +");
@@ -238,10 +222,8 @@ public class CssProperty extends CssNode implements CssSubstitution {
     public ListValue isListValue() {
       return this;
     }
-  
-    /**
-     * A ListValue is static if all of its component values are static.
-     */
+
+    /** A ListValue is static if all of its component values are static. */
     @Override
     public boolean isStatic() {
       for (Value value : values) {
@@ -269,9 +251,7 @@ public class CssProperty extends CssNode implements CssSubstitution {
     }
   }
 
-  /**
-   * Represents a numeric value, possibly with attached units.
-   */
+  /** Represents a numeric value, possibly with attached units. */
   public static class NumberValue extends Value {
     private final String css;
     private final String expression;
@@ -330,16 +310,13 @@ public class CssProperty extends CssNode implements CssSubstitution {
     }
   }
 
-  /**
-   * Represents one or more quoted string literals.
-   */
+  /** Represents one or more quoted string literals. */
   public static class StringValue extends Value {
     private static String escapeValue(String s, boolean inDoubleQuotes) {
       StringBuilder b = new StringBuilder();
       for (char c : s.toCharArray()) {
         if (Character.isISOControl(c)) {
-          b.append('\\').append(Integer.toHexString(c).toUpperCase(Locale.ROOT)).append(
-              " ");
+          b.append('\\').append(Integer.toHexString(c).toUpperCase(Locale.ROOT)).append(" ");
         } else {
           switch (c) {
             case '\'':
@@ -394,18 +371,14 @@ public class CssProperty extends CssNode implements CssSubstitution {
       return this;
     }
 
-    /**
-     * Returns a escaped, quoted representation of the underlying value.
-     */
+    /** Returns a escaped, quoted representation of the underlying value. */
     @Override
     public String toCss() {
       return '"' + escapeValue(value, true) + '"';
     }
   }
 
-  /**
-   * Represents a token in the CSS source.
-   */
+  /** Represents a token in the CSS source. */
   public static class TokenValue extends IdentValue {
 
     public TokenValue(String token) {
@@ -418,13 +391,9 @@ public class CssProperty extends CssNode implements CssSubstitution {
     }
   }
 
-  /**
-   * An abstract encapsulation of property values in GWT CSS.
-   */
+  /** An abstract encapsulation of property values in GWT CSS. */
   public abstract static class Value {
-    /**
-     * Generate a Java expression whose execution results in the value.
-     */
+    /** Generate a Java expression whose execution results in the value. */
     public abstract String getExpression();
 
     public DotPathValue isDotPathValue() {
@@ -454,10 +423,10 @@ public class CssProperty extends CssNode implements CssSubstitution {
     public boolean isSpaceRequired() {
       return true;
     }
-   
+
     /**
      * Indicates if the value is static.
-     * 
+     *
      * @see CssNode#isStatic()
      */
     public boolean isStatic() {
@@ -468,14 +437,10 @@ public class CssProperty extends CssNode implements CssSubstitution {
       return null;
     }
 
-    /**
-     * Generate a CSS expression that represents the Value.
-     */
+    /** Generate a CSS expression that represents the Value. */
     public abstract String toCss();
 
-    /**
-     * For debugging only.
-     */
+    /** For debugging only. */
     @Override
     public String toString() {
       return toCss();

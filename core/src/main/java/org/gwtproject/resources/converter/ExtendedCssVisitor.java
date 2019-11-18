@@ -17,20 +17,17 @@ package org.gwtproject.resources.converter;
 
 import org.gwtproject.resources.rg.css.ast.*;
 
-/**
- * This visitor allows to visit new nodes created specifically for the conversion.
- */
+/** This visitor allows to visit new nodes created specifically for the conversion. */
 public class ExtendedCssVisitor extends CssVisitor {
 
   /**
-   * @param x   the node being visited
+   * @param x the node being visited
    * @param ctx the context for the visit
    */
-  public void endVisit(CssElse x, Context ctx) {
-  }
+  public void endVisit(CssElse x, Context ctx) {}
 
   /**
-   * @param x   the node being visited
+   * @param x the node being visited
    * @param ctx the context for the visit
    */
   public boolean visit(CssElse x, Context ctx) {
@@ -38,14 +35,13 @@ public class ExtendedCssVisitor extends CssVisitor {
   }
 
   /**
-   * @param x   the node being visited
+   * @param x the node being visited
    * @param ctx the context for the visit
    */
-  public void endVisit(CssElIf x, Context ctx) {
-  }
+  public void endVisit(CssElIf x, Context ctx) {}
 
   /**
-   * @param x   the node being visited
+   * @param x the node being visited
    * @param ctx the context for the visit
    */
   public boolean visit(CssElIf x, Context ctx) {

@@ -15,27 +15,23 @@
  */
 package org.gwtproject.resources.context;
 
-import org.gwtproject.resources.ext.ResourceContext;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.gwtproject.resources.ext.ResourceContext;
 
-/**
- * A context for sharing cache state across Client Bundle Generators.
- */
+/** A context for sharing cache state across Client Bundle Generators. */
 public class ClientBundleContext {
-    /**
-     * A general purpose String to object class which backs the interfaces defined
-     * in {@link ResourceContext}.
-     */
-    private final Map<String, Object> cachedData = new HashMap<String, Object>();
+  /**
+   * A general purpose String to object class which backs the interfaces defined in {@link
+   * ResourceContext}.
+   */
+  private final Map<String, Object> cachedData = new HashMap<String, Object>();
 
-    public Object getCachedData(String string) {
-        return cachedData.get(string);
-    }
+  public Object getCachedData(String string) {
+    return cachedData.get(string);
+  }
 
-    public Object putCachedData(String key, Object value) {
-        return cachedData.put(key, value);
-    }
-
+  public Object putCachedData(String key, Object value) {
+    return cachedData.put(key, value);
+  }
 }

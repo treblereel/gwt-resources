@@ -18,26 +18,24 @@ package org.gwtproject.resources.ext;
 
 import java.util.List;
 
-/**
- * A named configuration (property, values) pair.
- */
+/** A named configuration (property, values) pair. */
 public interface ConfigurationProperty {
 
-    /**
-     * The name of the property.
-     *
-     * @return the property name as a String.
-     */
-    String getName();
+  /**
+   * The name of the property.
+   *
+   * @return the property name as a String.
+   */
+  String getName();
 
-    /**
-     * The values for the permutation currently being considered.
-     *
-     * @return the property values as a List of Strings.
-     */
-    List<String> getValues();
+  /**
+   * The values for the permutation currently being considered.
+   *
+   * @return the property values as a List of Strings.
+   */
+  List<String> getValues();
 
-    String asSingleValue() throws UnableToCompleteException;
+  String asSingleValue() throws UnableToCompleteException;
 
-    Boolean asSingleBooleanValue() throws UnableToCompleteException;
+  Boolean asSingleBooleanValue() throws UnableToCompleteException;
 }

@@ -15,27 +15,26 @@
  */
 package org.gwtproject.resources.converter;
 
+import static org.gwtproject.resources.ext.TreeLogger.*;
+import static org.gwtproject.resources.rg.css.ast.CssProperty.*;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
-import org.gwtproject.resources.ext.TreeLogger;
-import org.gwtproject.resources.rg.css.ast.Context;
-import org.gwtproject.resources.rg.css.ast.CssProperty;
-import org.gwtproject.resources.rg.css.ast.CssRule;
-import org.gwtproject.resources.rg.css.ast.CssVisitor;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.gwtproject.resources.ext.TreeLogger.*;
-import static org.gwtproject.resources.rg.css.ast.CssProperty.*;
+import org.gwtproject.resources.ext.TreeLogger;
+import org.gwtproject.resources.rg.css.ast.Context;
+import org.gwtproject.resources.rg.css.ast.CssProperty;
+import org.gwtproject.resources.rg.css.ast.CssRule;
+import org.gwtproject.resources.rg.css.ast.CssVisitor;
 
 /**
- * Converts upper case strings used in properties to lowercase if they are not defined
- * with a proper @def statement.
+ * Converts upper case strings used in properties to lowercase if they are not defined with a
+ * proper @def statement.
  */
 public class UndefinedConstantVisitor extends CssVisitor {
 
@@ -46,8 +45,8 @@ public class UndefinedConstantVisitor extends CssVisitor {
   private final boolean lenient;
   private final TreeLogger treeLogger;
 
-  public UndefinedConstantVisitor(Set<String> gssContantNames, boolean lenient,
-      TreeLogger treeLogger) {
+  public UndefinedConstantVisitor(
+      Set<String> gssContantNames, boolean lenient, TreeLogger treeLogger) {
     this.gssContantNames = gssContantNames;
     this.lenient = lenient;
     this.treeLogger = treeLogger;
@@ -85,8 +84,7 @@ public class UndefinedConstantVisitor extends CssVisitor {
 
       } else if (value.isFunctionValue() != null) {
         FunctionValue functionValue = value.isFunctionValue();
-        ListValue listValue = visitListValue(functionValue.getValues(), cssPropertyName,
-            selector);
+        ListValue listValue = visitListValue(functionValue.getValues(), cssPropertyName, selector);
 
         newValues.add(new FunctionValue(functionValue.getName(), listValue));
 
@@ -107,17 +105,30 @@ public class UndefinedConstantVisitor extends CssVisitor {
     if (matcher.matches()) {
       String upperCaseString = matcher.group();
       if (!gssContantNames.contains(upperCaseString)) {
-        treeLogger.log(Type.WARN, "Property '" + cssPropertyName + "' from rule '"
-            + selector + "' uses an undefined constant: " + upperCaseString);
+        treeLogger.log(
+            Type.WARN,
+            "Property '"
+                + cssPropertyName
+                + "' from rule '"
+                + selector
+                + "' uses an undefined constant: "
+                + upperCaseString);
         if (lenient) {
-          treeLogger.log(Type.WARN, "turning '" + upperCaseString +
-              "' to lower case. This is probably not what you wanted here in the " +
-              "first place!");
+          treeLogger.log(
+              Type.WARN,
+              "turning '"
+                  + upperCaseString
+                  + "' to lower case. This is probably not what you wanted here in the "
+                  + "first place!");
           return new IdentValue(upperCaseString.toLowerCase(Locale.US));
         } else {
-          throw new Css2GssConversionException("Found undefined constant in input. "
-              + cssPropertyName + "' from rule '" + selector + "' undefined constant: " +
-              upperCaseString);
+          throw new Css2GssConversionException(
+              "Found undefined constant in input. "
+                  + cssPropertyName
+                  + "' from rule '"
+                  + selector
+                  + "' undefined constant: "
+                  + upperCaseString);
         }
       }
     }

@@ -15,21 +15,15 @@
  */
 package org.gwtproject.resources.rg.gss;
 
-
 import com.google.common.base.Objects;
 import com.google.common.css.compiler.ast.*;
 import com.google.common.css.compiler.passes.BiDiFlipper;
-
 import java.util.List;
 
-/**
- * Compiler pass that BiDi flips all the flippable nodes and records if nodes have been flipped.
- */
+/** Compiler pass that BiDi flips all the flippable nodes and records if nodes have been flipped. */
 public class RecordingBidiFlipper extends DefaultTreeVisitor implements CssCompilerPass {
 
-  /**
-   * This {@link MutatingVisitController} will record if an effective mutation is done.
-   */
+  /** This {@link MutatingVisitController} will record if an effective mutation is done. */
   private static class RecordingMutatingVisitController implements MutatingVisitController {
     private MutatingVisitController delegate;
     private CssDeclarationNode visitingDeclarationNode;
@@ -45,11 +39,13 @@ public class RecordingBidiFlipper extends DefaultTreeVisitor implements CssCompi
     }
 
     @Override
-    public <T extends CssNode> void replaceCurrentBlockChildWith(List<T> replacementNodes,
-                                                                 boolean visitTheReplacementNodes) {
+    public <T extends CssNode> void replaceCurrentBlockChildWith(
+        List<T> replacementNodes, boolean visitTheReplacementNodes) {
       // In our case, the list of replacement node should contain only one CssDeclarationNode
-      if (!hasMutation && visitingDeclarationNode != null && replacementNodes.size() == 1 &&
-          replacementNodes.get(0) instanceof CssDeclarationNode) {
+      if (!hasMutation
+          && visitingDeclarationNode != null
+          && replacementNodes.size() == 1
+          && replacementNodes.get(0) instanceof CssDeclarationNode) {
         CssDeclarationNode newDeclarationNode = (CssDeclarationNode) replacementNodes.get(0);
         hasMutation |= isNotEqual(visitingDeclarationNode, newDeclarationNode);
       }
@@ -76,18 +72,18 @@ public class RecordingBidiFlipper extends DefaultTreeVisitor implements CssCompi
     }
 
     private boolean functionNodeEqual(CssFunctionNode first, CssFunctionNode second) {
-      return valueNodeListEqual(first.getArguments().getChildren(), second.getArguments()
-          .getChildren());
+      return valueNodeListEqual(
+          first.getArguments().getChildren(), second.getArguments().getChildren());
     }
 
     private boolean isNotEqual(CssDeclarationNode first, CssDeclarationNode second) {
-      return !propertyNameEqual(first.getPropertyName(), second.getPropertyName()) ||
-          !propertyValuesEqual(first.getPropertyValue(), second.getPropertyValue());
+      return !propertyNameEqual(first.getPropertyName(), second.getPropertyName())
+          || !propertyValuesEqual(first.getPropertyValue(), second.getPropertyValue());
     }
 
     private boolean numericNodeEqual(CssNumericNode first, CssNumericNode second) {
-      return Objects.equal(first.getNumericPart(), second.getNumericPart()) &&
-          Objects.equal(first.getUnit(), second.getUnit());
+      return Objects.equal(first.getNumericPart(), second.getNumericPart())
+          && Objects.equal(first.getUnit(), second.getUnit());
     }
 
     private boolean propertyNameEqual(CssPropertyNode first, CssPropertyNode second) {
@@ -114,8 +110,8 @@ public class RecordingBidiFlipper extends DefaultTreeVisitor implements CssCompi
       }
     }
 
-    private boolean valueNodeListEqual(List<CssValueNode> firstValues,
-        List<CssValueNode> secondValues) {
+    private boolean valueNodeListEqual(
+        List<CssValueNode> firstValues, List<CssValueNode> secondValues) {
       if (firstValues.size() != secondValues.size()) {
         return false;
       }
@@ -136,12 +132,19 @@ public class RecordingBidiFlipper extends DefaultTreeVisitor implements CssCompi
   private BiDiFlipper delegate;
   private RecordingMutatingVisitController mutatingVisitController;
 
-  public RecordingBidiFlipper(MutatingVisitController visitController, boolean swapLtrRtlInUrl,
-      boolean swapLeftRightInUrl, boolean shouldFlipConstantReferences) {
+  public RecordingBidiFlipper(
+      MutatingVisitController visitController,
+      boolean swapLtrRtlInUrl,
+      boolean swapLeftRightInUrl,
+      boolean shouldFlipConstantReferences) {
 
     this.mutatingVisitController = new RecordingMutatingVisitController(visitController);
-    this.delegate = new BiDiFlipper(mutatingVisitController, swapLtrRtlInUrl, swapLeftRightInUrl,
-        shouldFlipConstantReferences);
+    this.delegate =
+        new BiDiFlipper(
+            mutatingVisitController,
+            swapLtrRtlInUrl,
+            swapLeftRightInUrl,
+            shouldFlipConstantReferences);
   }
 
   @Override
@@ -150,9 +153,7 @@ public class RecordingBidiFlipper extends DefaultTreeVisitor implements CssCompi
     return delegate.enterDeclaration(declaration);
   }
 
-  /**
-   * return true if at least one node was flipped, false otherwise.
-   */
+  /** return true if at least one node was flipped, false otherwise. */
   public boolean nodeFlipped() {
     return mutatingVisitController.hasMutation;
   }

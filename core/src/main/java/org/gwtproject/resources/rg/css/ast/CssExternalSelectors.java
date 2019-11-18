@@ -19,9 +19,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * An AST node that allows the developer to indicate that certain class
- * selectors appearing in the stylesheet should be considered external and not
- * subject to obfuscation requirements.
+ * An AST node that allows the developer to indicate that certain class selectors appearing in the
+ * stylesheet should be considered external and not subject to obfuscation requirements.
  */
 public class CssExternalSelectors extends CssNode {
 

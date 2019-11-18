@@ -15,21 +15,20 @@
  */
 package org.gwtproject.resources.rg.gss;
 
-
 import com.google.common.collect.Lists;
 import com.google.common.css.compiler.ast.*;
 import com.google.common.css.compiler.passes.BooleanExpressionEvaluator;
 import com.google.common.css.compiler.passes.EliminateConditionalNodes;
-import org.gwtproject.resources.rg.gss.ast.CssRuntimeConditionalRuleNode;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.gwtproject.resources.rg.gss.ast.CssRuntimeConditionalRuleNode;
 
 /**
- * A compiler pass that eliminates the conditional blocks for which the boolean
- * expression does not evaluate to true.
+ * A compiler pass that eliminates the conditional blocks for which the boolean expression does not
+ * evaluate to true.
+ *
  * <p>This compiler pass does not deal with conditional nodes that need to be evaluated at runtime.
  */
 public class ExtendedEliminateConditionalNodes extends EliminateConditionalNodes
@@ -38,11 +37,12 @@ public class ExtendedEliminateConditionalNodes extends EliminateConditionalNodes
   private final MutatingVisitController visitController;
   private final Set<String> trueConditions;
   private final Set<CssConditionalBlockNode> runtimeConditionalNodes;
-  private final Set<CssConditionalBlockNode> alreadyTreatedNode =
-      new HashSet<>();
+  private final Set<CssConditionalBlockNode> alreadyTreatedNode = new HashSet<>();
 
-  public ExtendedEliminateConditionalNodes(MutatingVisitController visitController,
-      Set<String> trueConditions, Set<CssConditionalBlockNode> runtimeConditionalNodes) {
+  public ExtendedEliminateConditionalNodes(
+      MutatingVisitController visitController,
+      Set<String> trueConditions,
+      Set<CssConditionalBlockNode> runtimeConditionalNodes) {
     super(visitController, trueConditions);
 
     this.visitController = visitController;
@@ -67,8 +67,7 @@ public class ExtendedEliminateConditionalNodes extends EliminateConditionalNodes
 
   private boolean enterRuntimeConditionalBlock(CssConditionalBlockNode block) {
     boolean runtimeEvaluationNodeFound = false;
-    List<CssConditionalRuleNode> newChildren =
-        new ArrayList<>(block.numChildren());
+    List<CssConditionalRuleNode> newChildren = new ArrayList<>(block.numChildren());
 
     for (CssConditionalRuleNode currentConditional : block.childIterable()) {
       if (currentConditional.getType() == CssAtRuleNode.Type.ELSE) {
@@ -83,8 +82,8 @@ public class ExtendedEliminateConditionalNodes extends EliminateConditionalNodes
       }
 
       // The node can be evaluated at compile time
-      BooleanExpressionEvaluator evaluator = new BooleanExpressionEvaluator(
-          currentConditional.getCondition(), trueConditions);
+      BooleanExpressionEvaluator evaluator =
+          new BooleanExpressionEvaluator(currentConditional.getCondition(), trueConditions);
 
       CssBooleanExpressionNode result = evaluator.evaluate();
       boolean isTrue = CssBooleanExpressionNode.Type.TRUE_CONSTANT.equals(result.getValue());
@@ -94,13 +93,17 @@ public class ExtendedEliminateConditionalNodes extends EliminateConditionalNodes
       } else if (!runtimeEvaluationNodeFound) {
         // node evaluated to true before the runtime condition, replace the conditional block by the
         // children of this current conditional node.
-        visitController.replaceCurrentBlockChildWith(currentConditional.getBlock().getChildren(),
-            true);
+        visitController.replaceCurrentBlockChildWith(
+            currentConditional.getBlock().getChildren(), true);
         return true;
       } else {
         // node evaluated to true before the runtime condition, transform this node to an else node
-        CssConditionalRuleNode newNode = new CssConditionalRuleNode(CssAtRuleNode.Type.ELSE,
-            currentConditional.getName(), null, currentConditional.getBlock());
+        CssConditionalRuleNode newNode =
+            new CssConditionalRuleNode(
+                CssAtRuleNode.Type.ELSE,
+                currentConditional.getName(),
+                null,
+                currentConditional.getBlock());
 
         newChildren.add(newNode);
         break;

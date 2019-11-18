@@ -16,23 +16,19 @@
 package org.gwtproject.i18n.client;
 
 import java.util.Date;
-
 import org.gwtproject.core.client.JsArrayInteger;
 import org.gwtproject.core.client.JsArrayString;
 
 /**
- * The TimeZone class implements a time zone information source for client
- * applications. The time zone object is instantiated from a TimeZoneData object,
- * which is made from a JSON string that contains all the data needed for
- * the specified time zone. Applications can instantiate a time zone statically,
- * in which case the data could be retrieved from
- * the {@link org.gwtproject.i18n.client.constants.TimeZoneConstants TimeZoneConstants}
- * class. Applications can also choose to instantiate from a string obtained
- * from a server. The time zone string contains locale specific data. If the
- * application only uses a short representation, the English data will usually
- * satisfy the user's need. In the case that only the time zone offset is known,
- * there is a decent fallback that only uses the time zone offset to create a
- * TimeZone object.
+ * The TimeZone class implements a time zone information source for client applications. The time
+ * zone object is instantiated from a TimeZoneData object, which is made from a JSON string that
+ * contains all the data needed for the specified time zone. Applications can instantiate a time
+ * zone statically, in which case the data could be retrieved from the {@link
+ * org.gwtproject.i18n.client.constants.TimeZoneConstants TimeZoneConstants} class. Applications can
+ * also choose to instantiate from a string obtained from a server. The time zone string contains
+ * locale specific data. If the application only uses a short representation, the English data will
+ * usually satisfy the user's need. In the case that only the time zone offset is known, there is a
+ * decent fallback that only uses the time zone offset to create a TimeZone object.
  */
 public class TimeZone implements org.gwtproject.i18n.shared.TimeZone {
   // constants to reference time zone names in the time zone names array
@@ -42,8 +38,8 @@ public class TimeZone implements org.gwtproject.i18n.shared.TimeZone {
   private static final int DLT_LONG_NAME = 3;
 
   /**
-   * This factory method provides a decent fallback to create a time zone object
-   * just based on a given time zone offset.
+   * This factory method provides a decent fallback to create a time zone object just based on a
+   * given time zone offset.
    *
    * @param timeZoneOffsetInMinutes time zone offset in minutes
    * @return a new time zone object
@@ -60,15 +56,13 @@ public class TimeZone implements org.gwtproject.i18n.shared.TimeZone {
     return tz;
   }
 
-
-
   /**
-   * This factory method creates a time zone instance from a JSON string that
-   * contains the time zone information for desired time zone. Applications can
-   * get such a string from the TimeZoneConstants class, or it can request the
-   * string from the server. Either way, the application obtains the original
-   * string from the data provided in the TimeZoneConstant.properties file,
-   * which was carefully prepared from CLDR and Olson time zone database.
+   * This factory method creates a time zone instance from a JSON string that contains the time zone
+   * information for desired time zone. Applications can get such a string from the
+   * TimeZoneConstants class, or it can request the string from the server. Either way, the
+   * application obtains the original string from the data provided in the
+   * TimeZoneConstant.properties file, which was carefully prepared from CLDR and Olson time zone
+   * database.
    *
    * @param tzJSON JSON string that contains time zone data
    * @return a new time zone object
@@ -80,8 +74,8 @@ public class TimeZone implements org.gwtproject.i18n.shared.TimeZone {
   }
 
   /**
-   * This factory method provides a decent fallback to create a time zone object
-   * just based on a given time zone offset.
+   * This factory method provides a decent fallback to create a time zone object just based on a
+   * given time zone offset.
    *
    * @param timeZoneOffsetInMinutes time zone offset in minutes
    * @return a new time zone object
@@ -131,8 +125,8 @@ public class TimeZone implements org.gwtproject.i18n.shared.TimeZone {
   }
 
   /**
-   * In GMT representation, +/- has reverse sign of time zone offset.
-   * when offset == 480, it should output GMT-08:00.
+   * In GMT representation, +/- has reverse sign of time zone offset. when offset == 480, it should
+   * output GMT-08:00.
    */
   private static String composeGMTString(int offset) {
     char data[] = {'G', 'M', 'T', '-', '0', '0', ':', '0', '0'};
@@ -147,9 +141,7 @@ public class TimeZone implements org.gwtproject.i18n.shared.TimeZone {
     return new String(data);
   }
 
-  /**
-   * POSIX time zone ID as fallback.
-   */
+  /** POSIX time zone ID as fallback. */
   private static String composePOSIXTimeZoneID(int offset) {
     if (offset == 0) {
       return "Etc/GMT";
@@ -191,10 +183,9 @@ public class TimeZone implements org.gwtproject.i18n.shared.TimeZone {
   private int standardOffset;
   private String[] tzNames;
   private int[] transitionPoints;
-  private int[]  adjustments;
+  private int[] adjustments;
 
-  private TimeZone() {
-  }
+  private TimeZone() {}
 
   /* (non-Javadoc)
    * @see org.gwtproject.i18n.client.TimeZoneIntf#getDaylightAdjustment(java.util.Date)
@@ -205,8 +196,7 @@ public class TimeZone implements org.gwtproject.i18n.shared.TimeZone {
     }
     long timeInHours = date.getTime() / 1000 / 3600;
     int index = 0;
-    while (index < transitionPoints.length &&
-        timeInHours >= transitionPoints[index]) {
+    while (index < transitionPoints.length && timeInHours >= transitionPoints[index]) {
       ++index;
     }
     return (index == 0) ? 0 : adjustments[index - 1];

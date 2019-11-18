@@ -20,25 +20,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 
-/**
- * An ObjectInputStream that interns all deserialized strings.
- */
+/** An ObjectInputStream that interns all deserialized strings. */
 public class StringInterningObjectInputStream extends ObjectInputStream {
 
-    public static final int MAX_INTERNED_STRING_SIZE = 2048;
+  public static final int MAX_INTERNED_STRING_SIZE = 2048;
 
-    public StringInterningObjectInputStream(InputStream inputStream) throws IOException {
-        super(inputStream);
-        enableResolveObject(true);
-    }
+  public StringInterningObjectInputStream(InputStream inputStream) throws IOException {
+    super(inputStream);
+    enableResolveObject(true);
+  }
 
-    @Override
-    protected Object resolveObject(Object obj) throws IOException {
-        Object resolvedObject = super.resolveObject(obj);
-        if (resolvedObject instanceof String &&
-                ((String) resolvedObject).length() < MAX_INTERNED_STRING_SIZE) {
-            return StringInterner.get().intern((String) resolvedObject);
-        }
-        return resolvedObject;
+  @Override
+  protected Object resolveObject(Object obj) throws IOException {
+    Object resolvedObject = super.resolveObject(obj);
+    if (resolvedObject instanceof String
+        && ((String) resolvedObject).length() < MAX_INTERNED_STRING_SIZE) {
+      return StringInterner.get().intern((String) resolvedObject);
     }
+    return resolvedObject;
+  }
 }

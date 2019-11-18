@@ -19,11 +19,10 @@ import com.google.common.css.compiler.ast.*;
 
 /**
  * Visitor that validates runtime conditional node.
- * <p/>
- * Runtime conditional node shouldn't contain any constant definitions nor external at-rule.
+ *
+ * <p>Runtime conditional node shouldn't contain any constant definitions nor external at-rule.
  */
-public class ValidateRuntimeConditionalNode extends DefaultTreeVisitor implements
-        CssCompilerPass {
+public class ValidateRuntimeConditionalNode extends DefaultTreeVisitor implements CssCompilerPass {
 
   private final VisitController visitController;
   private final ErrorManager errorManager;
@@ -31,8 +30,8 @@ public class ValidateRuntimeConditionalNode extends DefaultTreeVisitor implement
 
   private int cssConditionalRuleNodes;
 
-  public ValidateRuntimeConditionalNode(VisitController visitController,
-      ErrorManager errorManager, boolean lenient) {
+  public ValidateRuntimeConditionalNode(
+      VisitController visitController, ErrorManager errorManager, boolean lenient) {
     this.visitController = visitController;
     this.errorManager = errorManager;
     this.lenient = lenient;
@@ -42,12 +41,18 @@ public class ValidateRuntimeConditionalNode extends DefaultTreeVisitor implement
   public boolean enterDefinition(CssDefinitionNode node) {
     if (inConditionalRule()) {
       if (lenient) {
-        errorManager.reportWarning(new GssError("You should not define a constant inside a " +
-            "ConditionalNode that will be evaluated at runtime. This will be disallowed in " +
-            "the next version of GWT.", node.getSourceCodeLocation()));
+        errorManager.reportWarning(
+            new GssError(
+                "You should not define a constant inside a "
+                    + "ConditionalNode that will be evaluated at runtime. This will be disallowed in "
+                    + "the next version of GWT.",
+                node.getSourceCodeLocation()));
       } else {
-        errorManager.report(new GssError("You cannot define a constant inside a ConditionalNode " +
-            "that will be evaluated at runtime.", node.getSourceCodeLocation()));
+        errorManager.report(
+            new GssError(
+                "You cannot define a constant inside a ConditionalNode "
+                    + "that will be evaluated at runtime.",
+                node.getSourceCodeLocation()));
       }
     }
     return false;
@@ -57,12 +62,18 @@ public class ValidateRuntimeConditionalNode extends DefaultTreeVisitor implement
   public boolean enterUnknownAtRule(CssUnknownAtRuleNode node) {
     if (inConditionalRule() && "external".equals(node.getName().getValue())) {
       if (lenient) {
-        errorManager.reportWarning(new GssError("You should not define a external at-rule inside" +
-            " a  ConditionalNode that will be evaluated at runtime. This will be disallowed in " +
-            "the next version of GWT.", node.getSourceCodeLocation()));
+        errorManager.reportWarning(
+            new GssError(
+                "You should not define a external at-rule inside"
+                    + " a  ConditionalNode that will be evaluated at runtime. This will be disallowed in "
+                    + "the next version of GWT.",
+                node.getSourceCodeLocation()));
       } else {
-        errorManager.report(new GssError("You cannot define a external at-rule inside a " +
-            "ConditionalNode that will be evaluated at runtime.", node.getSourceCodeLocation()));
+        errorManager.report(
+            new GssError(
+                "You cannot define a external at-rule inside a "
+                    + "ConditionalNode that will be evaluated at runtime.",
+                node.getSourceCodeLocation()));
       }
     }
     return super.enterUnknownAtRule(node);

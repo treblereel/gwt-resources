@@ -15,18 +15,14 @@
  */
 package org.gwtproject.resources.rg.gss;
 
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.css.GssFunctionMapProvider;
 import com.google.common.css.compiler.ast.GssFunction;
 import com.google.common.css.compiler.gssfunctions.DefaultGssFunctionMapProvider;
+import java.util.Map;
 import org.gwtproject.resources.ext.ResourceContext;
 
-import java.util.Map;
-
-/**
- * {@link GssFunctionMapProvider} that adds the mapping of GssFunction implemented for GWT.
- */
+/** {@link GssFunctionMapProvider} that adds the mapping of GssFunction implemented for GWT. */
 public class GwtGssFunctionMapProvider extends DefaultGssFunctionMapProvider {
   private final ResourceContext context;
 
@@ -38,7 +34,8 @@ public class GwtGssFunctionMapProvider extends DefaultGssFunctionMapProvider {
   public Map<String, GssFunction> get() {
     Map<String, GssFunction> gssFunctionMap = super.get();
 
-    return ImmutableMap.<String, GssFunction>builder().putAll(gssFunctionMap)
+    return ImmutableMap.<String, GssFunction>builder()
+        .putAll(gssFunctionMap)
         // TODO add a namespace for gwt-specific function ?
         .put(EvalFunction.getName(), new EvalFunction())
         .put(ValueFunction.getName(), new ValueFunction())

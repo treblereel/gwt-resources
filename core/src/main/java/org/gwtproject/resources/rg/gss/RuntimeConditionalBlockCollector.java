@@ -16,17 +16,16 @@
 package org.gwtproject.resources.rg.gss;
 
 import com.google.common.css.compiler.ast.*;
-import org.gwtproject.resources.rg.gss.ast.CssRuntimeConditionalRuleNode;
-
 import java.util.HashSet;
 import java.util.Set;
+import org.gwtproject.resources.rg.gss.ast.CssRuntimeConditionalRuleNode;
 
 /**
  * Visitor that collects conditional blocks containing conditions that need to be evaluated at
  * runtime.
  */
-public class RuntimeConditionalBlockCollector extends DefaultTreeVisitor implements
-        CssCompilerPass {
+public class RuntimeConditionalBlockCollector extends DefaultTreeVisitor
+    implements CssCompilerPass {
 
   private final VisitController visitController;
 

@@ -15,22 +15,16 @@
  */
 package org.gwtproject.i18n.client;
 
-/**
- * Provides low-level functionality to determine whether to support bidi.
- */
+/** Provides low-level functionality to determine whether to support bidi. */
 public class BidiPolicy {
-  /**
-   * Implementation class for {@link BidiPolicy}.
-   */
+  /** Implementation class for {@link BidiPolicy}. */
   public static class BidiPolicyImpl {
     public boolean isBidiEnabled() {
       return false;
     }
   }
 
-  /**
-   * Implementation class for {@link BidiPolicy} used when bidi is always on.
-   */
+  /** Implementation class for {@link BidiPolicy} used when bidi is always on. */
   public static class BidiPolicyImplOn extends BidiPolicyImpl {
     @Override
     public boolean isBidiEnabled() {
@@ -40,9 +34,7 @@ public class BidiPolicy {
 
   private static BidiPolicyImpl impl = new BidiPolicyImpl();
 
-  /**
-   * Returns true if bidi is enabled, false if disabled.
-   */
+  /** Returns true if bidi is enabled, false if disabled. */
   public static boolean isBidiEnabled() {
     return false;
   }

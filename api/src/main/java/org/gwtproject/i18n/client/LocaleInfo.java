@@ -20,80 +20,72 @@ import org.gwtproject.i18n.client.constants.NumberConstants;
 import org.gwtproject.i18n.client.impl.CldrImpl;
 import org.gwtproject.i18n.client.impl.LocaleInfoImpl;
 import org.gwtproject.i18n.client.impl.NumberConstantsImpl_;
-import org.gwtproject.i18n.client.impl.cldr.DateTimeFormatInfoImpl;
-import org.gwtproject.i18n.client.impl.cldr.DateTimeFormatInfoImpl_en;
 
-/**
- * Provides access to the currently-active locale and the list of available
- * locales.
- */
+/** Provides access to the currently-active locale and the list of available locales. */
 @SuppressWarnings("deprecation")
 public class LocaleInfo {
 
-    public static boolean hasAnyRTL() {
-        return instance.infoImpl.hasAnyRTL();
+  public static boolean hasAnyRTL() {
+    return instance.infoImpl.hasAnyRTL();
+  }
+
+  private final LocaleInfoImpl infoImpl;
+
+  private final CldrImpl cldrImpl;
+
+  private DateTimeConstants dateTimeConstants;
+
+  private DateTimeFormatInfo dateTimeFormatInfo; // = new DateTimeFormatInfoImpl_en();
+
+  private NumberConstants numberConstants;
+
+  /**
+   * Currently we only support getting the currently running locale, so this is a static. In the
+   * future, we would need a hash map from locale names to LocaleInfo instances.
+   */
+  private static LocaleInfo instance = new LocaleInfo(new LocaleInfoImpl(), new CldrImpl());
+
+  /**
+   * Constructor to be used by subclasses, such as mock classes for testing. Any such subclass
+   * should override all methods.
+   */
+  protected LocaleInfo() {
+    infoImpl = null;
+    cldrImpl = null;
+  }
+
+  /**
+   * Create a LocaleInfo instance, passing in the implementation classes.
+   *
+   * @param impl LocaleInfoImpl instance to use
+   * @param cldr CldrImpl instance to use
+   */
+  private LocaleInfo(LocaleInfoImpl impl, CldrImpl cldr) {
+    this.infoImpl = impl;
+    this.cldrImpl = cldr;
+  }
+
+  public static LocaleInfo getCurrentLocale() {
+    return new LocaleInfo();
+  }
+
+  /** Returns true if this locale is right-to-left instead of left-to-right. */
+  public final boolean isRTL() {
+    return false;
+  }
+
+  public DateTimeFormatInfo getDateTimeFormatInfo() {
+    return dateTimeFormatInfo;
+  }
+
+  public final NumberConstants getNumberConstants() {
+    ensureNumberConstants();
+    return numberConstants;
+  }
+
+  private void ensureNumberConstants() {
+    if (numberConstants == null) {
+      numberConstants = new NumberConstantsImpl_();
     }
-
-    private final LocaleInfoImpl infoImpl;
-
-    private final CldrImpl cldrImpl;
-
-    private DateTimeConstants dateTimeConstants;
-
-    private DateTimeFormatInfo dateTimeFormatInfo;// = new DateTimeFormatInfoImpl_en();
-
-    private NumberConstants numberConstants;
-
-    /**
-     * Currently we only support getting the currently running locale, so this
-     * is a static.  In the future, we would need a hash map from locale names
-     * to LocaleInfo instances.
-     */
-    private static LocaleInfo instance = new LocaleInfo(new LocaleInfoImpl(),
-                                                        new CldrImpl());
-
-    /**
-     * Constructor to be used by subclasses, such as mock classes for testing.
-     * Any such subclass should override all methods.
-     */
-    protected LocaleInfo() {
-        infoImpl = null;
-        cldrImpl = null;
-    }
-
-    /**
-     * Create a LocaleInfo instance, passing in the implementation classes.
-     * @param impl LocaleInfoImpl instance to use
-     * @param cldr CldrImpl instance to use
-     */
-    private LocaleInfo(LocaleInfoImpl impl, CldrImpl cldr) {
-        this.infoImpl = impl;
-        this.cldrImpl = cldr;
-    }
-
-    public static LocaleInfo getCurrentLocale() {
-        return new LocaleInfo();
-    }
-
-    /**
-     * Returns true if this locale is right-to-left instead of left-to-right.
-     */
-    public final boolean isRTL() {
-        return false;
-    }
-
-    public DateTimeFormatInfo getDateTimeFormatInfo() {
-        return dateTimeFormatInfo;
-    }
-
-    public final NumberConstants getNumberConstants() {
-        ensureNumberConstants();
-        return numberConstants;
-    }
-
-    private void ensureNumberConstants() {
-        if (numberConstants == null) {
-            numberConstants = new NumberConstantsImpl_();
-        }
-    }
+  }
 }

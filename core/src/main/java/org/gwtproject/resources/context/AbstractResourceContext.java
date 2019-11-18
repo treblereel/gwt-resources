@@ -16,102 +16,98 @@
 package org.gwtproject.resources.context;
 
 import com.google.common.io.BaseEncoding;
+import java.io.IOException;
+import java.net.URL;
+import javax.lang.model.element.TypeElement;
 import org.gwtproject.resources.ext.*;
 import org.gwtproject.resources.rg.util.Util;
 
-import javax.lang.model.element.TypeElement;
-import java.io.IOException;
-import java.net.URL;
-
-/**
- * Defines base methods for ResourceContext implementations.
- */
+/** Defines base methods for ResourceContext implementations. */
 public abstract class AbstractResourceContext implements ResourceContext {
-    /**
-     * The largest file size that will be inlined. Note that this value is taken
-     * before any encodings are applied.
-     */
-    protected static final int MAX_INLINE_SIZE = 2 << 15;
-    private final TreeLogger logger;
-    private final ClientBundleContext clientBundleCtx;
-    private final GeneratorContext context;
-    private final TypeElement resourceBundleType;
-    private String currentResourceGeneratorType;
-    private String simpleSourceName;
+  /**
+   * The largest file size that will be inlined. Note that this value is taken before any encodings
+   * are applied.
+   */
+  protected static final int MAX_INLINE_SIZE = 2 << 15;
 
-    protected AbstractResourceContext(TreeLogger logger,
-                                      GeneratorContext context,
-                                      TypeElement resourceBundleType,
-                                      ClientBundleContext clientBundleCtx) {
-        this.logger = logger;
-        this.context = context;
-        this.resourceBundleType = resourceBundleType;
-        this.clientBundleCtx = clientBundleCtx;
-    }
+  private final TreeLogger logger;
+  private final ClientBundleContext clientBundleCtx;
+  private final GeneratorContext context;
+  private final TypeElement resourceBundleType;
+  private String currentResourceGeneratorType;
+  private String simpleSourceName;
 
-    protected static String toBase64(byte[] data) {
-        return BaseEncoding.base64().encode(data).replaceAll("\\s+", "");
-    }
+  protected AbstractResourceContext(
+      TreeLogger logger,
+      GeneratorContext context,
+      TypeElement resourceBundleType,
+      ClientBundleContext clientBundleCtx) {
+    this.logger = logger;
+    this.context = context;
+    this.resourceBundleType = resourceBundleType;
+    this.clientBundleCtx = clientBundleCtx;
+  }
 
-    @Deprecated
-    public String deploy(URL resource, boolean forceExternal)
-            throws UnableToCompleteException {
-        return deploy(resource, null, forceExternal);
-    }
+  protected static String toBase64(byte[] data) {
+    return BaseEncoding.base64().encode(data).replaceAll("\\s+", "");
+  }
 
-    public String deploy(URL resource, String mimeType, boolean forceExternal)
-            throws UnableToCompleteException {
-        String fileName = ResourceGeneratorUtil.baseName(resource);
-        byte[] bytes = Util.readURLAsBytes(resource);
-        try {
-            String finalMimeType = (mimeType != null)
-                    ? mimeType : resource.openConnection().getContentType();
-            return deploy(fileName, finalMimeType, bytes, forceExternal);
-        } catch (IOException e) {
-            getLogger().log(TreeLogger.ERROR,
-                    "Unable to determine mime type of resource", e);
-            throw new UnableToCompleteException();
-        }
-    }
+  @Deprecated
+  public String deploy(URL resource, boolean forceExternal) throws UnableToCompleteException {
+    return deploy(resource, null, forceExternal);
+  }
 
-    protected TreeLogger getLogger() {
-        return logger;
+  public String deploy(URL resource, String mimeType, boolean forceExternal)
+      throws UnableToCompleteException {
+    String fileName = ResourceGeneratorUtil.baseName(resource);
+    byte[] bytes = Util.readURLAsBytes(resource);
+    try {
+      String finalMimeType =
+          (mimeType != null) ? mimeType : resource.openConnection().getContentType();
+      return deploy(fileName, finalMimeType, bytes, forceExternal);
+    } catch (IOException e) {
+      getLogger().log(TreeLogger.ERROR, "Unable to determine mime type of resource", e);
+      throw new UnableToCompleteException();
     }
+  }
 
-    public <T> T getCachedData(String key, Class<T> clazz) {
-        return clazz.cast(clientBundleCtx.getCachedData(currentResourceGeneratorType + ":" + key));
-    }
+  protected TreeLogger getLogger() {
+    return logger;
+  }
 
-    public TypeElement getClientBundleType() {
-        return resourceBundleType;
-    }
+  public <T> T getCachedData(String key, Class<T> clazz) {
+    return clazz.cast(clientBundleCtx.getCachedData(currentResourceGeneratorType + ":" + key));
+  }
 
-    public GeneratorContext getGeneratorContext() {
-        return context;
-    }
+  public TypeElement getClientBundleType() {
+    return resourceBundleType;
+  }
 
-    public String getImplementationSimpleSourceName() {
-        if (simpleSourceName == null) {
-            throw new IllegalStateException(
-                    "Simple source name has not yet been set.");
-        }
-        return simpleSourceName;
-    }
+  public GeneratorContext getGeneratorContext() {
+    return context;
+  }
 
-    public <T> boolean putCachedData(String key, T value) {
-        key = currentResourceGeneratorType + ":" + key;
-        return value != clientBundleCtx.putCachedData(key, value);
+  public String getImplementationSimpleSourceName() {
+    if (simpleSourceName == null) {
+      throw new IllegalStateException("Simple source name has not yet been set.");
     }
+    return simpleSourceName;
+  }
 
-    protected GeneratorContext getContext() {
-        return context;
-    }
+  public <T> boolean putCachedData(String key, T value) {
+    key = currentResourceGeneratorType + ":" + key;
+    return value != clientBundleCtx.putCachedData(key, value);
+  }
 
-    public void setCurrentResourceGenerator(ResourceGenerator rg) {
-        currentResourceGeneratorType = rg.getClass().getName();
-    }
+  protected GeneratorContext getContext() {
+    return context;
+  }
 
-    void setSimpleSourceName(String name) {
-        simpleSourceName = name;
-    }
+  public void setCurrentResourceGenerator(ResourceGenerator rg) {
+    currentResourceGeneratorType = rg.getClass().getName();
+  }
+
+  void setSimpleSourceName(String name) {
+    simpleSourceName = name;
+  }
 }

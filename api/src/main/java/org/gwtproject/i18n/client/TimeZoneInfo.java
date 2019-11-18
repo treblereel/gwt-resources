@@ -24,20 +24,18 @@ import org.gwtproject.core.client.JsArrayString;
 import org.gwtproject.core.client.JsonUtils;
 
 /**
- * A JavaScript Overlay type on top of the JSON data describing everything we
- * need to know about a particular timezone. The relevant strings of JSON can
- * be found in TimeZoneConstants, or versions localized for non-en locales can
- * be downloaded elsewhere.
+ * A JavaScript Overlay type on top of the JSON data describing everything we need to know about a
+ * particular timezone. The relevant strings of JSON can be found in TimeZoneConstants, or versions
+ * localized for non-en locales can be downloaded elsewhere.
  */
 public class TimeZoneInfo extends JavaScriptObject {
   /**
-   * Construct a TimeZoneData javascript overlay object given some json text.
-   * This method directly evaluates the String that you pass in; no error or
-   * safety checking is performed, so be very careful about the source of
-   * your data.
+   * Construct a TimeZoneData javascript overlay object given some json text. This method directly
+   * evaluates the String that you pass in; no error or safety checking is performed, so be very
+   * careful about the source of your data.
    *
-   * @param json JSON text describing a time zone, like what comes from
-   * {@link  org.gwtproject.i18n.client.constants.TimeZoneConstants}.
+   * @param json JSON text describing a time zone, like what comes from {@link
+   *     org.gwtproject.i18n.client.constants.TimeZoneConstants}.
    * @return a TimeZoneInfo object made from the supplied JSON.
    */
   public static TimeZoneInfo buildTimeZoneData(String json) {
@@ -45,10 +43,10 @@ public class TimeZoneInfo extends JavaScriptObject {
   }
 
   @JsConstructor
-  protected TimeZoneInfo() { }
+  protected TimeZoneInfo() {}
 
   public final String getID() {
-   return Js.uncheckedCast(Js.asPropertyMap(this).get("id"));
+    return Js.uncheckedCast(Js.asPropertyMap(this).get("id"));
   }
 
   public final JsArrayString getNames() {

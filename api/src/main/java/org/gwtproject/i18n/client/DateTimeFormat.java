@@ -15,13 +15,12 @@
  */
 package org.gwtproject.i18n.client;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.gwtproject.i18n.client.impl.cldr.DateTimeFormatInfoImpl_en;
 import org.gwtproject.i18n.shared.CustomDateTimeFormat;
 import org.gwtproject.i18n.shared.DateTimeFormatInfo;
 import org.gwtproject.i18n.shared.impl.cldr.DateTimeFormatInfo_factory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Formats and parses dates and times using locale-sensitive patterns.
@@ -177,57 +176,45 @@ import java.util.Map;
  * </tr>
  * </table>
  *
- * <p>
- * The number of pattern letters influences the format, as follows:
- * </p>
+ * <p>The number of pattern letters influences the format, as follows:
  *
  * <dl>
- * <dt>Text</dt>
- * <dd>if 4 or more, then use the full form; if less than 4, use short or
- * abbreviated form if it exists (e.g., <code>"EEEE"</code> produces
- * <code>"Monday"</code>, <code>"EEE"</code> produces <code>"Mon"</code>)</dd>
- *
- * <dt>Number</dt>
- * <dd>the minimum number of digits. Shorter numbers are zero-padded to this
- * amount (e.g. if <code>"m"</code> produces <code>"6"</code>, <code>"mm"</code>
- * produces <code>"06"</code>). Year is handled specially; that is, if the count
- * of 'y' is 2, the Year will be truncated to 2 digits. (e.g., if
- * <code>"yyyy"</code> produces <code>"1997"</code>, <code>"yy"</code> produces
- * <code>"97"</code>.) Unlike other fields, fractional seconds are padded on the
- * right with zero.</dd>
- *
- * <dt>Text or Number</dt>
- * <dd>3 or more, use text, otherwise use number. (e.g. <code>"M"</code>
- * produces <code>"1"</code>, <code>"MM"</code> produces <code>"01"</code>,
- * <code>"MMM"</code> produces <code>"Jan"</code>, and <code>"MMMM"</code>
- * produces <code>"January"</code>.  Some pattern letters also treat a count
- * of 5 specially, meaning a single-letter abbreviation: <code>L</code>,
- * <code>M</code>, <code>E</code>, and <code>c</code>.</dd>
+ *   <dt>Text
+ *   <dd>if 4 or more, then use the full form; if less than 4, use short or abbreviated form if it
+ *       exists (e.g., <code>"EEEE"</code> produces <code>"Monday"</code>, <code>"EEE"</code>
+ *       produces <code>"Mon"</code>)
+ *   <dt>Number
+ *   <dd>the minimum number of digits. Shorter numbers are zero-padded to this amount (e.g. if
+ *       <code>"m"</code> produces <code>"6"</code>, <code>"mm"</code> produces <code>"06"</code>).
+ *       Year is handled specially; that is, if the count of 'y' is 2, the Year will be truncated to
+ *       2 digits. (e.g., if <code>"yyyy"</code> produces <code>"1997"</code>, <code>"yy"</code>
+ *       produces <code>"97"</code>.) Unlike other fields, fractional seconds are padded on the
+ *       right with zero.
+ *   <dt>Text or Number
+ *   <dd>3 or more, use text, otherwise use number. (e.g. <code>"M"</code> produces <code>"1"</code>
+ *       , <code>"MM"</code> produces <code>"01"</code>, <code>"MMM"</code> produces <code>"Jan"
+ *       </code>, and <code>"MMMM"</code> produces <code>"January"</code>. Some pattern letters also
+ *       treat a count of 5 specially, meaning a single-letter abbreviation: <code>L</code>, <code>M
+ *       </code>, <code>E</code>, and <code>c</code>.
  * </dl>
  *
- * <p>
- * Any characters in the pattern that are not in the ranges of ['<code>a</code>
- * '..'<code>z</code>'] and ['<code>A</code>'..'<code>Z</code>'] will be treated
- * as quoted text. For instance, characters like '<code>:</code>', '
- * <code>.</code>', '<code> </code>' (space), '<code>#</code>' and '
- * <code>@</code>' will appear in the resulting time text even they are not
- * embraced within single quotes.
- * </p>
+ * <p>Any characters in the pattern that are not in the ranges of ['<code>a</code> '..'<code>z
+ * </code>'] and ['<code>A</code>'..'<code>Z</code>'] will be treated as quoted text. For instance,
+ * characters like '<code>:</code>', ' <code>.</code>', '<code> </code>' (space), '<code>#</code>'
+ * and ' <code>@</code>' will appear in the resulting time text even they are not embraced within
+ * single quotes.
  *
- * <p>
- * [Time Zone Handling] Web browsers don't provide all the information we need
- * for proper time zone formating -- so GWT has a copy of the required data, for
- * your convenience. For simpler cases, one can also use a fallback
- * implementation that only keeps track of the current timezone offset. These
- * two approaches are called, respectively, Common TimeZones and Simple
- * TimeZones, although both are implemented with the same TimeZone class.
+ * <p>[Time Zone Handling] Web browsers don't provide all the information we need for proper time
+ * zone formating -- so GWT has a copy of the required data, for your convenience. For simpler
+ * cases, one can also use a fallback implementation that only keeps track of the current timezone
+ * offset. These two approaches are called, respectively, Common TimeZones and Simple TimeZones,
+ * although both are implemented with the same TimeZone class.
  *
- * "TimeZone createTimeZone(String timezoneData)" returns a Common TimeZone
- * object, and "TimeZone createTimeZone(int timeZoneOffsetInMinutes)" returns a
- * Simple TimeZone object. The one provided by OS fall into to Simple TimeZone
- * category. For formatting purpose, following table shows the behavior of GWT
- * DateTimeFormat.
- * </p>
+ * <p>"TimeZone createTimeZone(String timezoneData)" returns a Common TimeZone object, and "TimeZone
+ * createTimeZone(int timeZoneOffsetInMinutes)" returns a Simple TimeZone object. The one provided
+ * by OS fall into to Simple TimeZone category. For formatting purpose, following table shows the
+ * behavior of GWT DateTimeFormat.
+ *
  * <table>
  * <tr>
  * <th>Pattern</th>
@@ -267,49 +254,39 @@ import java.util.Map;
  * </table>
  *
  * <h3>Parsing Dates and Times</h3>
- * <p>
- * The pattern does not need to specify every field.  If the year, month, or
- * day is missing from the pattern, the corresponding value will be taken from
- * the current date.  If the month is specified but the day is not, the day will
- * be constrained to the last day within the specified month.  If the hour,
- * minute, or second is missing, the value defaults to zero.
- * </p>
  *
- * <p>
- * As with formatting (described above), the count of pattern letters determines
- * the parsing behavior.
- * </p>
+ * <p>The pattern does not need to specify every field. If the year, month, or day is missing from
+ * the pattern, the corresponding value will be taken from the current date. If the month is
+ * specified but the day is not, the day will be constrained to the last day within the specified
+ * month. If the hour, minute, or second is missing, the value defaults to zero.
+ *
+ * <p>As with formatting (described above), the count of pattern letters determines the parsing
+ * behavior.
  *
  * <dl>
- * <dt>Text</dt>
- * <dd>4 or more pattern letters--use full form, less than 4--use short or
- * abbreviated form if one exists. In parsing, we will always try long format,
- * then short.</dd>
- *
- * <dt>Number</dt>
- * <dd>the minimum number of digits.</dd>
- *
- * <dt>Text or Number</dt>
- * <dd>3 or more characters means use text, otherwise use number</dd>
+ *   <dt>Text
+ *   <dd>4 or more pattern letters--use full form, less than 4--use short or abbreviated form if one
+ *       exists. In parsing, we will always try long format, then short.
+ *   <dt>Number
+ *   <dd>the minimum number of digits.
+ *   <dt>Text or Number
+ *   <dd>3 or more characters means use text, otherwise use number
  * </dl>
  *
- * <p>
- * Although the current pattern specification doesn't not specify behavior for
- * all letters, it may in the future. It is strongly discouraged to use
- * unspecified letters as literal text without quoting them.
- * </p>
- * <p>
- * [Note on TimeZone] The time zone support for parsing is limited. Only
- * standard GMT and RFC format are supported. Time zone specification using time
- * zone id (like America/Los_Angeles), time zone names (like PST, Pacific
- * Standard Time) are not supported. Normally, it is too much a burden for a
- * client application to load all the time zone symbols. And in almost all those
- * cases, it is a better choice to do such parsing on server side through
- * certain RPC mechanism. This decision is based on particular use cases we have
- * studied; in principle, it could be changed in future versions.
- * </p>
+ * <p>Although the current pattern specification doesn't not specify behavior for all letters, it
+ * may in the future. It is strongly discouraged to use unspecified letters as literal text without
+ * quoting them.
+ *
+ * <p>[Note on TimeZone] The time zone support for parsing is limited. Only standard GMT and RFC
+ * format are supported. Time zone specification using time zone id (like America/Los_Angeles), time
+ * zone names (like PST, Pacific Standard Time) are not supported. Normally, it is too much a burden
+ * for a client application to load all the time zone symbols. And in almost all those cases, it is
+ * a better choice to do such parsing on server side through certain RPC mechanism. This decision is
+ * based on particular use cases we have studied; in principle, it could be changed in future
+ * versions.
  *
  * <h3>Examples</h3>
+ *
  * <table>
  * <tr>
  * <th>Pattern</th>
@@ -348,43 +325,35 @@ import java.util.Map;
  * </table>
  *
  * <h3>Additional Parsing Considerations</h3>
- * <p>
- * When parsing a date string using the abbreviated year pattern (
- * <code>"yy"</code>), the parser must interpret the abbreviated year relative
- * to some century. It does this by adjusting dates to be within 80 years before
- * and 20 years after the time the parser instance is created. For example,
- * using a pattern of <code>"MM/dd/yy"</code> and a <code>DateTimeFormat</code>
- * object created on Jan 1, 1997, the string <code>"01/11/12"</code> would be
- * interpreted as Jan 11, 2012 while the string <code>"05/04/64"</code> would be
- * interpreted as May 4, 1964. During parsing, only strings consisting of
- * exactly two digits, as defined by {@link Character#isDigit(char)},
- * will be parsed into the default century. If the year pattern does not have
- * exactly two 'y' characters, the year is interpreted literally, regardless of
- * the number of digits. For example, using the pattern
- * <code>"MM/dd/yyyy"</code>, "01/11/12" parses to Jan 11, 12 A.D.
- * </p>
  *
- * <p>
- * When numeric fields abut one another directly, with no intervening delimiter
- * characters, they constitute a run of abutting numeric fields. Such runs are
- * parsed specially. For example, the format "HHmmss" parses the input text
- * "123456" to 12:34:56, parses the input text "12345" to 1:23:45, and fails to
- * parse "1234". In other words, the leftmost field of the run is flexible,
- * while the others keep a fixed width. If the parse fails anywhere in the run,
- * then the leftmost field is shortened by one character, and the entire run is
- * parsed again. This is repeated until either the parse succeeds or the
- * leftmost field is one character in length. If the parse still fails at that
- * point, the parse of the run fails.
- * </p>
+ * <p>When parsing a date string using the abbreviated year pattern ( <code>"yy"</code>), the parser
+ * must interpret the abbreviated year relative to some century. It does this by adjusting dates to
+ * be within 80 years before and 20 years after the time the parser instance is created. For
+ * example, using a pattern of <code>"MM/dd/yy"</code> and a <code>DateTimeFormat</code> object
+ * created on Jan 1, 1997, the string <code>"01/11/12"</code> would be interpreted as Jan 11, 2012
+ * while the string <code>"05/04/64"</code> would be interpreted as May 4, 1964. During parsing,
+ * only strings consisting of exactly two digits, as defined by {@link Character#isDigit(char)},
+ * will be parsed into the default century. If the year pattern does not have exactly two 'y'
+ * characters, the year is interpreted literally, regardless of the number of digits. For example,
+ * using the pattern <code>"MM/dd/yyyy"</code>, "01/11/12" parses to Jan 11, 12 A.D.
  *
- * <p>
- * In the current implementation, timezone parsing only supports
- * <code>GMT:hhmm</code>, <code>GMT:+hhmm</code>, and <code>GMT:-hhmm</code>.
- * </p>
+ * <p>When numeric fields abut one another directly, with no intervening delimiter characters, they
+ * constitute a run of abutting numeric fields. Such runs are parsed specially. For example, the
+ * format "HHmmss" parses the input text "123456" to 12:34:56, parses the input text "12345" to
+ * 1:23:45, and fails to parse "1234". In other words, the leftmost field of the run is flexible,
+ * while the others keep a fixed width. If the parse fails anywhere in the run, then the leftmost
+ * field is shortened by one character, and the entire run is parsed again. This is repeated until
+ * either the parse succeeds or the leftmost field is one character in length. If the parse still
+ * fails at that point, the parse of the run fails.
  *
- * <h3>Example</h3> {@example com.google.gwt.examples.DateTimeFormatExample}
+ * <p>In the current implementation, timezone parsing only supports <code>GMT:hhmm</code>, <code>
+ * GMT:+hhmm</code>, and <code>GMT:-hhmm</code>.
  *
- * deprecated use {@link org.gwtproject.i18n.shared.DateTimeFormat} instead
+ * <h3>Example</h3>
+ *
+ * {@example com.google.gwt.examples.DateTimeFormatExample}
+ *
+ * <p>deprecated use {@link org.gwtproject.i18n.shared.DateTimeFormat} instead
  */
 // Temporarily remove deprecation to keep from breaking teams that don't allow
 // deprecated references.
@@ -392,10 +361,10 @@ import java.util.Map;
 public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
 
   /**
-   * Predefined date/time formats -- see {@link CustomDateTimeFormat} if you
-   * need some format that isn't supplied here.
+   * Predefined date/time formats -- see {@link CustomDateTimeFormat} if you need some format that
+   * isn't supplied here.
    *
-   * deprecated use {@link org.gwtproject.i18n.shared.DateTimeFormat.PredefinedFormat} instead
+   * <p>deprecated use {@link org.gwtproject.i18n.shared.DateTimeFormat.PredefinedFormat} instead
    */
   // Temporarily remove deprecation to keep from breaking teams that don't allow
   // deprecated references.
@@ -406,15 +375,20 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
 
     /**
      * ISO 8601 date format, fixed across all locales.
+     *
      * <p>Example: {@code 2008-10-03T10:29:40.046-04:00}
+     *
      * <p>http://code.google.com/p/google-web-toolkit/issues/detail?id=3068
+     *
      * <p>http://www.iso.org/iso/support/faqs/faqs_widely_used_standards/widely_used_standards_other/date_and_time_format.htm
      */
     ISO_8601,
 
     /**
      * RFC 2822 date format, fixed across all locales.
+     *
      * <p>Example: {@code Thu, 20 May 2010 17:54:50 -0700}
+     *
      * <p>http://tools.ietf.org/html/rfc2822#section-3.3
      */
     RFC_2822,
@@ -467,8 +441,7 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   /**
    * Get a DateTimeFormat instance for a predefined format.
    *
-   * <p>See {@link CustomDateTimeFormat} if you need a localized format that is
-   * not supported here.
+   * <p>See {@link CustomDateTimeFormat} if you need a localized format that is not supported here.
    *
    * @param predef {@link PredefinedFormat} describing desired format
    * @return a DateTimeFormat instance for the specified format
@@ -504,20 +477,16 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
         pattern = dtfi.dateFormatShort();
         break;
       case DATE_TIME_FULL:
-        pattern = dtfi.dateTimeFull(dtfi.timeFormatFull(),
-                                    dtfi.dateFormatFull());
+        pattern = dtfi.dateTimeFull(dtfi.timeFormatFull(), dtfi.dateFormatFull());
         break;
       case DATE_TIME_LONG:
-        pattern = dtfi.dateTimeLong(dtfi.timeFormatLong(),
-                                    dtfi.dateFormatLong());
+        pattern = dtfi.dateTimeLong(dtfi.timeFormatLong(), dtfi.dateFormatLong());
         break;
       case DATE_TIME_MEDIUM:
-        pattern = dtfi.dateTimeMedium(dtfi.timeFormatMedium(),
-                                      dtfi.dateFormatMedium());
+        pattern = dtfi.dateTimeMedium(dtfi.timeFormatMedium(), dtfi.dateFormatMedium());
         break;
       case DATE_TIME_SHORT:
-        pattern = dtfi.dateTimeShort(dtfi.timeFormatShort(),
-                                     dtfi.dateFormatShort());
+        pattern = dtfi.dateTimeShort(dtfi.timeFormatShort(), dtfi.dateFormatShort());
         break;
       case DAY:
         pattern = dtfi.formatDay();
@@ -598,43 +567,37 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
         pattern = dtfi.formatYearQuarterShort();
         break;
       default:
-        throw new IllegalArgumentException("Unexpected predefined format "
-                                                   + predef);
+        throw new IllegalArgumentException("Unexpected predefined format " + predef);
     }
     return getFormat(pattern, dtfi);
   }
 
   /**
-   * Returns a DateTimeFormat object using the specified pattern. If you need to
-   * format or parse repeatedly using the same pattern, it is highly recommended
-   * that you cache the returned <code>DateTimeFormat</code> object and reuse it
-   * rather than calling this method repeatedly.
+   * Returns a DateTimeFormat object using the specified pattern. If you need to format or parse
+   * repeatedly using the same pattern, it is highly recommended that you cache the returned <code>
+   * DateTimeFormat</code> object and reuse it rather than calling this method repeatedly.
    *
-   * <p>Note that the pattern supplied is used as-is -- for example, if you
-   * supply "MM/dd/yyyy" as the pattern, that is the order you will get the
-   * fields, even in locales where the order is different.  It is recommended to
-   * use {@link #getFormat(PredefinedFormat)} instead -- if you use this method,
-   * you are taking responsibility for localizing the patterns yourself.
+   * <p>Note that the pattern supplied is used as-is -- for example, if you supply "MM/dd/yyyy" as
+   * the pattern, that is the order you will get the fields, even in locales where the order is
+   * different. It is recommended to use {@link #getFormat(PredefinedFormat)} instead -- if you use
+   * this method, you are taking responsibility for localizing the patterns yourself.
    *
    * @param pattern string to specify how the date should be formatted
-   *
-   * @return a <code>DateTimeFormat</code> object that can be used for format or
-   *         parse date/time values matching the specified pattern
-   *
-   * @throws IllegalArgumentException if the specified pattern could not be
-   *           parsed
+   * @return a <code>DateTimeFormat</code> object that can be used for format or parse date/time
+   *     values matching the specified pattern
+   * @throws IllegalArgumentException if the specified pattern could not be parsed
    */
   public static DateTimeFormat getFormat(String pattern) {
     return getFormat(pattern, getDefaultDateTimeFormatInfo());
   }
 
   /**
-   * Retrieve the DateTimeFormat object for full date format. The pattern for
-   * this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for full date format. The pattern for this format is
+   * predefined for each locale.
    *
    * @return A DateTimeFormat object
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#DATE_FULL} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link PredefinedFormat#DATE_FULL}
+   *     instead
    */
   @Deprecated
   public static DateTimeFormat getFullDateFormat() {
@@ -642,12 +605,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Retrieve the DateTimeFormat object for full date and time format. The
-   * pattern for this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for full date and time format. The pattern for this format
+   * is predefined for each locale.
    *
    * @return A DateTimeFormat object
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#DATE_TIME_FULL} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link
+   *     PredefinedFormat#DATE_TIME_FULL} instead
    */
   @Deprecated
   public static DateTimeFormat getFullDateTimeFormat() {
@@ -655,12 +618,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Retrieve the DateTimeFormat object for full time format. The pattern for
-   * this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for full time format. The pattern for this format is
+   * predefined for each locale.
    *
    * @return A DateTimeFormat object
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#TIME_FULL} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link PredefinedFormat#TIME_FULL}
+   *     instead
    */
   @Deprecated
   public static DateTimeFormat getFullTimeFormat() {
@@ -668,12 +631,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Retrieve the DateTimeFormat object for long date format. The pattern for
-   * this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for long date format. The pattern for this format is
+   * predefined for each locale.
    *
    * @return A DateTimeFormat object
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#DATE_LONG} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link PredefinedFormat#DATE_LONG}
+   *     instead
    */
   @Deprecated
   public static DateTimeFormat getLongDateFormat() {
@@ -681,12 +644,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Retrieve the DateTimeFormat object for long date and time format. The
-   * pattern for this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for long date and time format. The pattern for this format
+   * is predefined for each locale.
    *
    * @return A DateTimeFormat object
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#DATE_TIME_LONG} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link
+   *     PredefinedFormat#DATE_TIME_LONG} instead
    */
   @Deprecated
   public static DateTimeFormat getLongDateTimeFormat() {
@@ -694,12 +657,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Retrieve the DateTimeFormat object for long time format. The pattern for
-   * this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for long time format. The pattern for this format is
+   * predefined for each locale.
    *
    * @return A DateTimeFormat object
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#TIME_LONG} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link PredefinedFormat#TIME_LONG}
+   *     instead
    */
   @Deprecated
   public static DateTimeFormat getLongTimeFormat() {
@@ -707,12 +670,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Retrieve the DateTimeFormat object for medium date format. The pattern for
-   * this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for medium date format. The pattern for this format is
+   * predefined for each locale.
    *
    * @return A DateTimeFormat object
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#DATE_MEDIUM} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link PredefinedFormat#DATE_MEDIUM}
+   *     instead
    */
   @Deprecated
   public static DateTimeFormat getMediumDateFormat() {
@@ -720,12 +683,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Retrieve the DateTimeFormat object for medium date and time format. The
-   * pattern for this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for medium date and time format. The pattern for this format
+   * is predefined for each locale.
    *
    * @return A DateTimeFormat object
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#DATE_TIME_MEDIUM} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link
+   *     PredefinedFormat#DATE_TIME_MEDIUM} instead
    */
   @Deprecated
   public static DateTimeFormat getMediumDateTimeFormat() {
@@ -733,12 +696,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Retrieve the DateTimeFormat object for medium time format. The pattern for
-   * this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for medium time format. The pattern for this format is
+   * predefined for each locale.
    *
    * @return A DateTimeFormat object
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#TIME_MEDIUM} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link PredefinedFormat#TIME_MEDIUM}
+   *     instead
    */
   @Deprecated
   public static DateTimeFormat getMediumTimeFormat() {
@@ -746,12 +709,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Retrieve the DateTimeFormat object for short date format. The pattern for
-   * this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for short date format. The pattern for this format is
+   * predefined for each locale.
    *
    * @return A DateTimeFormat object
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#DATE_SHORT} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link PredefinedFormat#DATE_SHORT}
+   *     instead
    */
   @Deprecated
   public static DateTimeFormat getShortDateFormat() {
@@ -759,12 +722,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Retrieve the DateTimeFormat object for short date and time format. The
-   * pattern for this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for short date and time format. The pattern for this format
+   * is predefined for each locale.
    *
    * @return A DateTimeFormat object
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#DATE_TIME_SHORT} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link
+   *     PredefinedFormat#DATE_TIME_SHORT} instead
    */
   @Deprecated
   public static DateTimeFormat getShortDateTimeFormat() {
@@ -772,12 +735,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Retrieve the DateTimeFormat object for short time format. The pattern for
-   * this format is predefined for each locale.
+   * Retrieve the DateTimeFormat object for short time format. The pattern for this format is
+   * predefined for each locale.
    *
    * @return A DateTimeFormat object.
-   * @deprecated use {@link #getFormat(PredefinedFormat)} with
-   *     {@link PredefinedFormat#TIME_SHORT} instead
+   * @deprecated use {@link #getFormat(PredefinedFormat)} with {@link PredefinedFormat#TIME_SHORT}
+   *     instead
    */
   @Deprecated
   public static DateTimeFormat getShortTimeFormat() {
@@ -791,8 +754,7 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
    * @param dtfi
    * @return DateTimeFormat instance
    */
-  protected static DateTimeFormat getFormat(String pattern,
-                                            DateTimeFormatInfo dtfi) {
+  protected static DateTimeFormat getFormat(String pattern, DateTimeFormatInfo dtfi) {
     DateTimeFormatInfo defaultDtfi = getDefaultDateTimeFormatInfo();
     DateTimeFormat dtf = null;
     if (dtfi == defaultDtfi) {
@@ -812,10 +774,12 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Returns true if the predefined format is one that specifies always using
-   * English names/separators.
-   * <p>This should be a method on PredefinedFormat, but that would defeat the
-   * enum optimizations GWT is currently capable of.
+   * Returns true if the predefined format is one that specifies always using English
+   * names/separators.
+   *
+   * <p>This should be a method on PredefinedFormat, but that would defeat the enum optimizations
+   * GWT is currently capable of.
+   *
    * @param predef
    * @return true if the specified format requires English names/separators
    */
@@ -831,8 +795,8 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Constructs a format object using the specified pattern and the date time
-   * constants for the default locale.
+   * Constructs a format object using the specified pattern and the date time constants for the
+   * default locale.
    *
    * @param pattern string pattern specification
    */
@@ -841,8 +805,7 @@ public class DateTimeFormat extends org.gwtproject.i18n.shared.DateTimeFormat {
   }
 
   /**
-   * Constructs a format object using the specified pattern and user-supplied
-   * date time constants.
+   * Constructs a format object using the specified pattern and user-supplied date time constants.
    *
    * @param pattern string pattern specification
    * @param dtfi DateTimeFormatInfo instance to use

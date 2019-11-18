@@ -23,13 +23,12 @@ import com.google.common.collect.Interners;
  * The string interner singleton.
  *
  * <p>We don't use the String.intern() method because it would prevent GC and fill the PermGen
- * space. It also runs comparatively slowly </p>
- *
+ * space. It also runs comparatively slowly
  */
 public final class StringInterner {
-    private static final Interner<String> instance = Interners.newWeakInterner();
+  private static final Interner<String> instance = Interners.newWeakInterner();
 
-    public static Interner<String> get() {
-        return instance;
-    }
+  public static Interner<String> get() {
+    return instance;
+  }
 }

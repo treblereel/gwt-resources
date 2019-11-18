@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,13 +18,11 @@ package org.gwtproject.i18n.shared.impl;
 import java.util.Date;
 
 /**
- * Implementation detail of DateTimeFormat -- not a public API and subject to
- * change.
- * 
- * DateRecord class exposes almost the same set of interface as Date class with
- * only a few exceptions. The main purpose is the record all the information
- * during parsing phase and resolve them in a later time when all information
- * can be processed together.
+ * Implementation detail of DateTimeFormat -- not a public API and subject to change.
+ *
+ * <p>DateRecord class exposes almost the same set of interface as Date class with only a few
+ * exceptions. The main purpose is the record all the information during parsing phase and resolve
+ * them in a later time when all information can be processed together.
  */
 @SuppressWarnings("deprecation")
 public class DateRecord extends Date {
@@ -57,8 +55,8 @@ public class DateRecord extends Date {
   private boolean ambiguousYear;
 
   /**
-   * Initialize DateExt object with default value. Here we use -1 for most of
-   * the field to indicate that field is not set.
+   * Initialize DateExt object with default value. Here we use -1 for most of the field to indicate
+   * that field is not set.
    */
   public DateRecord() {
     era = -1;
@@ -77,17 +75,15 @@ public class DateRecord extends Date {
   }
 
   /**
-   * calcDate uses all the field available so far to fill a Date object. For
-   * those information that is not provided, the existing value in 'date' will
-   * be kept. Ambiguous year will be resolved after the date/time values are
-   * resolved.
-   * 
-   * If the strict option is set to true, calcDate will calculate certain
-   * invalid dates by wrapping around as needed. For example, February 30 will
-   * wrap to March 2.
-   * 
-   * @param date The Date object being filled. Its value should be set to an
-   *          acceptable default before pass in to this method
+   * calcDate uses all the field available so far to fill a Date object. For those information that
+   * is not provided, the existing value in 'date' will be kept. Ambiguous year will be resolved
+   * after the date/time values are resolved.
+   *
+   * <p>If the strict option is set to true, calcDate will calculate certain invalid dates by
+   * wrapping around as needed. For example, February 30 will wrap to March 2.
+   *
+   * @param date The Date object being filled. Its value should be set to an acceptable default
+   *     before pass in to this method
    * @param strict true to be strict when parsing
    * @return true if successful, otherwise false.
    */
@@ -160,8 +156,7 @@ public class DateRecord extends Date {
     // We don't need to check the day of week as it is guaranteed to be correct
     // or return false below.
     if (strict) {
-      if ((this.year > Integer.MIN_VALUE)
-          && ((this.year - JS_START_YEAR) != date.getYear())) {
+      if ((this.year > Integer.MIN_VALUE) && ((this.year - JS_START_YEAR) != date.getYear())) {
         return false;
       }
       if ((this.month >= 0) && (this.month != date.getMonth())) {
@@ -238,10 +233,9 @@ public class DateRecord extends Date {
   }
 
   /**
-   * Set ambiguous year field. This flag indicates that a 2 digit years's
-   * century need to be determined by its date/time value. This can only be
-   * resolved after its date/time is known.
-   * 
+   * Set ambiguous year field. This flag indicates that a 2 digit years's century need to be
+   * determined by its date/time value. This can only be resolved after its date/time is known.
+   *
    * @param ambiguousYear true if it is ambiguous year.
    */
   public void setAmbiguousYear(boolean ambiguousYear) {
@@ -250,7 +244,7 @@ public class DateRecord extends Date {
 
   /**
    * Set morning/afternoon field.
-   * 
+   *
    * @param ampm ampm value.
    */
   public void setAmpm(int ampm) {
@@ -259,7 +253,7 @@ public class DateRecord extends Date {
 
   /**
    * Set dayOfMonth field.
-   * 
+   *
    * @param day dayOfMonth value
    */
   public void setDayOfMonth(int day) {
@@ -268,7 +262,7 @@ public class DateRecord extends Date {
 
   /**
    * Set dayOfWeek field.
-   * 
+   *
    * @param dayOfWeek day of the week.
    */
   public void setDayOfWeek(int dayOfWeek) {
@@ -277,7 +271,7 @@ public class DateRecord extends Date {
 
   /**
    * Set Era field.
-   * 
+   *
    * @param era era value being set.
    */
   public void setEra(int era) {
@@ -286,7 +280,7 @@ public class DateRecord extends Date {
 
   /**
    * Set hour field.
-   * 
+   *
    * @param hours hour value.
    */
   @Override
@@ -305,7 +299,7 @@ public class DateRecord extends Date {
 
   /**
    * Set milliseconds field.
-   * 
+   *
    * @param milliseconds milliseconds value.
    */
   public void setMilliseconds(int milliseconds) {
@@ -314,7 +308,7 @@ public class DateRecord extends Date {
 
   /**
    * Set minute field.
-   * 
+   *
    * @param minutes minute value.
    */
   @Override
@@ -324,7 +318,7 @@ public class DateRecord extends Date {
 
   /**
    * Set month field.
-   * 
+   *
    * @param month month value.
    */
   @Override
@@ -334,7 +328,7 @@ public class DateRecord extends Date {
 
   /**
    * Set seconds field.
-   * 
+   *
    * @param seconds second value.
    */
   @Override
@@ -344,7 +338,7 @@ public class DateRecord extends Date {
 
   /**
    * Set timezone offset, in minutes.
-   * 
+   *
    * @param tzOffset timezone offset.
    */
   public void setTzOffset(int tzOffset) {
@@ -353,7 +347,7 @@ public class DateRecord extends Date {
 
   /**
    * Set year field.
-   * 
+   *
    * @param value year value.
    */
   @Override

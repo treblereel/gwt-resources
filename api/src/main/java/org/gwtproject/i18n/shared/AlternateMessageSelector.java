@@ -15,20 +15,13 @@
  */
 package org.gwtproject.i18n.shared;
 
-/**
- * Defines a way of choosing between alternate messages based on a parameter
- * value.
- */
+/** Defines a way of choosing between alternate messages based on a parameter value. */
 public interface AlternateMessageSelector {
 
-  /**
-   * Name of the "other" form.
-   */
+  /** Name of the "other" form. */
   String OTHER_FORM_NAME = "other";
 
-  /**
-   * Represents an alternate form of a message.
-   */
+  /** Represents an alternate form of a message. */
   public static class AlternateForm implements Comparable<AlternateForm> {
 
     private final String name;
@@ -50,12 +43,11 @@ public interface AlternateMessageSelector {
      *
      * @param name
      * @param description
-     * @param warnIfMissing if false, do not warn if this form is missing from a
-     *     translation.  This is used for those cases where a plural form
-     *     is defined for a language, but is very rarely used.
+     * @param warnIfMissing if false, do not warn if this form is missing from a translation. This
+     *     is used for those cases where a plural form is defined for a language, but is very rarely
+     *     used.
      */
-    public AlternateForm(String name, String description,
-        boolean warnIfMissing) {
+    public AlternateForm(String name, String description, boolean warnIfMissing) {
       this.name = name;
       this.description = description;
       this.warnIfMissing = warnIfMissing;
@@ -76,25 +68,17 @@ public interface AlternateMessageSelector {
       return compareTo((AlternateForm) obj) == 0;
     }
 
-    /**
-     * Returns the description, suitable for describing this form to
-     * translators.
-     */
+    /** Returns the description, suitable for describing this form to translators. */
     public String getDescription() {
       return description;
     }
 
-    /**
-     * Returns the name.
-     */
+    /** Returns the name. */
     public String getName() {
       return name;
     }
 
-    /**
-     * Returns true if the generator should warn if this plural form is not
-     * present.
-     */
+    /** Returns true if the generator should warn if this plural form is not present. */
     public boolean getWarnIfMissing() {
       return warnIfMissing;
     }
@@ -110,13 +94,12 @@ public interface AlternateMessageSelector {
     }
   }
 
-  AlternateForm OTHER_FORM = new AlternateForm(OTHER_FORM_NAME,
-      "Default value if no other forms apply");
+  AlternateForm OTHER_FORM =
+      new AlternateForm(OTHER_FORM_NAME, "Default value if no other forms apply");
 
   /**
-   * Check if a user-supplied form is acceptable for this alternate message
-   * selector.
-   * 
+   * Check if a user-supplied form is acceptable for this alternate message selector.
+   *
    * @param form
    * @return true if the form is acceptable, otherwise false
    */

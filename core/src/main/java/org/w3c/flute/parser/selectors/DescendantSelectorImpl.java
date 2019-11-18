@@ -19,40 +19,33 @@ import org.w3c.css.sac.SimpleSelector;
 
 /**
  * @version $Revision: 1.2 $
- * @author  Philippe Le Hegaret
+ * @author Philippe Le Hegaret
  */
 public class DescendantSelectorImpl implements DescendantSelector {
 
-    Selector       parent;
-    SimpleSelector simpleSelector;
+  Selector parent;
+  SimpleSelector simpleSelector;
 
-    /**
-     * An integer indicating the type of <code>Selector</code>
-     */
-    public short getSelectorType() {
-	return Selector.SAC_DESCENDANT_SELECTOR;
-    }
+  /** An integer indicating the type of <code>Selector</code> */
+  public short getSelectorType() {
+    return Selector.SAC_DESCENDANT_SELECTOR;
+  }
 
-    /**
-     * Creates a new DescendantSelectorImpl
-     */
-    public DescendantSelectorImpl(Selector parent, SimpleSelector simpleSelector) {
-        this.parent = parent;
-	this.simpleSelector = simpleSelector;
-    }
-    
-        
-    /**
-     * Returns the parent selector.
-     */    
-    public Selector getAncestorSelector() {
-	return parent;
-    }
+  /** Creates a new DescendantSelectorImpl */
+  public DescendantSelectorImpl(Selector parent, SimpleSelector simpleSelector) {
+    this.parent = parent;
+    this.simpleSelector = simpleSelector;
+  }
 
-    /*
-     * Returns the simple selector.
-     */    
-    public SimpleSelector getSimpleSelector() {
-	return simpleSelector;
-    }
+  /** Returns the parent selector. */
+  public Selector getAncestorSelector() {
+    return parent;
+  }
+
+  /*
+   * Returns the simple selector.
+   */
+  public SimpleSelector getSimpleSelector() {
+    return simpleSelector;
+  }
 }

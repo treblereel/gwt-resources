@@ -16,29 +16,28 @@
 package org.gwtproject.resources.ext;
 
 /**
- * Used to indicate that some part of a multi-step process failed. Typically,
- * operation can continue after this exception is caught.
- * <p>
- * Before throwing an object of this type, the thrower
+ * Used to indicate that some part of a multi-step process failed. Typically, operation can continue
+ * after this exception is caught.
+ *
+ * <p>Before throwing an object of this type, the thrower
+ *
  * <ul>
- * <li>must log a detailed user-facing message describing the failure,</li>
- * <li>must report any caught exception using the logger that contributed to
- * the failure, and </li>
- * <li>must not include the cause of the failure in the thrown exception
- * because (1) it will already have been associated with the detailed log entry
- * above and (2) doing so would create a misunderstanding of how to find the
- * causes of low-level errors in that sometimes there is an underlying an
- * exception, sometimes not, but there can <em>always</em> be a preceding log
- * entry. </li>
+ *   <li>must log a detailed user-facing message describing the failure,
+ *   <li>must report any caught exception using the logger that contributed to the failure, and
+ *   <li>must not include the cause of the failure in the thrown exception because (1) it will
+ *       already have been associated with the detailed log entry above and (2) doing so would
+ *       create a misunderstanding of how to find the causes of low-level errors in that sometimes
+ *       there is an underlying an exception, sometimes not, but there can <em>always</em> be a
+ *       preceding log entry.
  * </ul>
- * <p>
- * After catching an object of this type, the catcher
+ *
+ * <p>After catching an object of this type, the catcher
+ *
  * <ul>
- * <li>can be assured that the thrower has already logged a message about the
- * lower-level problem</li>
- * <li>can optionally itself log a higher-level description of the process that
- * was interrupted and the implications of the failure, and if so,</li>
- * <li>should report this caught exception via the logger as well.</li>
+ *   <li>can be assured that the thrower has already logged a message about the lower-level problem
+ *   <li>can optionally itself log a higher-level description of the process that was interrupted
+ *       and the implications of the failure, and if so,
+ *   <li>should report this caught exception via the logger as well.
  * </ul>
  *
  * <pre>
@@ -72,18 +71,17 @@ package org.gwtproject.resources.ext;
  * </pre>
  */
 public class UnableToCompleteException extends Exception {
-    public UnableToCompleteException(String msg, Exception e) {
-        super(msg, e);
-    }
+  public UnableToCompleteException(String msg, Exception e) {
+    super(msg, e);
+  }
 
-    public UnableToCompleteException(Exception e) {
-        super(e);
-    }
+  public UnableToCompleteException(Exception e) {
+    super(e);
+  }
 
-    public UnableToCompleteException(String e) {
-        super(e);
-    }
+  public UnableToCompleteException(String e) {
+    super(e);
+  }
 
-    public UnableToCompleteException() {
-    }
+  public UnableToCompleteException() {}
 }

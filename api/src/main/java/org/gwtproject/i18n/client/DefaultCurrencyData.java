@@ -16,9 +16,8 @@
 package org.gwtproject.i18n.client;
 
 /**
- * A default {@link CurrencyData} implementation, so new methods can be added
- * to the interface without breaking implementors if a reasonable default is
- * available.
+ * A default {@link CurrencyData} implementation, so new methods can be added to the interface
+ * without breaking implementors if a reasonable default is available.
  */
 public class DefaultCurrencyData implements CurrencyData {
 
@@ -27,10 +26,10 @@ public class DefaultCurrencyData implements CurrencyData {
   private final int fractionDigits;
 
   /**
-   * Create a default default {@link CurrencyData} instance, returning {@code
-   * false} for all {@code isFoo} methods, having 2 fractional digits by
-   * default, and using the standard symbol for the portable symbol.
-   * 
+   * Create a default default {@link CurrencyData} instance, returning {@code false} for all {@code
+   * isFoo} methods, having 2 fractional digits by default, and using the standard symbol for the
+   * portable symbol.
+   *
    * @param currencyCode ISO 4217 currency code
    * @param currencySymbol symbol to use for this currency
    */
@@ -39,16 +38,14 @@ public class DefaultCurrencyData implements CurrencyData {
   }
 
   /**
-   * Create a default default {@link CurrencyData} instance, returning {@code
-   * false} for all {@code isFoo} methods and using the standard symbol for the
-   * portable symbol.
-   * 
+   * Create a default default {@link CurrencyData} instance, returning {@code false} for all {@code
+   * isFoo} methods and using the standard symbol for the portable symbol.
+   *
    * @param currencyCode ISO 4217 currency code
    * @param currencySymbol symbol to use for this currency
    * @param fractionDigits default number of fraction digits
    */
-  public DefaultCurrencyData(String currencyCode, String currencySymbol,
-      int fractionDigits) {
+  public DefaultCurrencyData(String currencyCode, String currencySymbol, int fractionDigits) {
     this.currencyCode = currencyCode;
     this.currencySymbol = currencySymbol;
     this.fractionDigits = fractionDigits;

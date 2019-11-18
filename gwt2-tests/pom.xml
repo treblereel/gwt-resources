@@ -76,9 +76,6 @@
             <testResource>
                 <directory>${project.basedir}/src/test/resources</directory>
             </testResource>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources</directory>
-            </testResource>
         </testResources>
         <plugins>
             <plugin>
@@ -195,6 +192,10 @@
                         <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
                         <additionalClasspathElement>${project.build.directory}/generated-test-sources/test-annotations
                         </additionalClasspathElement>
+
+                        <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
+
+
                     </additionalClasspathElements>
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                     <forkMode>always</forkMode>

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,10 +18,9 @@ package org.gwtproject.i18n.client;
 import org.gwtproject.i18n.client.constants.DateTimeConstants;
 
 /**
- * Adapter that makes a {@link DateTimeConstants} implementation suitable for
- * use with something that wants a
- * {@link org.gwtproject.i18n.client.DateTimeFormatInfo}.  Values not present
- * in {@link DateTimeConstants} receive default values.
+ * Adapter that makes a {@link DateTimeConstants} implementation suitable for use with something
+ * that wants a {@link org.gwtproject.i18n.client.DateTimeFormatInfo}. Values not present in {@link
+ * DateTimeConstants} receive default values.
  */
 @SuppressWarnings("deprecation")
 class DateTimeFormatInfoAdapter extends DefaultDateTimeFormatInfo {
@@ -48,12 +47,12 @@ class DateTimeFormatInfoAdapter extends DefaultDateTimeFormatInfo {
   public String dateFormatLong() {
     return dtc.dateFormats()[1];
   }
-  
+
   @Override
   public String dateFormatMedium() {
     return dtc.dateFormats()[2];
   }
-  
+
   @Override
   public String dateFormatShort() {
     return dtc.dateFormats()[3];
@@ -123,12 +122,12 @@ class DateTimeFormatInfoAdapter extends DefaultDateTimeFormatInfo {
   public String timeFormatLong() {
     return dtc.timeFormats()[1];
   }
-  
+
   @Override
   public String timeFormatMedium() {
     return dtc.timeFormats()[2];
   }
-  
+
   @Override
   public String timeFormatShort() {
     return dtc.timeFormats()[3];

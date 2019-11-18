@@ -17,52 +17,48 @@ package org.gwtproject.resources.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-/**
- * Tests for {@link DataResource.DoNotEmbed @DoNotEmbed} resource annotations.
- */
+/** Tests for {@link DataResource.DoNotEmbed @DoNotEmbed} resource annotations. */
 public class DataResourceDoNotEmbedTest extends GWTTestCase {
 
-    @Resource
-    interface DataResourcesDoNotEmbed extends ClientBundle{
-
-        /**
-         * This is a binary file containing four 0x00 bytes, which is small enough
-         * to be embeddable, and contains insufficient information for a
-         * determination of a recognizable MIME Type.
-         */
-        String FOUR_ZEROS_SOURCE = "fourZeros.dat";
-
-        // Purposely missing a @DoNotEmbed annotation
-        @Source(FOUR_ZEROS_SOURCE)
-        DataResource resourceDoNotEmbedAnnotationMissing();
-
-        @DataResource.DoNotEmbed
-        @Source(FOUR_ZEROS_SOURCE)
-        DataResource resourceDoNotEmbedAnnotationPresent();
-    }
+  @Resource
+  interface DataResourcesDoNotEmbed extends ClientBundle {
 
     /**
-     * RFC 2397 data URL scheme.
+     * This is a binary file containing four 0x00 bytes, which is small enough to be embeddable, and
+     * contains insufficient information for a determination of a recognizable MIME Type.
      */
-    private static final String DATA_URL_SCHEME = "data:";
+    String FOUR_ZEROS_SOURCE = "fourZeros.dat";
 
-    @Override
-    public String getModuleName() {
-        return "org.gwtproject.resources.ResourcesTestsModule";
-    }
+    // Purposely missing a @DoNotEmbed annotation
+    @Source(FOUR_ZEROS_SOURCE)
+    DataResource resourceDoNotEmbedAnnotationMissing();
 
-    public void testDoNotEmbedAnnotationMissingShouldEmbed() {
-        DataResourcesDoNotEmbed r = new DataResourceDoNotEmbedTest_DataResourcesDoNotEmbedImpl();
-        String url = r.resourceDoNotEmbedAnnotationMissing().getSafeUri().asString();
-        assertTrue("url '" + url + "' doesn't start with'" + DATA_URL_SCHEME + "'",
-                url.startsWith(DATA_URL_SCHEME));
-    }
+    @DataResource.DoNotEmbed
+    @Source(FOUR_ZEROS_SOURCE)
+    DataResource resourceDoNotEmbedAnnotationPresent();
+  }
 
-    public void testDoNotEmbedAnnotationPresentShouldNotEmbed() {
-        DataResourcesDoNotEmbed r = new DataResourceDoNotEmbedTest_DataResourcesDoNotEmbedImpl();
-        String url = r.resourceDoNotEmbedAnnotationPresent().getSafeUri().asString();
-        assertFalse(
-                "url '" + url + "' mustn't start with'" + DATA_URL_SCHEME + "'",
-                url.startsWith(DATA_URL_SCHEME));
-    }
+  /** RFC 2397 data URL scheme. */
+  private static final String DATA_URL_SCHEME = "data:";
+
+  @Override
+  public String getModuleName() {
+    return "org.gwtproject.resources.ResourcesTestsModule";
+  }
+
+  public void testDoNotEmbedAnnotationMissingShouldEmbed() {
+    DataResourcesDoNotEmbed r = new DataResourceDoNotEmbedTest_DataResourcesDoNotEmbedImpl();
+    String url = r.resourceDoNotEmbedAnnotationMissing().getSafeUri().asString();
+    assertTrue(
+        "url '" + url + "' doesn't start with'" + DATA_URL_SCHEME + "'",
+        url.startsWith(DATA_URL_SCHEME));
+  }
+
+  public void testDoNotEmbedAnnotationPresentShouldNotEmbed() {
+    DataResourcesDoNotEmbed r = new DataResourceDoNotEmbedTest_DataResourcesDoNotEmbedImpl();
+    String url = r.resourceDoNotEmbedAnnotationPresent().getSafeUri().asString();
+    assertFalse(
+        "url '" + url + "' mustn't start with'" + DATA_URL_SCHEME + "'",
+        url.startsWith(DATA_URL_SCHEME));
+  }
 }

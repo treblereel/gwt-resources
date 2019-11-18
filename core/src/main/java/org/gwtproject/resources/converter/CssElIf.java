@@ -18,9 +18,7 @@ package org.gwtproject.resources.converter;
 import org.gwtproject.resources.ext.UnableToCompleteException;
 import org.gwtproject.resources.rg.css.ast.*;
 
-/**
- * Represents a else if node in the css ast.
- */
+/** Represents a else if node in the css ast. */
 public class CssElIf extends CssIf {
 
   public CssElIf(CssIf originalNode) {
@@ -42,8 +40,8 @@ public class CssElIf extends CssIf {
   @Override
   public void traverse(CssVisitor visitor, Context context) throws UnableToCompleteException {
     boolean visitChildren;
-    ExtendedCssVisitor extendedCssVisitor = visitor instanceof ExtendedCssVisitor ?
-        (ExtendedCssVisitor) visitor : null;
+    ExtendedCssVisitor extendedCssVisitor =
+        visitor instanceof ExtendedCssVisitor ? (ExtendedCssVisitor) visitor : null;
 
     if (extendedCssVisitor != null) {
       visitChildren = extendedCssVisitor.visit(this, context);

@@ -15,76 +15,73 @@
  */
 package org.gwtproject.resources.rg.css;
 
-import org.gwtproject.resources.rg.css.ast.Context;
-import org.gwtproject.resources.rg.css.ast.CssExternalSelectors;
-import org.gwtproject.resources.rg.css.ast.CssSelector;
-import org.gwtproject.resources.rg.css.ast.CssVisitor;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
+import org.gwtproject.resources.rg.css.ast.Context;
+import org.gwtproject.resources.rg.css.ast.CssExternalSelectors;
+import org.gwtproject.resources.rg.css.ast.CssSelector;
+import org.gwtproject.resources.rg.css.ast.CssVisitor;
 
 /**
- * Collects all {@code @external} declarations in the stylesheet. This visitor
- * will expand tail-globs.
+ * Collects all {@code @external} declarations in the stylesheet. This visitor will expand
+ * tail-globs.
  */
 public class ExternalClassesCollector extends CssVisitor {
-    public static final String GLOB_STRING = "*";
+  public static final String GLOB_STRING = "*";
 
-    private final SortedSet<String> allClasses = new TreeSet<String>();
-    private final SortedSet<String> externalClasses = new TreeSet<String>();
-    private final Set<String> globs = new HashSet<String>();
+  private final SortedSet<String> allClasses = new TreeSet<String>();
+  private final SortedSet<String> externalClasses = new TreeSet<String>();
+  private final Set<String> globs = new HashSet<String>();
 
-    /**
-     * This is a short-circuit for <code>{@literal @external} *</code>.
-     */
-    private boolean matchAll;
+  /** This is a short-circuit for <code>{@literal @external} *</code>. */
+  private boolean matchAll;
 
-    @Override
-    public void endVisit(CssExternalSelectors x, Context ctx) {
-        if (matchAll) {
-            return;
-        }
-
-        for (String selector : x.getClasses()) {
-            if (selector.equals(GLOB_STRING)) {
-                matchAll = true;
-                return;
-            } else if (selector.endsWith(GLOB_STRING)) {
-                globs.add(selector.substring(0, selector.length() - 1));
-            } else {
-                externalClasses.add(selector);
-            }
-        }
+  @Override
+  public void endVisit(CssExternalSelectors x, Context ctx) {
+    if (matchAll) {
+      return;
     }
 
-    @Override
-    public void endVisit(CssSelector x, Context ctx) {
-        Matcher m = CssSelector.CLASS_SELECTOR_PATTERN.matcher(x.getSelector());
+    for (String selector : x.getClasses()) {
+      if (selector.equals(GLOB_STRING)) {
+        matchAll = true;
+        return;
+      } else if (selector.endsWith(GLOB_STRING)) {
+        globs.add(selector.substring(0, selector.length() - 1));
+      } else {
+        externalClasses.add(selector);
+      }
+    }
+  }
 
-        while (m.find()) {
-            allClasses.add(m.group(1));
-        }
+  @Override
+  public void endVisit(CssSelector x, Context ctx) {
+    Matcher m = CssSelector.CLASS_SELECTOR_PATTERN.matcher(x.getSelector());
+
+    while (m.find()) {
+      allClasses.add(m.group(1));
+    }
+  }
+
+  public SortedSet<String> getClasses() {
+    if (matchAll) {
+      return allClasses;
     }
 
-    public SortedSet<String> getClasses() {
-        if (matchAll) {
-            return allClasses;
+    glob:
+    for (String glob : globs) {
+      for (String clazz : allClasses.tailSet(glob)) {
+        if (clazz.startsWith(glob)) {
+          externalClasses.add(clazz);
+        } else {
+          continue glob;
         }
-
-        glob:
-        for (String glob : globs) {
-            for (String clazz : allClasses.tailSet(glob)) {
-                if (clazz.startsWith(glob)) {
-                    externalClasses.add(clazz);
-                } else {
-                    continue glob;
-                }
-            }
-        }
-
-        return externalClasses;
+      }
     }
+
+    return externalClasses;
+  }
 }

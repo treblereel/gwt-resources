@@ -16,19 +16,17 @@
 
 package org.gwtproject.resources.rg.gss;
 
-
 import com.google.common.css.compiler.ast.CssBooleanExpressionNode;
 import com.google.common.css.compiler.ast.CssConditionalRuleNode;
 import com.google.common.css.compiler.ast.CssValueNode;
 import com.google.common.css.compiler.ast.DefaultTreeVisitor;
-
 import java.util.Stack;
 
 /**
- * GSS doesn't visit the children of a CssConditionalRuleNode. The role of this class
- * is to implement this behavior.
+ * GSS doesn't visit the children of a CssConditionalRuleNode. The role of this class is to
+ * implement this behavior.
  */
-public class ExtendedConditionalNodeVisitor  extends DefaultTreeVisitor {
+public class ExtendedConditionalNodeVisitor extends DefaultTreeVisitor {
 
   private final Stack<CssBooleanExpressionNode> childrenStack;
 
@@ -60,6 +58,5 @@ public class ExtendedConditionalNodeVisitor  extends DefaultTreeVisitor {
     return true;
   }
 
-  public void enterBooleanExpression(CssBooleanExpressionNode node) {
-  }
+  public void enterBooleanExpression(CssBooleanExpressionNode node) {}
 }

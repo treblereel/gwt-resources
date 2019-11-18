@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,17 +15,16 @@
  */
 package org.gwtproject.resources.rg.css;
 
-import org.gwtproject.resources.rg.css.ast.*;
-import org.gwtproject.resources.rg.util.TextOutput;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.gwtproject.resources.rg.css.ast.*;
+import org.gwtproject.resources.rg.util.TextOutput;
 
 /**
- * Generates a static CSS template string and provides information on where to
- * inject dynamic expressions.
+ * Generates a static CSS template string and provides information on where to inject dynamic
+ * expressions.
  */
 public class CssGenerationVisitor extends CssVisitor {
   private boolean needsOpenBrace;
@@ -34,11 +33,12 @@ public class CssGenerationVisitor extends CssVisitor {
   private final TextOutput out;
 
   private final boolean substituteDots;
-  private final SortedMap<Integer, List<CssSubstitution>> substitutionPositions = new TreeMap<Integer, List<CssSubstitution>>();
+  private final SortedMap<Integer, List<CssSubstitution>> substitutionPositions =
+      new TreeMap<Integer, List<CssSubstitution>>();
 
   /**
    * Constructor.
-   * 
+   *
    * @param out the output hondler
    */
   public CssGenerationVisitor(TextOutput out) {
@@ -46,13 +46,12 @@ public class CssGenerationVisitor extends CssVisitor {
   }
 
   /**
-   * Constructor for producing an abbreviated form of the template for use with
-   * {@link CssNode#toString()}.
-   * 
+   * Constructor for producing an abbreviated form of the template for use with {@link
+   * CssNode#toString()}.
+   *
    * @param out the output handler
-   * @param substituteDots if <code>true</code> locations in the text output
-   *          where expression substitutions would normally occur are replaced
-   *          with a textual placeholder
+   * @param substituteDots if <code>true</code> locations in the text output where expression
+   *     substitutions would normally occur are replaced with a textual placeholder
    */
   public CssGenerationVisitor(TextOutput out, boolean substituteDots) {
     this.out = out;

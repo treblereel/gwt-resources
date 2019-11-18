@@ -17,12 +17,11 @@ package org.gwtproject.resources.rg.gss;
 
 import com.google.common.collect.Lists;
 import com.google.common.css.compiler.ast.*;
-import org.gwtproject.resources.rg.gss.ast.CssJavaExpressionNode;
-import org.gwtproject.resources.rg.gss.ast.CssRuntimeConditionalRuleNode;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.gwtproject.resources.rg.gss.ast.CssJavaExpressionNode;
+import org.gwtproject.resources.rg.gss.ast.CssRuntimeConditionalRuleNode;
 
 /**
  * Visitor that handles conditional nodes with conditions that need to be evaluated at runtime.
@@ -39,7 +38,8 @@ import java.util.regex.Pattern;
  */
 public class CreateRuntimeConditionalNodes extends DefaultTreeVisitor implements CssCompilerPass {
   // TODO(jdr): valid input like eval('foo(")\')")') will break this regex
-  private static final Pattern EVAL_FUNCTION = Pattern.compile("^eval\\(([\"'])(((?!\\1).)*)\\1\\)$");
+  private static final Pattern EVAL_FUNCTION =
+      Pattern.compile("^eval\\(([\"'])(((?!\\1).)*)\\1\\)$");
 
   private final MutatingVisitController visitController;
 
@@ -66,18 +66,17 @@ public class CreateRuntimeConditionalNodes extends DefaultTreeVisitor implements
     return true;
   }
 
-  private void visitConditionalRule(CssConditionalRuleNode node,
-      CssConditionalBlockNode parent) {
+  private void visitConditionalRule(CssConditionalRuleNode node, CssConditionalBlockNode parent) {
     if (node.getType() != CssAtRuleNode.Type.ELSE) {
       CssBooleanExpressionNode nodeCondition = node.getCondition();
       String condition = extractRuntimeCondition(nodeCondition);
 
       if (condition != null) {
-        CssJavaExpressionNode newNode = new CssJavaExpressionNode(condition,
-            nodeCondition.getSourceCodeLocation());
+        CssJavaExpressionNode newNode =
+            new CssJavaExpressionNode(condition, nodeCondition.getSourceCodeLocation());
 
-        CssRuntimeConditionalRuleNode newRuleNode = new CssRuntimeConditionalRuleNode(node,
-            newNode);
+        CssRuntimeConditionalRuleNode newRuleNode =
+            new CssRuntimeConditionalRuleNode(node, newNode);
 
         // Unfortunately visitController.replaceCurrentBlockChildWith doesn't work with
         // CssConditionnalRuleNode

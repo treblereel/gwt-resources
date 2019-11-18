@@ -21,9 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 
-/**
- * Tree logger that logs to a print writer.
- */
+/** Tree logger that logs to a print writer. */
 public final class PrintWriterTreeLogger extends AbstractTreeLogger {
 
   private final String indent;
@@ -45,7 +43,7 @@ public final class PrintWriterTreeLogger extends AbstractTreeLogger {
     this.out = new PrintWriter(new FileWriter(logFile, true), true);
     this.indent = "";
     if (existing) {
-      out.println();  // blank line to mark relaunch
+      out.println(); // blank line to mark relaunch
     }
   }
 
@@ -60,14 +58,22 @@ public final class PrintWriterTreeLogger extends AbstractTreeLogger {
   }
 
   @Override
-  protected void doCommitBranch(AbstractTreeLogger childBeingCommitted,
-                                Type type, String msg, Throwable caught, HelpInfo helpInfo) {
+  protected void doCommitBranch(
+      AbstractTreeLogger childBeingCommitted,
+      Type type,
+      String msg,
+      Throwable caught,
+      HelpInfo helpInfo) {
     doLog(childBeingCommitted.getBranchedIndex(), type, msg, caught, helpInfo);
   }
 
   @Override
-  protected void doLog(int indexOfLogEntryWithinParentLogger, Type type,
-      String msg, Throwable caught, HelpInfo helpInfo) {
+  protected void doLog(
+      int indexOfLogEntryWithinParentLogger,
+      Type type,
+      String msg,
+      Throwable caught,
+      HelpInfo helpInfo) {
     synchronized (mutex) { // ensure thread interleaving...
       out.print(indent);
       if (type.needsAttention()) {

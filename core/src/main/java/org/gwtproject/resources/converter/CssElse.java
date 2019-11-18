@@ -15,14 +15,11 @@
  */
 package org.gwtproject.resources.converter;
 
-import org.gwtproject.resources.rg.css.ast.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.gwtproject.resources.rg.css.ast.*;
 
-/**
- * Represents a else node in the css ast.
- */
+/** Represents a else node in the css ast. */
 public class CssElse extends CssNode implements HasNodes {
   private final List<CssNode> nodes = new ArrayList<CssNode>();
 
@@ -40,8 +37,8 @@ public class CssElse extends CssNode implements HasNodes {
   public void traverse(CssVisitor visitor, Context context) {
     boolean visitChildren = true;
 
-    ExtendedCssVisitor extendedCssVisitor = visitor instanceof ExtendedCssVisitor ?
-        (ExtendedCssVisitor) visitor : null;
+    ExtendedCssVisitor extendedCssVisitor =
+        visitor instanceof ExtendedCssVisitor ? (ExtendedCssVisitor) visitor : null;
 
     if (extendedCssVisitor != null) {
       visitChildren &= extendedCssVisitor.visit(this, context);

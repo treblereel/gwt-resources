@@ -18,9 +18,7 @@ package org.gwtproject.resources.rg.gss.ast;
 import com.google.common.css.SourceCodeLocation;
 import com.google.common.css.compiler.ast.CssValueNode;
 
-/**
- * Represents a Java expression.
- */
+/** Represents a Java expression. */
 public class CssJavaExpressionNode extends CssValueNode {
 
   public CssJavaExpressionNode(String expression) {

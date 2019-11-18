@@ -15,15 +15,13 @@
  */
 package org.gwtproject.i18n.shared;
 
-/**
- * Factories that know how to create GwtLocale instances.
- */
+/** Factories that know how to create GwtLocale instances. */
 public interface GwtLocaleFactory {
 
   /**
    * Construct a GWT locale from its component parts.
    *
-   * Null or empty strings are accepted for parts not present.
+   * <p>Null or empty strings are accepted for parts not present.
    *
    * @param language
    * @param script
@@ -31,26 +29,22 @@ public interface GwtLocaleFactory {
    * @param variant
    * @return GwtLocale instance, unique for a given set of values
    */
-  GwtLocale fromComponents(String language, String script, String region,
-      String variant);
+  GwtLocale fromComponents(String language, String script, String region, String variant);
 
   /**
-   * Get a GWT locale from a string conforming to a subset of BCP47
-   * (specifically assuming extension tags are not present, at most
-   * one variant is present, and grandfathered tags are not supported;
-   * also private-use tags are only supported for the entire tag).
-   * Only minimal validation of BCP47 tags is performed, and will continue
-   * with what it is able to parse if unexpected input is encountered.
+   * Get a GWT locale from a string conforming to a subset of BCP47 (specifically assuming extension
+   * tags are not present, at most one variant is present, and grandfathered tags are not supported;
+   * also private-use tags are only supported for the entire tag). Only minimal validation of BCP47
+   * tags is performed, and will continue with what it is able to parse if unexpected input is
+   * encountered.
    *
-   * A null or empty string is treated as the default locale.
+   * <p>A null or empty string is treated as the default locale.
    *
    * @param localeName
    * @return a locale instance, always the same one for a given localeName
    */
   GwtLocale fromString(String localeName);
 
-  /**
-   * Returns an instance of the default locale.
-   */
+  /** Returns an instance of the default locale. */
   GwtLocale getDefault();
 }

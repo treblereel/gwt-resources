@@ -26,27 +26,20 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * A smattering of useful functions.
- */
+/** A smattering of useful functions. */
 public final class Utility {
-
 
   private static String sInstallPath = null;
   /**
    * A pattern that expresses version strings. It has two groups the prefix (a dotted integer
    * sequence) and a suffix (a regular string)
    *
-   * Examples: 1.6.7, 1.2_b10
-   *
+   * <p>Examples: 1.6.7, 1.2_b10
    */
   private static Pattern versionPattern =
       Pattern.compile("([0-9]+(?:\\.[0-9]+)*)((?:_[a-zA-Z0-9]+)?)");
 
-  /**
-   * Helper that ignores exceptions during close, because what are you going to
-   * do?
-   */
+  /** Helper that ignores exceptions during close, because what are you going to do? */
   public static void close(AutoCloseable closeable) {
     try {
       if (closeable != null) {
@@ -61,11 +54,11 @@ public final class Utility {
    * @param fileName New file name
    * @param overwrite Is overwriting an existing file allowed?
    * @return Handle to the file
-   * @throws IOException If the file cannot be created, or if the file already
-   *           existed and overwrite was false.
+   * @throws IOException If the file cannot be created, or if the file already existed and overwrite
+   *     was false.
    */
-  public static File createNormalFile(File parent, String fileName,
-      boolean overwrite, boolean ignore) throws IOException {
+  public static File createNormalFile(
+      File parent, String fileName, boolean overwrite, boolean ignore) throws IOException {
     File file = new File(parent, fileName);
     if (file.createNewFile()) {
       return file;
@@ -96,8 +89,7 @@ public final class Utility {
    * @return A {@link File} representing a directory that now exists.
    * @throws IOException If the directory is not found and/or cannot be created.
    */
-  public static File getDirectory(File parent, String dirName, boolean create)
-      throws IOException {
+  public static File getDirectory(File parent, String dirName, boolean create) throws IOException {
     File dir = new File(parent, dirName);
     boolean alreadyExisted = dir.exists();
 
@@ -127,25 +119,21 @@ public final class Utility {
    * @return A {@link File} representing a directory that now exists.
    * @throws IOException If the directory is not found and/or cannot be created.
    */
-  public static File getDirectory(String dirPath, boolean create)
-      throws IOException {
+  public static File getDirectory(String dirPath, boolean create) throws IOException {
     return getDirectory(null, dirPath, create);
   }
 
   /**
-   * Gets the contents of a file from the class path as a String. Note: this
-   * method is only guaranteed to work for resources in the same class loader
-   * that contains this {@link Utility} class.
+   * Gets the contents of a file from the class path as a String. Note: this method is only
+   * guaranteed to work for resources in the same class loader that contains this {@link Utility}
+   * class.
    *
    * @param partialPath the partial path to the resource on the class path
    * @return the contents of the file
-   * @throws IOException if the file could not be found or an error occurred
-   *           while reading it
+   * @throws IOException if the file could not be found or an error occurred while reading it
    */
-  public static String getFileFromClassPath(String partialPath)
-      throws IOException {
-    InputStream in = Utility.class.getClassLoader().getResourceAsStream(
-        partialPath);
+  public static String getFileFromClassPath(String partialPath) throws IOException {
+    InputStream in = Utility.class.getClassLoader().getResourceAsStream(partialPath);
     try {
       if (in == null) {
         throw new FileNotFoundException(partialPath);
@@ -168,15 +156,13 @@ public final class Utility {
   /**
    * Creates a randomly-named temporary directory.
    *
-   * @param baseDir base directory to contain the new directory. May be
-   *          {@code null}, in which case the directory given by the
-   *          {@code java.io.tmpdir} system property will be used.
+   * @param baseDir base directory to contain the new directory. May be {@code null}, in which case
+   *     the directory given by the {@code java.io.tmpdir} system property will be used.
    * @param prefix the initial characters of the new directory name
-   * @return a newly-created temporary directory; the caller must delete this
-   *          directory (either when done or on VM exit)
+   * @return a newly-created temporary directory; the caller must delete this directory (either when
+   *     done or on VM exit)
    */
-  public static File makeTemporaryDirectory(File baseDir, String prefix)
-      throws IOException {
+  public static File makeTemporaryDirectory(File baseDir, String prefix) throws IOException {
     if (baseDir == null) {
       baseDir = new File(System.getProperty("java.io.tmpdir"));
     }
@@ -188,8 +174,10 @@ public final class Utility {
     for (int tries = 0; tries < 3; ++tries) {
       File result = File.createTempFile(prefix, null, baseDir);
       if (!result.delete()) {
-        throw new IOException("Couldn't delete temporary file "
-            + result.getAbsolutePath() + " to replace with a directory.");
+        throw new IOException(
+            "Couldn't delete temporary file "
+                + result.getAbsolutePath()
+                + " to replace with a directory.");
       }
       if (result.mkdirs()) {
         // Success.
@@ -197,8 +185,7 @@ public final class Utility {
       }
     }
     throw new IOException(
-        "Couldn't create temporary directory after 3 tries in "
-            + baseDir.getAbsolutePath());
+        "Couldn't create temporary directory after 3 tries in " + baseDir.getAbsolutePath());
   }
 
   public static void streamOut(InputStream in, OutputStream out, int bufferSize)
@@ -226,12 +213,12 @@ public final class Utility {
     close(o);
   }
 
-  public static void writeTemplateFile(File file, String contents,
-      Map<String, String> replacements) throws IOException {
+  public static void writeTemplateFile(File file, String contents, Map<String, String> replacements)
+      throws IOException {
 
     String replacedContents = contents;
     Set<Entry<String, String>> entries = replacements.entrySet();
-    for (Iterator<Entry<String, String>> iter = entries.iterator(); iter.hasNext();) {
+    for (Iterator<Entry<String, String>> iter = entries.iterator(); iter.hasNext(); ) {
       Entry<String, String> entry = iter.next();
       String replaceThis = entry.getKey();
       String withThis = entry.getValue();
@@ -252,30 +239,29 @@ public final class Utility {
     try {
       String override = System.getProperty("gwt.devjar");
       if (override == null) {
-        String partialPath = Utility.class.getName().replace('.', '/').concat(
-            ".class");
+        String partialPath = Utility.class.getName().replace('.', '/').concat(".class");
         URL url = Utility.class.getClassLoader().getResource(partialPath);
         if (url != null && "jar".equals(url.getProtocol())) {
           String path = url.toString();
-          String jarPath = path.substring(path.indexOf("file:"),
-              path.lastIndexOf('!'));
+          String jarPath = path.substring(path.indexOf("file:"), path.lastIndexOf('!'));
           File devJarFile = new File(URI.create(jarPath));
           if (!devJarFile.isFile()) {
-            throw new IOException("Could not find jar file; "
-                + devJarFile.getCanonicalPath()
-                + " does not appear to be a valid file");
+            throw new IOException(
+                "Could not find jar file; "
+                    + devJarFile.getCanonicalPath()
+                    + " does not appear to be a valid file");
           }
 
           String dirPath = jarPath.substring(0, jarPath.lastIndexOf('/') + 1);
           File installDirFile = new File(URI.create(dirPath));
           if (!installDirFile.isDirectory()) {
-            throw new IOException("Could not find installation directory; "
-                + installDirFile.getCanonicalPath()
-                + " does not appear to be a valid directory");
+            throw new IOException(
+                "Could not find installation directory; "
+                    + installDirFile.getCanonicalPath()
+                    + " does not appear to be a valid directory");
           }
 
-          sInstallPath = installDirFile.getCanonicalPath().replace(
-              File.separatorChar, '/');
+          sInstallPath = installDirFile.getCanonicalPath().replace(File.separatorChar, '/');
         } else {
           throw new IOException(
               "Cannot determine installation directory; apparently not running from a jar");
@@ -290,30 +276,28 @@ public final class Utility {
         }
       }
     } catch (IOException e) {
-      throw new RuntimeException(
-          "Installation problem detected, please reinstall GWT", e);
+      throw new RuntimeException("Installation problem detected, please reinstall GWT", e);
     }
   }
 
   /**
    * Handles comparison between version numbers (the right way(TM)).
    *
-   * Examples of version strings: 1.6.7, 1.2_b10
+   * <p>Examples of version strings: 1.6.7, 1.2_b10
    *
    * @param v1 the first version to compare.
    * @param v2 the second version to compare.
    * @return a negative integer, zero, or a positive integer as the first argument is less than,
-   *         equal to, or greater than the second.
+   *     equal to, or greater than the second.
    * @throws IllegalArgumentException if the version number are not proper (i.e. the do not comply
-   *                                  with the following regular expression
-   *                                  [0-9]+(.[0-9]+)*(_[a-zA-Z0-9]+)?
+   *     with the following regular expression [0-9]+(.[0-9]+)*(_[a-zA-Z0-9]+)?
    */
   public static int versionCompare(String v1, String v2) {
     Matcher v1Matcher = versionPattern.matcher(v1);
     Matcher v2Matcher = versionPattern.matcher(v2);
     if (!v1Matcher.matches() || !v2Matcher.matches()) {
-      throw new IllegalArgumentException(v1Matcher.matches() ? v2 : v1 + " is not a proper version"
-          + " string");
+      throw new IllegalArgumentException(
+          v1Matcher.matches() ? v2 : v1 + " is not a proper version" + " string");
     }
 
     String[] v1Prefix = v1Matcher.group(1).split("\\.");

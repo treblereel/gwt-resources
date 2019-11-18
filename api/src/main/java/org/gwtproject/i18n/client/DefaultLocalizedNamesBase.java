@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Base class of {@link DefaultLocalizedNames}, used just to isolate all
- * hand-written code here from all generated code.
+ * Base class of {@link DefaultLocalizedNames}, used just to isolate all hand-written code here from
+ * all generated code.
  */
 public abstract class DefaultLocalizedNamesBase implements LocalizedNames {
 
@@ -36,6 +36,7 @@ public abstract class DefaultLocalizedNamesBase implements LocalizedNames {
     }
     return likelyRegionCodes;
   }
+
   public final String getRegionName(String regionCode) {
     if (needsNameMap()) {
       loadNameMap();
@@ -55,11 +56,11 @@ public abstract class DefaultLocalizedNamesBase implements LocalizedNames {
   }
 
   /**
-   * Returns a possibly-empty array of country codes, ordered by the literate
-   * population speaking this language.
-   * 
-   * The default implementation is an empty array.
-   * 
+   * Returns a possibly-empty array of country codes, ordered by the literate population speaking
+   * this language.
+   *
+   * <p>The default implementation is an empty array.
+   *
    * @return a possibly-empty array of likely country codes
    */
   protected String[] loadLikelyRegionCodes() {
@@ -67,27 +68,24 @@ public abstract class DefaultLocalizedNamesBase implements LocalizedNames {
   }
 
   /**
-   * Initializes {{@link #namesMap} to a map of region code (including
-   * non-country codes) to localized names. Subclasses should generally call the
-   * parent implementation and then change specific entries, though if most
-   * entries are being changed they can just create their own map.
+   * Initializes {{@link #namesMap} to a map of region code (including non-country codes) to
+   * localized names. Subclasses should generally call the parent implementation and then change
+   * specific entries, though if most entries are being changed they can just create their own map.
    */
   protected void loadNameMap() {
     namesMap = new HashMap<String, String>();
   }
 
   /**
-   * Returns an array of currently valid country codes ordered by the collating
-   * order of the locale.
-   * 
+   * Returns an array of currently valid country codes ordered by the collating order of the locale.
+   *
    * @return an array of ordered country codes
    */
   protected abstract String[] loadSortedRegionCodes();
 
   /**
-   * @return true if the name map needs to be loaded -- subclasses that provide
-   *     alternate storage for the name map (such as in JSOs) should override
-   *     this.
+   * @return true if the name map needs to be loaded -- subclasses that provide alternate storage
+   *     for the name map (such as in JSOs) should override this.
    */
   protected boolean needsNameMap() {
     return namesMap == null;

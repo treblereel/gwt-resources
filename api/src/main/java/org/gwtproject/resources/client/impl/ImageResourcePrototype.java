@@ -15,114 +15,111 @@
  */
 package org.gwtproject.resources.client.impl;
 
+import static elemental2.dom.DomGlobal.document;
 
 import elemental2.dom.Image;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.safehtml.shared.SafeUri;
 
-import static elemental2.dom.DomGlobal.document;
-
 /**
- * This is part of an implementation of the ImageBundle optimization implemented
- * with ClientBundle.
+ * This is part of an implementation of the ImageBundle optimization implemented with ClientBundle.
  */
 public class ImageResourcePrototype implements ImageResource {
 
-    /**
-     * Marker class for bundled {@code ImageResourcePrototype}.
-     */
-    public static class Bundle extends ImageResourcePrototype {
-        public Bundle(String name, SafeUri url, int left, int top, int width, int height,
-                      boolean animated, boolean lossy) {
-            super(name, url, left, top, width, height, animated, lossy);
-        }
+  /** Marker class for bundled {@code ImageResourcePrototype}. */
+  public static class Bundle extends ImageResourcePrototype {
+    public Bundle(
+        String name,
+        SafeUri url,
+        int left,
+        int top,
+        int width,
+        int height,
+        boolean animated,
+        boolean lossy) {
+      super(name, url, left, top, width, height, animated, lossy);
     }
+  }
 
-    private final boolean animated;
-    private final boolean lossy;
-    private final String name;
-    private final SafeUri url;
-    private final int left;
-    private final int top;
-    private final int width;
-    private final int height;
+  private final boolean animated;
+  private final boolean lossy;
+  private final String name;
+  private final SafeUri url;
+  private final int left;
+  private final int top;
+  private final int width;
+  private final int height;
 
-    /**
-     * Only called by generated code.
-     */
-    public ImageResourcePrototype(String name, SafeUri url, int left, int top, int width, int height,
-                                  boolean animated, boolean lossy) {
-        this.name = name;
-        this.left = left;
-        this.top = top;
-        this.height = height;
-        this.width = width;
-        this.url = url;
-        this.animated = animated;
-        this.lossy = lossy;
-    }
+  /** Only called by generated code. */
+  public ImageResourcePrototype(
+      String name,
+      SafeUri url,
+      int left,
+      int top,
+      int width,
+      int height,
+      boolean animated,
+      boolean lossy) {
+    this.name = name;
+    this.left = left;
+    this.top = top;
+    this.height = height;
+    this.width = width;
+    this.url = url;
+    this.animated = animated;
+    this.lossy = lossy;
+  }
 
-    /**
-     * Exists for testing purposes, not part of the ImageResource interface.
-     */
-    public int getHeight() {
-        return height;
-    }
+  /** Exists for testing purposes, not part of the ImageResource interface. */
+  public int getHeight() {
+    return height;
+  }
 
-    /**
-     * Exists for testing purposes, not part of the ImageResource interface.
-     */
-    public int getLeft() {
-        return left;
-    }
+  /** Exists for testing purposes, not part of the ImageResource interface. */
+  public int getLeft() {
+    return left;
+  }
 
-    /**
-     * Returns the Image
-     */
-    @Override
-    public Image getImage() {
-        Image image = (Image) document.createElement("img");
-        image.src = getSafeUri().asString();
-        image.name = name;
-        image.width = width;
-        image.height = height;
-        //image.dir = "";
-        //setSetting and so on
-        return image;
-    }
+  /** Returns the Image */
+  @Override
+  public Image getImage() {
+    Image image = (Image) document.createElement("img");
+    image.src = getSafeUri().asString();
+    image.name = name;
+    image.width = width;
+    image.height = height;
+    // image.dir = "";
+    // setSetting and so on
+    return image;
+  }
 
-    public SafeUri getSafeUri() {
-        return url;
-    }
+  public SafeUri getSafeUri() {
+    return url;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public int getTop() {
-        return top;
-    }
+  public int getTop() {
+    return top;
+  }
 
-    public String getURL() {
-        return url.asString();
-    }
+  public String getURL() {
+    return url.asString();
+  }
 
-    /**
-     * Exists for testing purposes, not part of the ImageResource interface.
-     */
-    public int getWidth() {
-        return width;
-    }
+  /** Exists for testing purposes, not part of the ImageResource interface. */
+  public int getWidth() {
+    return width;
+  }
 
-    public boolean isAnimated() {
-        return animated;
-    }
+  public boolean isAnimated() {
+    return animated;
+  }
 
-    /**
-     * Exists for testing purposes, not part of the ImageResource interface.
-     */
-    public boolean isLossy() {
-        return lossy;
-    }
-
+  /** Exists for testing purposes, not part of the ImageResource interface. */
+  public boolean isLossy() {
+    return lossy;
+  }
 }

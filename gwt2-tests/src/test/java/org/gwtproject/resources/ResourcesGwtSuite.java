@@ -20,34 +20,30 @@ import junit.framework.Test;
 import org.gwtproject.resources.client.*;
 import org.gwtproject.resources.client.gss.*;
 
-/**
- * Test suite for SafeHtml GWTTestCases.
- */
+/** Test suite for SafeHtml GWTTestCases. */
 public class ResourcesGwtSuite {
-    private ResourcesGwtSuite() {
-    }
+  private ResourcesGwtSuite() {}
 
-    public static Test suite() {
-        GWTTestSuite suite = new GWTTestSuite(
-                "Test suite for Resources GWTTestCases");
+  public static Test suite() {
+    GWTTestSuite suite = new GWTTestSuite("Test suite for Resources GWTTestCases");
 
-        suite.addTestSuite(DataResourceDoNotEmbedTest.class);
-        suite.addTestSuite(DataResourceMimeTypeTest.class);
-        suite.addTestSuite(ExternalTextResourceTest.class);
-        suite.addTestSuite(ImageResourceTest.class);
-        suite.addTestSuite(NestedBundleTest.class);
-        suite.addTestSuite(TextResourceTest.class);
-        suite.addTestSuite(CSSResourceTest.class);
-        suite.addTestSuite(CSSResourceWithGSSTest.class);
+    suite.addTestSuite(DataResourceDoNotEmbedTest.class);
+    suite.addTestSuite(DataResourceMimeTypeTest.class);
+    suite.addTestSuite(ExternalTextResourceTest.class);
+    suite.addTestSuite(ImageResourceTest.class);
+    suite.addTestSuite(NestedBundleTest.class);
+    suite.addTestSuite(TextResourceTest.class);
+    suite.addTestSuite(CSSResourceTest.class);
+    suite.addTestSuite(CSSResourceWithGSSTest.class);
 
-        // GSS
-        suite.addTestSuite(AutoConversionTest.class);
-        suite.addTestSuite(GssResourceTest.class);
-        suite.addTestSuite(DebugObfuscationStyleTest.class);
-        suite.addTestSuite(PrettyObfuscationStyleTest.class);
-        suite.addTestSuite(StableShortTypeObfuscationStyleTest.class);
-        suite.addTestSuite(StableNoTypeObfuscationStyleTest.class);
-        suite.addTestSuite(StableObfuscationStyleTest.class);
-        return suite;
-    }
+    // GSS
+    suite.addTestSuite(AutoConversionTest.class);
+    suite.addTestSuite(GssResourceTest.class);
+    suite.addTestSuite(DebugObfuscationStyleTest.class);
+    suite.addTestSuite(PrettyObfuscationStyleTest.class);
+    suite.addTestSuite(StableShortTypeObfuscationStyleTest.class);
+    suite.addTestSuite(StableNoTypeObfuscationStyleTest.class);
+    suite.addTestSuite(StableObfuscationStyleTest.class);
+    return suite;
+  }
 }

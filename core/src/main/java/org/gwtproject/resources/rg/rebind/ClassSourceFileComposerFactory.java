@@ -15,139 +15,143 @@
  */
 package org.gwtproject.resources.rg.rebind;
 
-import org.gwtproject.resources.ext.GeneratorContext;
-import org.gwtproject.resources.rg.util.SourceWriter;
-
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import org.gwtproject.resources.ext.GeneratorContext;
+import org.gwtproject.resources.rg.util.SourceWriter;
 
-/**
- * Factory clas to create <code>ClassSourceFileComposer</code> instances.
- *
- */
+/** Factory clas to create <code>ClassSourceFileComposer</code> instances. */
 public class ClassSourceFileComposerFactory {
-    /**
-     * Represents a java source file category. Right now support interface and
-     * class, later should support abstract class, static class, etc.
-     */
-    enum JavaSourceCategory {
-        CLASS, INTERFACE
-    }
+  /**
+   * Represents a java source file category. Right now support interface and class, later should
+   * support abstract class, static class, etc.
+   */
+  enum JavaSourceCategory {
+    CLASS,
+    INTERFACE
+  }
 
-    private List<String> annotations = new ArrayList<String>();
+  private List<String> annotations = new ArrayList<String>();
 
-    private JavaSourceCategory classCategory = JavaSourceCategory.CLASS;
+  private JavaSourceCategory classCategory = JavaSourceCategory.CLASS;
 
-    private String classComment;
+  private String classComment;
 
-    private String className;
+  private String className;
 
-    private Set<String> imports = new LinkedHashSet<String>();
+  private Set<String> imports = new LinkedHashSet<String>();
 
-    private Set<String> interfaceNames = new LinkedHashSet<String>();
+  private Set<String> interfaceNames = new LinkedHashSet<String>();
 
-    private String packageName;
+  private String packageName;
 
-    private String superClassName;
+  private String superClassName;
 
-    public ClassSourceFileComposerFactory(String packageName, String className) {
-        this.packageName = packageName;
-        this.className = className;
-    }
+  public ClassSourceFileComposerFactory(String packageName, String className) {
+    this.packageName = packageName;
+    this.className = className;
+  }
 
-    public void addAnnotationDeclaration(String declaration) {
-        annotations.add(declaration);
-    }
+  public void addAnnotationDeclaration(String declaration) {
+    annotations.add(declaration);
+  }
 
-    public void addImplementedInterface(String intfName) {
-        interfaceNames.add(intfName);
-    }
+  public void addImplementedInterface(String intfName) {
+    interfaceNames.add(intfName);
+  }
 
-    public void addImport(String typeName) {
-        imports.add(typeName);
-    }
+  public void addImport(String typeName) {
+    imports.add(typeName);
+  }
 
-    /**
-     * Creates an implementation of {@link SourceWriter} that can be used to write
-     * the innards of a class. Note that the subsequent changes to this factory do
-     * not affect the returned instance.
-     *
-     * @throws RuntimeException If the settings on this factory are inconsistent
-     *           or invalid
-     */
-    public SourceWriter createSourceWriter(GeneratorContext ctx,
-                                           PrintWriter printWriter) {
-        return new ClassSourceFileComposer(ctx, printWriter, getCreatedPackage(),
-                getAnnotationDeclarations(), getCreatedClassShortName(),
-                getSuperclassName(), getInterfaceNames(), getImports(), classCategory,
-                classComment);
-    }
+  /**
+   * Creates an implementation of {@link SourceWriter} that can be used to write the innards of a
+   * class. Note that the subsequent changes to this factory do not affect the returned instance.
+   *
+   * @throws RuntimeException If the settings on this factory are inconsistent or invalid
+   */
+  public SourceWriter createSourceWriter(GeneratorContext ctx, PrintWriter printWriter) {
+    return new ClassSourceFileComposer(
+        ctx,
+        printWriter,
+        getCreatedPackage(),
+        getAnnotationDeclarations(),
+        getCreatedClassShortName(),
+        getSuperclassName(),
+        getInterfaceNames(),
+        getImports(),
+        classCategory,
+        classComment);
+  }
 
-    /**
-     * Creates an implementation of {@link SourceWriter} that can be used to write
-     * the innards of a class. Note that the subsequent changes to this factory do
-     * not affect the returned instance.
-     *
-     * @param printWriter underlying writer
-     * @return the source writer
-     * @throws RuntimeException If the settings on this factory are inconsistent
-     *           or invalid
-     */
-    public SourceWriter createSourceWriter(PrintWriter printWriter) {
-        return new ClassSourceFileComposer(null, printWriter, getCreatedPackage(),
-                getAnnotationDeclarations(), getCreatedClassShortName(),
-                getSuperclassName(), getInterfaceNames(), getImports(), classCategory,
-                classComment);
-    }
+  /**
+   * Creates an implementation of {@link SourceWriter} that can be used to write the innards of a
+   * class. Note that the subsequent changes to this factory do not affect the returned instance.
+   *
+   * @param printWriter underlying writer
+   * @return the source writer
+   * @throws RuntimeException If the settings on this factory are inconsistent or invalid
+   */
+  public SourceWriter createSourceWriter(PrintWriter printWriter) {
+    return new ClassSourceFileComposer(
+        null,
+        printWriter,
+        getCreatedPackage(),
+        getAnnotationDeclarations(),
+        getCreatedClassShortName(),
+        getSuperclassName(),
+        getInterfaceNames(),
+        getImports(),
+        classCategory,
+        classComment);
+  }
 
-    public String[] getAnnotationDeclarations() {
-        return annotations.toArray(new String[annotations.size()]);
-    }
+  public String[] getAnnotationDeclarations() {
+    return annotations.toArray(new String[annotations.size()]);
+  }
 
-    public String getCreatedClassName() {
-        return getCreatedPackage() + "." + getCreatedClassShortName();
-    }
+  public String getCreatedClassName() {
+    return getCreatedPackage() + "." + getCreatedClassShortName();
+  }
 
-    public String getCreatedClassShortName() {
-        return className;
-    }
+  public String getCreatedClassShortName() {
+    return className;
+  }
 
-    public String getCreatedPackage() {
-        return packageName;
-    }
+  public String getCreatedPackage() {
+    return packageName;
+  }
 
-    public String[] getInterfaceNames() {
-        return interfaceNames.toArray(new String[interfaceNames.size()]);
-    }
+  public String[] getInterfaceNames() {
+    return interfaceNames.toArray(new String[interfaceNames.size()]);
+  }
 
-    public String getSuperclassName() {
-        return superClassName;
-    }
+  public String getSuperclassName() {
+    return superClassName;
+  }
 
-    /**
-     * This class is an interface.
-     */
-    public void makeInterface() {
-        classCategory = JavaSourceCategory.INTERFACE;
-    }
+  /** This class is an interface. */
+  public void makeInterface() {
+    classCategory = JavaSourceCategory.INTERFACE;
+  }
 
-    /**
-     * Sets the java doc comment for <code>this</code>.
-     *
-     * @param comment java doc comment.
-     */
-    public void setJavaDocCommentForClass(String comment) {
-        classComment = comment;
-    }
+  /**
+   * Sets the java doc comment for <code>this</code>.
+   *
+   * @param comment java doc comment.
+   */
+  public void setJavaDocCommentForClass(String comment) {
+    classComment = comment;
+  }
 
-    public void setSuperclass(String superclassName) {
-        superClassName = superclassName;
-    }
+  public void setSuperclass(String superclassName) {
+    superClassName = superclassName;
+  }
 
-    private String[] getImports() {
-        return imports.toArray(new String[imports.size()]);
-    }
+  private String[] getImports() {
+    return imports.toArray(new String[imports.size()]);
+  }
 }

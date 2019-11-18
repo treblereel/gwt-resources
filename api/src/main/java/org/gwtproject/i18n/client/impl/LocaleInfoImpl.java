@@ -18,20 +18,20 @@ package org.gwtproject.i18n.client.impl;
 import org.gwtproject.i18n.client.constants.NumberConstants;
 
 /**
- * Implementation detail of LocaleInfo -- not a public API and subject to
- * change.
- * <p>
- * Generated interface for locale information.  The default implementation
- * returns null, which is used if the i18n module is not imported.
+ * Implementation detail of LocaleInfo -- not a public API and subject to change.
+ *
+ * <p>Generated interface for locale information. The default implementation returns null, which is
+ * used if the i18n module is not imported.
+ *
  * @see org.gwtproject.i18n.client.LocaleInfo
  */
 public class LocaleInfoImpl {
 
-    public boolean hasAnyRTL() {
-        return false;
-    }
+  public boolean hasAnyRTL() {
+    return false;
+  }
 
-    public NumberConstants getNumberConstants() {
-        return new NumberConstantsImpl_();
-    }
+  public NumberConstants getNumberConstants() {
+    return new NumberConstantsImpl_();
+  }
 }

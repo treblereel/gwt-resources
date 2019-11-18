@@ -15,13 +15,10 @@
  */
 package org.gwtproject.resources.rg.util.tools;
 
-/**
- * Consolidates preallocated empty arrays for use with <code>toArray()</code>.
- */
+/** Consolidates preallocated empty arrays for use with <code>toArray()</code>. */
 public class Empty {
 
   public static final String[] STRINGS = new String[0];
   public static final Class<?>[] CLASSES = new Class<?>[0];
   public static final Object[] OBJECTS = new Object[0];
-
 }

@@ -17,24 +17,21 @@ package org.gwtproject.resources.rg.css;
 
 import org.gwtproject.resources.rg.css.ast.*;
 
-/**
- * Splits rules with compound selectors into multiple rules.
- */
+/** Splits rules with compound selectors into multiple rules. */
 public class SplitRulesVisitor extends CssModVisitor {
-    @Override
-    public void endVisit(CssRule x, Context ctx) {
-        if (x.getSelectors().size() == 1) {
-            return;
-        }
-
-        for (CssSelector sel : x.getSelectors()) {
-            CssRule newRule = new CssRule();
-            newRule.getSelectors().add(sel);
-            newRule.getProperties().addAll(
-                    CssNodeCloner.clone(CssProperty.class, x.getProperties()));
-            ctx.insertBefore(newRule);
-        }
-        ctx.removeMe();
-        return;
+  @Override
+  public void endVisit(CssRule x, Context ctx) {
+    if (x.getSelectors().size() == 1) {
+      return;
     }
+
+    for (CssSelector sel : x.getSelectors()) {
+      CssRule newRule = new CssRule();
+      newRule.getSelectors().add(sel);
+      newRule.getProperties().addAll(CssNodeCloner.clone(CssProperty.class, x.getProperties()));
+      ctx.insertBefore(newRule);
+    }
+    ctx.removeMe();
+    return;
+  }
 }

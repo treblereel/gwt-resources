@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -19,42 +19,37 @@ import java.util.Map;
 import java.util.MissingResourceException;
 
 /**
- * Like {@link org.gwtproject.i18n.client.Constants}, a tag interface that
- * facilitates locale-sensitive, compile-time binding of constant values
- * supplied from properties files with the added ability to look up constants at
- * runtime with a string key.
- * 
- * <p>
- * <code>ConstantsWithLookup</code> extends
- * {@link org.gwtproject.i18n.client.Constants} and is identical in behavior,
- * adding only a family of special-purpose lookup methods such as
- * {@link ConstantsWithLookup#getString(String)}.
- * </p>
- * 
- * <p>
- * It is generally preferable to extend <code>Constants</code> rather than
- * <code>ConstantsWithLookup</code> because <code>ConstantsWithLookup</code>
- * forces all constants to be retained in the compiled script, preventing the
- * GWT compiler from pruning unused constant accessors.
- * </p>
- * 
+ * Like {@link org.gwtproject.i18n.client.Constants}, a tag interface that facilitates
+ * locale-sensitive, compile-time binding of constant values supplied from properties files with the
+ * added ability to look up constants at runtime with a string key.
+ *
+ * <p><code>ConstantsWithLookup</code> extends {@link org.gwtproject.i18n.client.Constants} and is
+ * identical in behavior, adding only a family of special-purpose lookup methods such as {@link
+ * ConstantsWithLookup#getString(String)}.
+ *
+ * <p>It is generally preferable to extend <code>Constants</code> rather than <code>
+ * ConstantsWithLookup</code> because <code>ConstantsWithLookup</code> forces all constants to be
+ * retained in the compiled script, preventing the GWT compiler from pruning unused constant
+ * accessors.
+ *
  * <h3>Required Module</h3>
- * Modules that use this interface should inherit
- * <code>org.gwtproject.i18n.I18N</code>.
- * 
- * {@gwt.include com/google/gwt/examples/i18n/InheritsExample.gwt.xml}
- * 
+ *
+ * Modules that use this interface should inherit <code>org.gwtproject.i18n.I18N</code>.
+ *
+ * <p>{@gwt.include com/google/gwt/examples/i18n/InheritsExample.gwt.xml}
+ *
  * <h3>Note</h3>
- * You should not directly implement this interface or interfaces derived from
- * it since an implementation is generated automatically when message interfaces
- * are created using {@link com.google.gwt.core.client.GWT#create(Class)}.
- * 
+ *
+ * You should not directly implement this interface or interfaces derived from it since an
+ * implementation is generated automatically when message interfaces are created using {@link
+ * com.google.gwt.core.client.GWT#create(Class)}.
+ *
  * @see org.gwtproject.i18n.client.Constants
  */
 public interface ConstantsWithLookup extends Constants {
   /**
    * Look up <code>boolean</code> by method name.
-   * 
+   *
    * @param methodName method name
    * @return boolean returned by method
    * @throws MissingResourceException if methodName is not valid
@@ -63,7 +58,7 @@ public interface ConstantsWithLookup extends Constants {
 
   /**
    * Look up <code>double</code> by method name.
-   * 
+   *
    * @param methodName method name
    * @return double returned by method
    * @throws MissingResourceException if methodName is not valid
@@ -72,7 +67,7 @@ public interface ConstantsWithLookup extends Constants {
 
   /**
    * Look up <code>float</code> by method name.
-   * 
+   *
    * @param methodName method name
    * @return float returned by method
    * @throws MissingResourceException if methodName is not valid
@@ -81,7 +76,7 @@ public interface ConstantsWithLookup extends Constants {
 
   /**
    * Look up <code>int</code> by method name.
-   * 
+   *
    * @param methodName method name
    * @return int returned by method
    * @throws MissingResourceException if methodName is not valid
@@ -90,7 +85,7 @@ public interface ConstantsWithLookup extends Constants {
 
   /**
    * Look up <code>Map</code> by method name.
-   * 
+   *
    * @param methodName method name
    * @return Map returned by method
    * @throws MissingResourceException if methodName is not valid
@@ -99,7 +94,7 @@ public interface ConstantsWithLookup extends Constants {
 
   /**
    * Look up <code>String</code> by method name.
-   * 
+   *
    * @param methodName method name
    * @return String returned by method
    * @throws MissingResourceException if methodName is not valid
@@ -108,7 +103,7 @@ public interface ConstantsWithLookup extends Constants {
 
   /**
    * Look up <code>String[]</code> by method name.
-   * 
+   *
    * @param methodName method name
    * @return String[] returned by method
    * @throws MissingResourceException if methodName is not valid

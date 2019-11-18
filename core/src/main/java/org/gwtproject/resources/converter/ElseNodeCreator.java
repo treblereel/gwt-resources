@@ -15,18 +15,16 @@
  */
 package org.gwtproject.resources.converter;
 
-import org.gwtproject.resources.rg.css.ast.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.gwtproject.resources.rg.css.ast.*;
 
 /**
  * The original Css parser doesn't create specific nodes for {@code @elif} and {@code @else}
- * at-rules. That makes their conversion more difficult, especially for the {@code @else}
- * at-rule.
- * <p/>
- * The main goal of this visitor is to create specific nodes for these two at-rules in
- * order to ease their conversion.
+ * at-rules. That makes their conversion more difficult, especially for the {@code @else} at-rule.
+ *
+ * <p>The main goal of this visitor is to create specific nodes for these two at-rules in order to
+ * ease their conversion.
  */
 public class ElseNodeCreator extends ExtendedCssVisitor {
 

@@ -15,9 +15,7 @@
  */
 package org.gwtproject.resources.ext;
 
-/**
- * Thrown when a deferred binding property contains an invalid value.
- */
+/** Thrown when a deferred binding property contains an invalid value. */
 public class BadPropertyValueException extends Exception {
 
   private final String badValue;
@@ -32,8 +30,7 @@ public class BadPropertyValueException extends Exception {
   }
 
   public BadPropertyValueException(String propName, String badValue) {
-    super("Property '" + propName + "' cannot be set to unexpected value '"
-      + badValue + "'");
+    super("Property '" + propName + "' cannot be set to unexpected value '" + badValue + "'");
 
     this.propName = propName;
     this.badValue = badValue;
@@ -42,6 +39,7 @@ public class BadPropertyValueException extends Exception {
   String getBadValue() {
     return badValue;
   }
+
   String getPropName() {
     return propName;
   }

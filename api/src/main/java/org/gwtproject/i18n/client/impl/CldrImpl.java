@@ -18,14 +18,12 @@ package org.gwtproject.i18n.client.impl;
 import org.gwtproject.i18n.client.Localizable;
 
 /**
- * Implementation detail of LocaleInfo -- not a public API and subject to
- * change.
+ * Implementation detail of LocaleInfo -- not a public API and subject to change.
  *
- * Locale data from CLDR.
+ * <p>Locale data from CLDR.
  *
- * Subclasses of this are currently hand-written, but will eventually be
- * generated directly from the CLDR data and make available most of the
- * information present in CLDR.
+ * <p>Subclasses of this are currently hand-written, but will eventually be generated directly from
+ * the CLDR data and make available most of the information present in CLDR.
  */
 public class CldrImpl implements Localizable {
   /*
@@ -34,10 +32,9 @@ public class CldrImpl implements Localizable {
    */
 
   /**
-   * Returns true if the current locale is right-to-left rather than
-   * left-to-right.
+   * Returns true if the current locale is right-to-left rather than left-to-right.
    *
-   * Most languages are left-to-right, so the default is false.
+   * <p>Most languages are left-to-right, so the default is false.
    */
   public boolean isRTL() {
     return false;

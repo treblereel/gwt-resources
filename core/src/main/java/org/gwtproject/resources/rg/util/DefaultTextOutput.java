@@ -18,9 +18,7 @@ package org.gwtproject.resources.rg.util;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-/**
- * Adapts {@link TextOutput} to an internal text buffer.
- */
+/** Adapts {@link TextOutput} to an internal text buffer. */
 public class DefaultTextOutput extends AbstractTextOutput {
 
   private final StringWriter sw = new StringWriter();

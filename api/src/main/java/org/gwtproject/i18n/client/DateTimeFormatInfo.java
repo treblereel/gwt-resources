@@ -21,5 +21,4 @@ package org.gwtproject.i18n.client;
  * @deprecated use {@link org.gwtproject.i18n.shared.DateTimeFormatInfo} instead
  */
 @Deprecated
-public interface DateTimeFormatInfo extends org.gwtproject.i18n.shared.DateTimeFormatInfo {
-}
+public interface DateTimeFormatInfo extends org.gwtproject.i18n.shared.DateTimeFormatInfo {}

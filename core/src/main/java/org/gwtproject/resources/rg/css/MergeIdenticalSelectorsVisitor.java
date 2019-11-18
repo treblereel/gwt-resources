@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,14 +15,11 @@
  */
 package org.gwtproject.resources.rg.css;
 
+import java.util.*;
 import org.gwtproject.resources.rg.CssResourceGenerator;
 import org.gwtproject.resources.rg.css.ast.*;
 
-import java.util.*;
-
-/**
- * Merges rules that have matching selectors.
- */
+/** Merges rules that have matching selectors. */
 public class MergeIdenticalSelectorsVisitor extends CssModVisitor {
   private final Map<String, CssRule> canonicalRules = new HashMap<String, CssRule>();
   private final List<CssRule> rulesInOrder = new ArrayList<CssRule>();
@@ -56,9 +53,7 @@ public class MergeIdenticalSelectorsVisitor extends CssModVisitor {
       int index = rulesInOrder.indexOf(canonical) + 1;
       assert index != 0;
 
-
-      for (Iterator<CssRule> i = rulesInOrder.listIterator(index); i.hasNext()
-          && !hasCommon;) {
+      for (Iterator<CssRule> i = rulesInOrder.listIterator(index); i.hasNext() && !hasCommon; ) {
         hasCommon = CssResourceGenerator.haveCommonProperties(i.next(), x);
       }
 

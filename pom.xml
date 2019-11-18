@@ -37,6 +37,17 @@
             </releases>
         </repository>
         <repository>
+            <id>vertispan-jre</id>
+            <name>Vertispan Public Repo</name>
+            <url>https://repo.vertispan.com/j2cl/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+        <repository>
             <id>google-snapshots</id>
             <name>Google Snapshots Repo</name>
             <url>https://oss.sonatype.org/content/repositories/google-snapshots</url>
@@ -70,12 +81,16 @@
         <commons-io.version>2.6</commons-io.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <junit.version>4.11</junit.version>
+        <vertispan.j2cl.version>0.5-SNAPSHOT</vertispan.j2cl.version>
+        <maven.j2cl.version>0.11-SNAPSHOT</maven.j2cl.version>
+        <maven.licence.plugin>3.0</maven.licence.plugin>
         <maven.compiler.version>3.6.0</maven.compiler.version>
         <maven.checkstyle.plugin>2.17</maven.checkstyle.plugin>
         <maven.surefire.plugin>2.22.1</maven.surefire.plugin>
         <maven.source.plugin>3.0.1</maven.source.plugin>
         <maven.properties.plugin>1.0.0</maven.properties.plugin>
         <maven.clean.plugin>3.1.0</maven.clean.plugin>
+        <maven.fmt.plugin>2.5.1</maven.fmt.plugin>
         <maven.javadoc.plugin>3.0.1</maven.javadoc.plugin>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -85,7 +100,9 @@
         <module>api</module>
         <module>processor</module>
         <module>core</module>
+        <module>j2cl-tests</module>
         <module>gwt2-tests</module>
+        <module>test-generators</module>
     </modules>
 
     <dependencyManagement>
@@ -100,41 +117,28 @@
     </dependencyManagement>
 
     <build>
-        <pluginManagement>
-
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven.compiler.version}</version>
-                    <configuration>
-                        <source>${maven.compiler.source}</source>
-                        <target>${maven.compiler.target}</target>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>${maven.checkstyle.plugin}</version>
-                    <executions>
-                        <execution>
-                            <id>validate</id>
-                            <phase>validate</phase>
-                            <configuration>
-                                <encoding>UTF-8</encoding>
-                                <consoleOutput>true</consoleOutput>
-                                <failsOnError>true</failsOnError>
-                                <configLocation>gwt-checkstyle.xml</configLocation>
-                            </configuration>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-            </plugins>
-        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.coveo</groupId>
+                <artifactId>fmt-maven-plugin</artifactId>
+                <version>${maven.fmt.plugin}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>

@@ -16,9 +16,7 @@
 
 package org.gwtproject.resources.rg.css.ast;
 
-/**
- * A Charset definition.
- */
+/** A Charset definition. */
 public class CssCharset extends CssNode {
   private final String charset;
 

@@ -19,16 +19,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.css.compiler.ast.CssBooleanExpressionNode;
 import com.google.common.css.compiler.ast.CssCompilerPass;
 import com.google.common.css.compiler.ast.MutatingVisitController;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Visitor that collects the different permutation axis defined in a gss file.
- */
+/** Visitor that collects the different permutation axis defined in a gss file. */
 public class PermutationsCollector extends ExtendedConditionalNodeVisitor
     implements CssCompilerPass {
   static final Pattern IS_FUNCTION =
@@ -44,8 +41,8 @@ public class PermutationsCollector extends ExtendedConditionalNodeVisitor
   }
 
   public void enterBooleanExpression(CssBooleanExpressionNode booleanExpressionNode) {
-    if (booleanExpressionNode.getType() == CssBooleanExpressionNode.Type.CONSTANT &&
-        booleanExpressionNode.getValue() != null) {
+    if (booleanExpressionNode.getType() == CssBooleanExpressionNode.Type.CONSTANT
+        && booleanExpressionNode.getValue() != null) {
 
       Matcher m = IS_FUNCTION.matcher(booleanExpressionNode.getValue());
 
@@ -60,7 +57,7 @@ public class PermutationsCollector extends ExtendedConditionalNodeVisitor
 
         booleanExpressionNode.setValue(permutationName + ":" + permutationValue);
 
-          permutationAxesSet.add(permutationName);
+        permutationAxesSet.add(permutationName);
       }
     }
   }
