@@ -15,8 +15,6 @@
  */
 package org.gwtproject.i18n.client.impl;
 
-import org.gwtproject.i18n.client.Localizable;
-
 /**
  * Implementation detail of LocaleInfo -- not a public API and subject to change.
  *
@@ -25,7 +23,7 @@ import org.gwtproject.i18n.client.Localizable;
  * <p>Subclasses of this are currently hand-written, but will eventually be generated directly from
  * the CLDR data and make available most of the information present in CLDR.
  */
-public class CldrImpl implements Localizable {
+public class CldrImpl {
   /*
    * This class is separate from LocaleInfoImpl because it will be generated
    * from CLDR data rather than at compile time by a generator.

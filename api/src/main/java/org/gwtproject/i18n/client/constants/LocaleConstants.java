@@ -15,6 +15,8 @@
  */
 package org.gwtproject.i18n.client.constants;
 
+import org.gwtproject.i18n.shared.cldr.NumberConstants;
+
 /** Interface that combines locale-specific interfaces. */
 public interface LocaleConstants {
 

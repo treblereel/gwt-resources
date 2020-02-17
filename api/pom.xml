@@ -52,6 +52,16 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-cldr</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-numberformat</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.gwtproject.dom</groupId>
             <artifactId>gwt-dom</artifactId>
             <version>${project.version}</version>

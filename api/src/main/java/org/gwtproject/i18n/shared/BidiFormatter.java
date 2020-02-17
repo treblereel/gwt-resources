@@ -17,7 +17,7 @@
 package org.gwtproject.i18n.shared;
 
 import org.gwtproject.i18n.client.HasDirection.Direction;
-import org.gwtproject.i18n.client.LocaleInfo;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 import org.gwtproject.safehtml.shared.annotations.IsSafeHtml;
 import org.gwtproject.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
 

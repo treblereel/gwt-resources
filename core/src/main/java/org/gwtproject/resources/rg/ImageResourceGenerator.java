@@ -38,7 +38,7 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataFormatImpl;
 import javax.imageio.stream.MemoryCacheImageInputStream;
 import javax.lang.model.element.ExecutableElement;
-import org.gwtproject.i18n.client.LocaleInfo;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.resources.ext.AbstractResourceGenerator;
 import org.gwtproject.resources.ext.ClientBundleFields;

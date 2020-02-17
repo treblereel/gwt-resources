@@ -16,10 +16,11 @@
 package org.gwtproject.i18n.client;
 
 import org.gwtproject.i18n.client.constants.DateTimeConstants;
+import org.gwtproject.i18n.shared.cldr.DateTimeFormatInfo;
 
 /**
- * Adapter that makes a {@link org.gwtproject.i18n.client.DateTimeFormatInfo} implementation
- * suitable for use with something that wants a {@link DateTimeConstants}.
+ * Adapter that makes a {@link DateTimeFormatInfo} implementation suitable for use with something
+ * that wants a {@link DateTimeConstants}.
  */
 @SuppressWarnings("deprecation")
 class DateTimeConstantsAdapter implements DateTimeConstants {
