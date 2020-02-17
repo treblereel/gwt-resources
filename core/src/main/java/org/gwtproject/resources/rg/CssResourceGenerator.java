@@ -62,7 +62,7 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-import org.gwtproject.i18n.client.LocaleInfo;
+import org.gwtproject.i18n.shared.cldr.LocaleInfo;
 import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.CssResourceBase;
 import org.gwtproject.resources.ext.NotFoundException;
