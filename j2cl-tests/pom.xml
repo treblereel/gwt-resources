@@ -26,6 +26,8 @@
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <maven.properties.plugin>1.0.0</maven.properties.plugin>
         <maven.clean.plugin>3.1.0</maven.clean.plugin>
+        <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
+        <google.snapshot.repo.url>https://oss.sonatype.org/content/repositories/google-snapshots/</google.snapshot.repo.url>
     </properties>
 
     <dependencies>
@@ -238,35 +240,13 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <defaultWebappDirectory>${project.build.directory}/gwt/launcherDir</defaultWebappDirectory>
-                    <entrypoint>org.gwtproject.resources.client.App</entrypoint>
-                    <compilationLevel>BUNDLE</compilationLevel>
-                    <externs>
-                    </externs>
+                    <compilationLevel>ADVANCED</compilationLevel>
                     <defines>
                         <gwt.enableDebugId>true</gwt.enableDebugId>
                         <gwt.cspCompatModeEnabled>true</gwt.cspCompatModeEnabled>
                         <gwt.cspCompatModeEnabled>true</gwt.cspCompatModeEnabled>
                         <gwt.strictCspTestingEnabled>true</gwt.strictCspTestingEnabled>
                     </defines>
-                    <tests>
-                        <test>org.gwtproject.resources.client.DataResourceDoNotEmbedTest</test>
-                        <test>org.gwtproject.resources.client.DataResourceMimeTypeTest</test>
-                        <test>org.gwtproject.resources.client.ExternalTextResourceTest</test>
-                        <test>org.gwtproject.resources.client.ImageResourceTest</test>
-                        <test>org.gwtproject.resources.client.NestedBundleTest</test>
-                        <test>org.gwtproject.resources.client.TextResourceTest</test>
-                        <test>org.gwtproject.resources.client.CSSResourceTest</test>
-                        <test>org.gwtproject.resources.client.CSSResourceWithGSSTest</test>
-                        // GSS
-                        <test>org.gwtproject.resources.client.gss.AutoConversionTest</test>
-                        <test>org.gwtproject.resources.client.gss.GssResourceTest</test>
-                        <test>org.gwtproject.resources.client.gss.DebugObfuscationStyleTest</test>
-                        <test>org.gwtproject.resources.client.gss.PrettyObfuscationStyleTest</test>
-                        <test>org.gwtproject.resources.client.gss.StableShortTypeObfuscationStyleTest</test>
-                        <test>org.gwtproject.resources.client.gss.StableNoTypeObfuscationStyleTest</test>
-                        <test>org.gwtproject.resources.client.gss.StableObfuscationStyleTest</test>
-                    </tests>
                 </configuration>
             </plugin>
             <plugin>
@@ -310,4 +290,20 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>vertispan-snapshots</id>
+            <name>Vertispan hosted artifacts-releases</name>
+            <url>${vertispan.j2cl.repo.url}</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>vertispan-releases</id>
+            <name>Vertispan hosted artifacts-releases</name>
+            <url>${vertispan.j2cl.repo.url}</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
