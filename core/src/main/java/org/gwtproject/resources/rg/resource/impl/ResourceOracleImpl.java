@@ -215,7 +215,7 @@ public class ResourceOracleImpl implements ResourceOracle {
     for (Location location : searchLocations) {
       String path = "";
       if (pkg.length() > 0) {
-        path = String.valueOf(pkg).replace('.', File.separatorChar) + '/';
+        path = String.valueOf(pkg).replace('.', '/') + '/';
       }
       try {
         FileObject fileObject = aptContext.filer.getResource(location, "", path + relativeName);
