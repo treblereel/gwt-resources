@@ -80,7 +80,7 @@
         <auto.service.version>1.0-rc6</auto.service.version>
         <commons-io.version>2.6</commons-io.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.13.1</junit.version>
         <vertispan.j2cl.version>0.8-SNAPSHOT</vertispan.j2cl.version>
         <maven.j2cl.version>0.16-SNAPSHOT</maven.j2cl.version>
         <maven.licence.plugin>3.0</maven.licence.plugin>
