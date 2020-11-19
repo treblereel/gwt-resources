@@ -16,7 +16,9 @@
 package org.gwtproject.resources.client;
 
 import static org.gwtproject.resources.client.ClientBundle.Source;
-import static org.gwtproject.resources.client.CssResource.*;
+import static org.gwtproject.resources.client.CssResource.Import;
+import static org.gwtproject.resources.client.CssResource.ImportedWithPrefix;
+import static org.gwtproject.resources.client.CssResource.Shared;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import org.junit.Ignore;

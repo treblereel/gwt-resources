@@ -2,16 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <parent>
         <artifactId>gwt-resources-parent</artifactId>
         <groupId>org.gwtproject.resources</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>HEAD-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>j2cl-tests</artifactId>
-    <description>J2CL tests</description>
+    <artifactId>gwt2-tests</artifactId>
+    <description>GWT2 tests</description>
 
     <developers>
         <developer>
@@ -22,22 +21,10 @@
     </developers>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
-        <maven.properties.plugin>1.0.0</maven.properties.plugin>
-        <maven.clean.plugin>3.1.0</maven.clean.plugin>
-        <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
-        <google.snapshot.repo.url>https://oss.sonatype.org/content/repositories/google-snapshots/</google.snapshot.repo.url>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
@@ -48,13 +35,6 @@
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-core</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.resources</groupId>
-            <artifactId>gwt-test-generators</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.resources</groupId>
@@ -65,37 +45,24 @@
         <dependency>
             <groupId>org.gwtproject.timer</groupId>
             <artifactId>gwt-timer</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>junit-annotations</artifactId>
-            <version>${vertispan.j2cl.version}</version>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>gwttestcase-emul</artifactId>
-            <version>${vertispan.j2cl.version}</version>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>gwttestcase-emul</artifactId>
-            <version>${vertispan.j2cl.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>junit-emul</artifactId>
-            <version>${vertispan.j2cl.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>junit-emul</artifactId>
-            <version>${vertispan.j2cl.version}</version>
-            <classifier>sources</classifier>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -121,7 +88,7 @@
                 <executions>
                     <execution>
                         <id>test</id>
-                        <phase>generate-sources</phase>
+                        <phase>generate-test-sources</phase>
                         <goals>
                             <goal>set-system-properties</goal>
                         </goals>
@@ -182,11 +149,11 @@
                                 </property>
                                 <property>
                                     <name>ClientBundle.cacheLocation</name>
-                                    <value>j2cl-tests/src/test/java/org/gwtproject/resources/cache/gwt-cache</value>
+                                    <value>gwt2-tests/src/test/java/org/gwtproject/resources/cache/gwt-cache</value>
                                 </property>
                                 <property>
                                     <name>ClientBundle.cacheUrl</name>
-                                    <value>/j2cl-tests/gwt-cache/</value>
+                                    <value>/org.gwtproject.resources.ResourcesTestsModule.JUnit/gwt-cache/</value>
                                 </property>
                             </properties>
                         </configuration>
@@ -197,7 +164,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <id>default-compile</id>
@@ -206,6 +172,7 @@
                         </goals>
                         <configuration>
                             <showWarnings>true</showWarnings>
+                            <compilerArgument>-proc:none</compilerArgument>
                         </configuration>
                     </execution>
                     <execution>
@@ -216,57 +183,37 @@
                     </execution>
                 </executions>
             </plugin>
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin}</version>
                 <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/generated-test-sources/test-annotations
+                        </additionalClasspathElement>
 
-            <plugin>
-                <groupId>com.vertispan.j2cl</groupId>
-                <artifactId>j2cl-maven-plugin</artifactId>
-                <version>${maven.j2cl.version}</version>
-                <executions>
-                    <execution>
-                        <id>build-js</id>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <compilationLevel>ADVANCED</compilationLevel>
-                    <defines>
-                        <gwt.enableDebugId>true</gwt.enableDebugId>
-                        <gwt.cspCompatModeEnabled>true</gwt.cspCompatModeEnabled>
-                        <gwt.cspCompatModeEnabled>true</gwt.cspCompatModeEnabled>
-                        <gwt.strictCspTestingEnabled>true</gwt.strictCspTestingEnabled>
-                    </defines>
+                        <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
+
+
+                    </additionalClasspathElements>
+                    <useManifestOnlyJar>false</useManifestOnlyJar>
+                    <forkMode>always</forkMode>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.version}</version>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven.source.plugin}</version>
                 <executions>
                     <execution>
-                        <id>default-compile</id>
+                        <id>attach-sources</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <showWarnings>true</showWarnings>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>default-testCompile</id>
-                        <goals>
-                            <goal>testCompile</goal>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -283,6 +230,7 @@
                                 <include>gwt-unitCache/</include>
                                 <include>src/test/java/org/gwtproject/resources/cache/gwt-cache/</include>
                                 <include>war/</include>
+                                <include>gwt2-tests/</include>
                             </includes>
                         </fileset>
                     </filesets>
@@ -290,20 +238,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>vertispan-snapshots</id>
-            <name>Vertispan hosted artifacts-releases</name>
-            <url>${vertispan.j2cl.repo.url}</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>vertispan-releases</id>
-            <name>Vertispan hosted artifacts-releases</name>
-            <url>${vertispan.j2cl.repo.url}</url>
-        </pluginRepository>
-    </pluginRepositories>
 </project>
