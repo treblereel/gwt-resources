@@ -1,7 +1,0 @@
-<module>
-    <source path="client"/>
-    <source path="shared"/>
-
-    <inherits name="org.gwtproject.i18n.CLDR"/>
-    <inherits name="org.gwtproject.i18n.DateTimeFormat"/>
-</module>
