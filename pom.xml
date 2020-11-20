@@ -101,10 +101,11 @@
     <modules>
         <module>api</module>
         <module>processor</module>
-        <module>core</module>
-        <module>gwt-resources-j2cl-tests</module>
-        <module>gwt-resources-gwt2-tests</module>
         <module>test-generators</module>
+        <!--
+                <module>gwt-resources-j2cl-tests</module>
+        -->
+        <module>gwt-resources-gwt2-tests</module>
     </modules>
 
     <dependencyManagement>
@@ -117,6 +118,11 @@
             <dependency>
                 <groupId>org.gwtproject.safehtml</groupId>
                 <artifactId>gwt-safecss</artifactId>
+                <version>${gwtproject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.gwtproject.safehtml</groupId>
+                <artifactId>gwt-safehtml</artifactId>
                 <version>${gwtproject.version}</version>
             </dependency>
             <dependency>

@@ -40,6 +40,10 @@
             <artifactId>gwt-safecss</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.gwtproject.safehtml</groupId>
+            <artifactId>gwt-safehtml</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.gwtproject.regexp</groupId>
             <artifactId>gwt-regexp</artifactId>
         </dependency>

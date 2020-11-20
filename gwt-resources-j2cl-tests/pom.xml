@@ -32,12 +32,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
             <version>${project.version}</version>
@@ -45,21 +39,15 @@
         </dependency>
         <dependency>
             <groupId>org.gwtproject.resources</groupId>
-            <artifactId>gwt-resources-core</artifactId>
+            <artifactId>gwt-resources-processor</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-test-generators</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.resources</groupId>
-            <artifactId>gwt-resources-processor</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.timer</groupId>
@@ -80,20 +68,8 @@
         </dependency>
         <dependency>
             <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>gwttestcase-emul</artifactId>
-            <version>${vertispan.j2cl.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
             <artifactId>junit-emul</artifactId>
             <version>${vertispan.j2cl.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vertispan.j2cl</groupId>
-            <artifactId>junit-emul</artifactId>
-            <version>${vertispan.j2cl.version}</version>
-            <classifier>sources</classifier>
         </dependency>
     </dependencies>
 
@@ -230,10 +206,10 @@
                 <version>${maven.j2cl.version}</version>
                 <executions>
                     <execution>
-                        <id>build-js</id>
-                        <phase>process-classes</phase>
+                        <id>j2cl-test</id>
+                        <phase>test</phase>
                         <goals>
-                            <goal>build</goal>
+                            <goal>test</goal>
                         </goals>
                     </execution>
                 </executions>
