@@ -17,11 +17,17 @@ package org.gwtproject.resources.client;
 
 import java.net.URL;
 import javax.lang.model.element.ExecutableElement;
-import org.gwtproject.resources.ext.*;
+import org.gwtproject.core.shared.GwtIncompatible;
+import org.gwtproject.resources.ext.AbstractResourceGenerator;
+import org.gwtproject.resources.ext.ResourceContext;
+import org.gwtproject.resources.ext.ResourceOracle;
+import org.gwtproject.resources.ext.TreeLogger;
+import org.gwtproject.resources.ext.UnableToCompleteException;
 import org.gwtproject.resources.rg.util.SourceWriter;
 import org.gwtproject.resources.rg.util.StringSourceWriter;
 import org.gwtproject.safehtml.shared.UriUtils;
 
+@GwtIncompatible
 public class CustomDataResourceGenerator extends AbstractResourceGenerator {
   @Override
   public String createAssignment(
