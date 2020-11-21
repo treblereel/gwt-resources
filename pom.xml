@@ -6,7 +6,7 @@
 
     <groupId>org.gwtproject.resources</groupId>
     <artifactId>gwt-resources-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>HEAD-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <licenses>
@@ -23,6 +23,99 @@
             <email>chani.liet@gmail.com</email>
         </developer>
     </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+        <gwt.version>2.9.0</gwt.version>
+        <gwtproject.version>1.0.0-RC1</gwtproject.version>
+        <commons.codec.version>1.11</commons.codec.version>
+        <commons-text.version>1.7</commons-text.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
+        <json.version>20180813</json.version>
+        <guava.version>28.1-jre</guava.version>
+        <sac.version>1.3</sac.version>
+        <closure-stylesheets.version>1.5.0</closure-stylesheets.version>
+        <auto.common.version>0.11</auto.common.version>
+        <auto.service.version>1.0-rc7</auto.service.version>
+        <commons-io.version>2.6</commons-io.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
+        <junit.version>4.13</junit.version>
+
+        <maven.licence.plugin>3.0</maven.licence.plugin>
+        <maven.shade.plugin>3.2.4</maven.shade.plugin>
+        <maven.compiler.version>3.6.0</maven.compiler.version>
+        <maven.checkstyle.plugin>2.17</maven.checkstyle.plugin>
+        <maven.surefire.plugin>2.22.1</maven.surefire.plugin>
+        <maven.source.plugin>3.0.1</maven.source.plugin>
+        <maven.properties.plugin>1.0.0</maven.properties.plugin>
+        <maven.clean.plugin>3.1.0</maven.clean.plugin>
+        <maven.fmt.plugin>2.5.1</maven.fmt.plugin>
+        <maven.javadoc.plugin>3.0.1</maven.javadoc.plugin>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <modules>
+        <module>api</module>
+        <module>processor</module>
+        <module>test-generators</module>
+        <module>gwt-resources-gwt2-tests</module>
+<!--
+        <module>gwt-resources-j2cl-tests</module>  //TODO CDLR TOO BIG
+-->
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.gwtproject.core</groupId>
+                <artifactId>gwt-core</artifactId>
+                <version>${gwtproject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.gwtproject.safehtml</groupId>
+                <artifactId>gwt-safecss</artifactId>
+                <version>${gwtproject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.gwtproject.safehtml</groupId>
+                <artifactId>gwt-safehtml</artifactId>
+                <version>${gwtproject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.gwtproject.regexp</groupId>
+                <artifactId>gwt-regexp</artifactId>
+                <version>${gwtproject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.gwtproject.dom</groupId>
+                <artifactId>gwt-dom</artifactId>
+                <version>${gwtproject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.gwtproject.http</groupId>
+                <artifactId>gwt-http</artifactId>
+                <version>1.0.0-RC2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.gwtproject.timer</groupId>
+                <artifactId>gwt-timer</artifactId>
+                <version>${gwtproject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.gwtproject.callback</groupId>
+                <artifactId>gwt-callback</artifactId>
+                <version>${gwtproject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <repositories>
         <repository>
@@ -65,80 +158,4 @@
         </repository>
     </repositories>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
-        <gwt.version>2.8.2</gwt.version>
-        <commons.codec.version>1.11</commons.codec.version>
-        <commons-text.version>1.7</commons-text.version>
-        <commons-lang3.version>3.9</commons-lang3.version>
-        <json.version>20180813</json.version>
-        <guava.version>28.1-jre</guava.version>
-        <sac.version>1.3</sac.version>
-        <closure-stylesheets.version>1.5.0</closure-stylesheets.version>
-        <auto.common.version>0.10</auto.common.version>
-        <auto.service.version>1.0-rc6</auto.service.version>
-        <commons-io.version>2.6</commons-io.version>
-        <jaxb-api.version>2.3.1</jaxb-api.version>
-        <junit.version>4.11</junit.version>
-        <vertispan.j2cl.version>0.8-SNAPSHOT</vertispan.j2cl.version>
-        <maven.j2cl.version>0.16-SNAPSHOT</maven.j2cl.version>
-        <maven.licence.plugin>3.0</maven.licence.plugin>
-        <maven.compiler.version>3.6.0</maven.compiler.version>
-        <maven.checkstyle.plugin>2.17</maven.checkstyle.plugin>
-        <maven.surefire.plugin>2.22.1</maven.surefire.plugin>
-        <maven.source.plugin>3.0.1</maven.source.plugin>
-        <maven.properties.plugin>1.0.0</maven.properties.plugin>
-        <maven.clean.plugin>3.1.0</maven.clean.plugin>
-        <maven.fmt.plugin>2.5.1</maven.fmt.plugin>
-        <maven.javadoc.plugin>3.0.1</maven.javadoc.plugin>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
-    <modules>
-        <module>api</module>
-        <module>processor</module>
-        <module>core</module>
-        <module>j2cl-tests</module>
-        <module>gwt2-tests</module>
-        <module>test-generators</module>
-    </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.version}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.coveo</groupId>
-                <artifactId>fmt-maven-plugin</artifactId>
-                <version>${maven.fmt.plugin}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

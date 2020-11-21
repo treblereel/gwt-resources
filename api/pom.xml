@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.gwtproject.resources</groupId>
         <artifactId>gwt-resources-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>HEAD-SNAPSHOT</version>
     </parent>
 
     <artifactId>gwt-resources-api</artifactId>
@@ -34,66 +34,44 @@
         <dependency>
             <groupId>org.gwtproject.core</groupId>
             <artifactId>gwt-core</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.safecss</groupId>
+            <groupId>org.gwtproject.safehtml</groupId>
             <artifactId>gwt-safecss</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.regexp</groupId>
-            <artifactId>gwt-regexp</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-datetimeformat</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-cldr</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.i18n</groupId>
-            <artifactId>gwt-numberformat</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.dom</groupId>
-            <artifactId>gwt-dom</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.gwtproject.http</groupId>
-            <artifactId>gwt-http</artifactId>
-            <version>HEAD-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.safehtml</groupId>
             <artifactId>gwt-safehtml</artifactId>
-            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.regexp</groupId>
+            <artifactId>gwt-regexp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-cldr</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.i18n</groupId>
+            <artifactId>gwt-cldr</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.dom</groupId>
+            <artifactId>gwt-dom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.http</groupId>
+            <artifactId>gwt-http</artifactId>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.callback</groupId>
             <artifactId>gwt-callback</artifactId>
-            <version>HEAD-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
-    <!-- Specify that we will push snapshots and releases to sonatype's repos -->
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
     <build>
         <resources>
