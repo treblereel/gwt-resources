@@ -70,3 +70,5 @@ local.properties
 
 **/gwt-unitCache/**
 **/war/*
+gwt2-tests
+j2cl-tests

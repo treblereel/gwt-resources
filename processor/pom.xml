@@ -83,6 +83,12 @@
     <build>
         <resources>
             <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
@@ -127,10 +133,10 @@
                         <exclude>**/AUTHORS</exclude>
                         <exclude>**/*.xml</exclude>
                         <exclude>src/test/resources/**</exclude>
-			<exclude>src/main/resources/**</exclude>
+			            <exclude>src/main/resources/**</exclude>
                         <exclude>war/**</exclude>
-			<exclude>gwt-unitCache/**</exclude>
-			<exclude>src/test/java/org/gwtproject/resources/cache/**</exclude>
+			            <exclude>gwt-unitCache/**</exclude>
+			            <exclude>src/test/java/org/gwtproject/resources/cache/**</exclude>
                     </excludes>
                     <properties>
                         <year>${project.inceptionYear}</year>
@@ -159,10 +165,11 @@
                     </execution>
                 </executions>
             </plugin>
-<!--
+
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven.shade.plugin}</version>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -170,48 +177,24 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <minimizeJar>true</minimizeJar>
                             <artifactSet>
                                 <excludes>
-                                    <exclude>org.gwtproject.editor:gwt-editor</exclude>
-                                    <exclude>org.gwtproject.event:gwt-event</exclude>
-                                    <exclude>com.google.auto.service:*</exclude>
-                                    <exclude>javax.annotation:javax.annotation-api</exclude>
-                                    <exclude>javax.validation:validation-api</exclude>
-                                    <exclude>com.google.code.findbugs:jsr305</exclude>
-                                    <exclude>com.google.j2objc:j2objc-annotations</exclude>
-                                    <exclude>com.google.errorprone:error_prone_annotations</exclude>
+                                    <exclude>classworlds:classworlds</exclude>
+                                    <exclude>junit:junit</exclude>
+                                    <exclude>org.mockito:mockito-core</exclude>
+                                    <exclude>jmock:*</exclude>
+                                    <exclude>*:xml-apis</exclude>
+                                    <exclude>org.apache.maven:lib:tests</exclude>
+                                    <exclude>log4j:log4j:jar:</exclude>
                                 </excludes>
                             </artifactSet>
-                            <relocations>
-&lt;!&ndash;                                <relocation>
-                                    <pattern>com</pattern>
-                                    <shadedPattern>org.gwtproject.editor.shaded.com</shadedPattern>
-                                </relocation>&ndash;&gt;
-                                <relocation>
-                                    <pattern>afu</pattern>
-                                    <shadedPattern>org.gwtproject.editor.shaded.afu</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.codehaus</pattern>
-                                    <shadedPattern>org.gwtproject.editor.shaded.org.codehaus</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.checkerframework</pattern>
-                                    <shadedPattern>org.gwtproject.editor.shaded.org.checkerframework</shadedPattern>
-                                </relocation>
-                            </relocations>
-                            <createSourcesJar>true</createSourcesJar>
                             <filters>
                                 <filter>
-                                    <artifact>com.google.auto:auto-common</artifact>
+                                    <artifact>*:*:*:*</artifact>
                                     <excludes>
                                         <exclude>**/*.java</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>**/*.js</exclude>
                                     </excludes>
                                 </filter>
                             </filters>
@@ -219,7 +202,6 @@
                     </execution>
                 </executions>
             </plugin>
--->
         </plugins>
     </build>
 </project>

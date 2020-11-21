@@ -2,15 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-    <parent>
-        <artifactId>gwt-resources-parent</artifactId>
-        <groupId>org.gwtproject.resources</groupId>
-        <version>HEAD-SNAPSHOT</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.gwtproject.resources</groupId>
+        <artifactId>gwt-resources-parent</artifactId>
+        <version>HEAD-SNAPSHOT</version>
+    </parent>
+
     <artifactId>j2cl-tests</artifactId>
+    <version>HEAD-SNAPSHOT</version>
     <description>J2CL tests</description>
 
     <developers>
@@ -22,12 +23,12 @@
     </developers>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+        <maven.surefire.plugin>2.22.1</maven.surefire.plugin>
         <maven.properties.plugin>1.0.0</maven.properties.plugin>
         <maven.clean.plugin>3.1.0</maven.clean.plugin>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <vertispan.j2cl.repo.url>https://repo.vertispan.com/j2cl/</vertispan.j2cl.repo.url>
+        <maven.j2cl.version>0.16-SNAPSHOT</maven.j2cl.version>
+        <vertispan.j2cl.version>0.8-SNAPSHOT</vertispan.j2cl.version>
     </properties>
 
     <dependencies>
@@ -35,7 +36,6 @@
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-resources-api</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.resources</groupId>
@@ -47,11 +47,12 @@
             <groupId>org.gwtproject.resources</groupId>
             <artifactId>gwt-test-generators</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.timer</groupId>
             <artifactId>gwt-timer</artifactId>
+            <version>${gwtproject.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -70,6 +71,12 @@
             <groupId>com.vertispan.j2cl</groupId>
             <artifactId>junit-emul</artifactId>
             <version>${vertispan.j2cl.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -167,30 +174,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.version}</version>
-                <executions>
-                    <execution>
-                        <id>default-compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <showWarnings>true</showWarnings>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>default-testCompile</id>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -243,19 +226,12 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>vertispan-snapshots</id>
-            <name>Vertispan hosted artifacts-releases</name>
-            <url>${vertispan.j2cl.repo.url}</url>
-        </repository>
-    </repositories>
-
     <pluginRepositories>
         <pluginRepository>
             <id>vertispan-releases</id>
             <name>Vertispan hosted artifacts-releases</name>
-            <url>${vertispan.j2cl.repo.url}</url>
+            <url>https://repo.vertispan.com/j2cl/</url>
         </pluginRepository>
     </pluginRepositories>
+
 </project>

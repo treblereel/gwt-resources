@@ -16,6 +16,15 @@
  */
 package org.gwtproject.resources.context;
 
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.processing.Filer;
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.Element;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.DataResource;
@@ -30,16 +39,6 @@ import org.gwtproject.resources.rg.DataResourceGenerator;
 import org.gwtproject.resources.rg.ExternalTextResourceGenerator;
 import org.gwtproject.resources.rg.ImageResourceGenerator;
 import org.gwtproject.resources.rg.TextResourceGenerator;
-
-import javax.annotation.processing.Filer;
-import javax.annotation.processing.Messager;
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.element.Element;
-import javax.lang.model.util.Elements;
-import javax.lang.model.util.Types;
-import java.util.HashMap;
-import java.util.Map;
 
 /** @author Dmitrii Tikhomirov <chani.liet@gmail.com> Created by treblereel on 10/26/18. */
 public class AptContext {
