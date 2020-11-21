@@ -18,14 +18,10 @@ package org.gwtproject.resources.client.gss;
 
 import static org.gwtproject.resources.client.gss.AutoConversionBundle.*;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import static junit.framework.TestCase.*;
 
 /** Test for automatic conversion from CSS to GSS. */
-public class AutoConversionTest extends GWTTestCase {
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.GssResourceTest";
-  }
+public class AutoConversionTest {
 
   public void testConstantRenaming() {
     ConstantRenaming constantRenaming = res().constantRenaming();

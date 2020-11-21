@@ -15,15 +15,16 @@
  */
 package org.gwtproject.resources.client.gss;
 
-import com.google.gwt.junit.client.GWTTestCase;
 import org.gwtproject.resources.client.ClientBundle;
 import org.gwtproject.resources.client.CssResource;
 import org.gwtproject.resources.client.Resource;
 import org.junit.Ignore;
 
+import static junit.framework.TestCase.*;
+
 /** Test for GssResource in RTL mode. */
 @Ignore
-public class GssResourceRTLTest extends GWTTestCase {
+public class GssResourceRTLTest  {
 
   interface Css extends CssResource {
     String a();
@@ -33,11 +34,6 @@ public class GssResourceRTLTest extends GWTTestCase {
   public interface Resources extends ClientBundle {
     @Source("rtl.css")
     Css css();
-  }
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.GssResourceRTLTest";
   }
 
   public void test() {

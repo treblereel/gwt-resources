@@ -1,8 +1,8 @@
 package org.gwtproject.resources.client;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import static junit.framework.TestCase.*;
 
-public class UniqueNamingTest extends GWTTestCase {
+public class UniqueNamingTest {
 
   static class OuterA {
 
@@ -26,11 +26,6 @@ public class UniqueNamingTest extends GWTTestCase {
         TextResource hello();
       }
     }
-  }
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.ResourcesTestsModule";
   }
 
   public void testUniqueNaming() {

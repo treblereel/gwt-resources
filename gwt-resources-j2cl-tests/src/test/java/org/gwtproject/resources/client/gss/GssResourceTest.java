@@ -16,14 +16,11 @@
 
 package org.gwtproject.resources.client.gss;
 
+import static junit.framework.TestCase.*;
 import static org.gwtproject.resources.client.gss.TestResources.*;
 
 /** Contains various full-stack tests of the CssResource system with GSS. */
 public class GssResourceTest extends RenamingClassNameTest {
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.GssResourceTest";
-  }
 
   @Override
   public void testClassesRenaming() {

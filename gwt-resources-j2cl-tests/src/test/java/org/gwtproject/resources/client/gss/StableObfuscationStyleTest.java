@@ -18,16 +18,14 @@ package org.gwtproject.resources.client.gss;
 
 import org.junit.Ignore;
 
+import static junit.framework.TestCase.*;
+
 /**
  * Tests style classes renaming with the configuration property <code>CssResource.style</code> set
  * to stable.
  */
 @Ignore
 public class StableObfuscationStyleTest extends RenamingClassNameTest {
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.GssStableStyle";
-  }
 
   public void testClassesRenaming() {
     TestResources.ClassNameAnnotation classNameAnnotation = res().classNameAnnotation();

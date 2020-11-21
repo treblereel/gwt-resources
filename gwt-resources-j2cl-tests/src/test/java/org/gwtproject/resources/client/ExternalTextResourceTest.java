@@ -15,18 +15,13 @@
  */
 package org.gwtproject.resources.client;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import static junit.framework.TestCase.*;
 
 /** Tests for ExternalTextResource assembly and use. */
-public class ExternalTextResourceTest extends GWTTestCase {
+public class ExternalTextResourceTest {
 
   private static final String HELLO = "Hello World!";
   private static final String NEEDS_ESCAPE = "\"'\\";
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.ResourcesTestsModule";
-  }
 
   public void testExternal() {
 

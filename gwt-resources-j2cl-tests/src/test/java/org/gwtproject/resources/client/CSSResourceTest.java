@@ -20,12 +20,13 @@ import static org.gwtproject.resources.client.CssResource.Import;
 import static org.gwtproject.resources.client.CssResource.ImportedWithPrefix;
 import static org.gwtproject.resources.client.CssResource.Shared;
 
-import com.google.gwt.junit.client.GWTTestCase;
 import org.junit.Ignore;
+
+import static junit.framework.TestCase.*;
 
 /** Contains various full-stack tests of the CssResource system. */
 @Ignore
-public class CSSResourceTest extends GWTTestCase {
+public class CSSResourceTest {
 
   public void testChildResources() {
     Resources parentResource = new CSSResourceTest_ResourcesImpl();
@@ -282,11 +283,6 @@ public class CSSResourceTest extends GWTTestCase {
     assertTrue(b.contains(r.b().local()));
     assertFalse(a.contains(r.b().local()));
     assertFalse(b.contains(r.a().local()));
-  }
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.ResourcesTestsModule";
   }
 
   @Resource

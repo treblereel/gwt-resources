@@ -15,10 +15,10 @@
  */
 package org.gwtproject.resources.client;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import static junit.framework.TestCase.*;
 
 /** Verify that nested bundles work correctly. */
-public class NestedBundleTest extends GWTTestCase {
+public class NestedBundleTest {
 
   @Resource
   interface NestedBundle extends ClientBundle {
@@ -26,11 +26,6 @@ public class NestedBundleTest extends GWTTestCase {
     TextResource hello();
 
     NestedBundle nested();
-  }
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.ResourcesTestsModule";
   }
 
   public void testNestedBundle() {

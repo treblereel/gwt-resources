@@ -17,14 +17,11 @@ package org.gwtproject.resources.client;
 
 import org.junit.Ignore;
 
+import static junit.framework.TestCase.*;
+
 /** Contains various full-stack tests of the CssResource system with gss enabled. */
 @Ignore
 public class CSSResourceWithGSSTest extends CSSResourceTest {
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.ResourcesTestsModule";
-  }
 
   @Override
   public void testCss() {

@@ -1,16 +1,11 @@
 package org.gwtproject.resources.client;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import static junit.framework.TestCase.*;
 
 /** @author Dmitrii Tikhomirov <chani.liet@gmail.com> Created by treblereel on 10/19/18. */
-public class TextResourceTest extends GWTTestCase {
+public class TextResourceTest {
   private static final String HELLO = "Hello World!";
   String result;
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.ResourcesTestsModule";
-  }
 
   /**
    * Test fix for problem where large text files caused out of memory errors when run in Development

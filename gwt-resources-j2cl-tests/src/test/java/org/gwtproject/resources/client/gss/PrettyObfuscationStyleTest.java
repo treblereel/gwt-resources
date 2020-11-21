@@ -20,16 +20,14 @@ import static org.gwtproject.resources.client.gss.TestResources.ClassNameAnnotat
 
 import org.junit.Ignore;
 
+import static junit.framework.TestCase.*;
+
 /**
  * Tests style classes renaming with the configuration property <code>CssResource.style</code> set
  * to pretty.
  */
 @Ignore
 public class PrettyObfuscationStyleTest extends RenamingClassNameTest {
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.GssPrettyStyle";
-  }
 
   public void testClassesRenaming() {
     ClassNameAnnotation classNameAnnotation = res().classNameAnnotation();

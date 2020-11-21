@@ -15,12 +15,14 @@
  */
 package org.gwtproject.resources.client;
 
-import com.google.gwt.junit.client.GWTTestCase;
 import com.google.j2cl.junit.apt.J2clTestInput;
+import org.junit.Test;
+
+import static junit.framework.TestCase.*;
 
 /** Tests for {@link DataResource.DoNotEmbed @DoNotEmbed} resource annotations. */
 @J2clTestInput(DataResourceDoNotEmbedTest.class)
-public class DataResourceDoNotEmbedTest extends GWTTestCase {
+public class DataResourceDoNotEmbedTest {
 
   @Resource
   interface DataResourcesDoNotEmbed extends ClientBundle {
@@ -43,11 +45,7 @@ public class DataResourceDoNotEmbedTest extends GWTTestCase {
   /** RFC 2397 data URL scheme. */
   private static final String DATA_URL_SCHEME = "data:";
 
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.ResourcesTestsModule";
-  }
-
+  @Test
   public void testDoNotEmbedAnnotationMissingShouldEmbed() {
     DataResourcesDoNotEmbed r = new DataResourceDoNotEmbedTest_DataResourcesDoNotEmbedImpl();
     String url = r.resourceDoNotEmbedAnnotationMissing().getSafeUri().asString();
@@ -56,6 +54,7 @@ public class DataResourceDoNotEmbedTest extends GWTTestCase {
         url.startsWith(DATA_URL_SCHEME));
   }
 
+  @Test
   public void testDoNotEmbedAnnotationPresentShouldNotEmbed() {
     DataResourcesDoNotEmbed r = new DataResourceDoNotEmbedTest_DataResourcesDoNotEmbedImpl();
     String url = r.resourceDoNotEmbedAnnotationPresent().getSafeUri().asString();

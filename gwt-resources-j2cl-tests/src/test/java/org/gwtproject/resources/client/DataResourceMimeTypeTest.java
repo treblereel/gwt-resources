@@ -17,10 +17,10 @@ package org.gwtproject.resources.client;
 
 import static org.gwtproject.resources.client.DataResource.MimeType;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import static junit.framework.TestCase.*;
 
 /** Tests for {@link MimeType @MimeType} resource annotations. */
-public class DataResourceMimeTypeTest extends GWTTestCase {
+public class DataResourceMimeTypeTest {
 
   @Resource
   interface DataResourceMimeType extends ClientBundle {
@@ -55,11 +55,6 @@ public class DataResourceMimeTypeTest extends GWTTestCase {
     @MimeType(MIME_TYPE_WITH_QUOTED_CODECS_LIST)
     @Source(FOUR_ZEROS_SOURCE)
     DataResource resourceMimeTypeAnnotationWithQuotedCodecsList();
-  }
-
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.ResourcesTestsModule";
   }
 
   public void testMimeTypeAnnotationMissingDefaultsToContentUnknown() {

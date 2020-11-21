@@ -18,19 +18,16 @@ package org.gwtproject.resources.client.gss;
 
 import static org.gwtproject.resources.client.gss.TestResources.ClassNameAnnotation;
 
-import com.google.gwt.junit.client.GWTTestCase;
 import org.junit.Ignore;
+
+import static junit.framework.TestCase.*;
 
 /**
  * Tests style classes renaming with the configuration property <code>CssResource.style</code> set
  * to stable-notype.
  */
 @Ignore
-public class StableNoTypeObfuscationStyleTest extends GWTTestCase {
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.GssStableNoTypeStyle";
-  }
+public class StableNoTypeObfuscationStyleTest {
 
   public void testClassesRenaming() {
     TestResources testResources = new TestResourcesImpl();

@@ -4,13 +4,13 @@ import static elemental2.dom.DomGlobal.document;
 import static org.gwtproject.resources.client.ImageResource.ImageOptions;
 import static org.gwtproject.resources.client.ImageResource.RepeatStyle;
 
-import com.google.gwt.junit.client.GWTTestCase;
 import elemental2.dom.Image;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
-import org.gwtproject.timer.client.Timer;
+
+import static junit.framework.TestCase.*;
 
 /** @author Dmitrii Tikhomirov <chani.liet@gmail.com> Created by treblereel on 10/22/18. */
-public class ImageResourceTest extends GWTTestCase {
+public class ImageResourceTest {
 
   /**
    * The default timeout of asynchronous tests. This should be larger than LOAD_EVENT_TIMEOUT and
@@ -26,11 +26,6 @@ public class ImageResourceTest extends GWTTestCase {
    */
   private static final int SYNTHETIC_LOAD_EVENT_TIMEOUT = 1000;
 
-  @Override
-  public String getModuleName() {
-    return "org.gwtproject.resources.ResourcesTestsModule";
-  }
-
   public void testAltText() {
     final String altText = "this is an image";
     final Image image = (Image) document.createElement("img");
@@ -42,7 +37,7 @@ public class ImageResourceTest extends GWTTestCase {
     assertEquals("", image.alt);
   }
 
-  /** Test that attaching and immediately detaching an element does not cause an error. */
+  /** Test that attaching and immediately detaching an element does not cause an error.
   public void testAttachDetach() {
 
     final Image image = (Image) document.createElement("img");
@@ -57,7 +52,7 @@ public class ImageResourceTest extends GWTTestCase {
         finishTest();
       }
     }.schedule(SYNTHETIC_LOAD_EVENT_TIMEOUT);
-  }
+  }*/
 
   public void testAnimated() {
     ImageResources r = new ImageResourceTest_ImageResourcesImpl();

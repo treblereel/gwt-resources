@@ -18,7 +18,7 @@ package org.gwtproject.resources.client.gss;
 
 import static org.gwtproject.resources.client.gss.TestResources.*;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import static junit.framework.TestCase.*;
 
 /**
  * These tests are tested with several configurations.
@@ -29,7 +29,7 @@ import com.google.gwt.junit.client.GWTTestCase;
  * @see DebugObfuscationStyleTest
  * @see GssResourceTest
  */
-public abstract class RenamingClassNameTest extends GWTTestCase {
+public abstract class RenamingClassNameTest  {
   static final String OBFUSCATION_PATTERN = "[a-zA-Z][a-zA-Z0-9]*-[a-zA-Z][a-zA-Z0-9]*";
 
   /** Test that style classes mentioned as external are not obfuscated. */
