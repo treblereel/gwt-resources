@@ -18,5 +18,5 @@ package org.gwtproject.resources.client;
 import org.gwtproject.resources.ext.ResourceGeneratorType;
 
 /** Custom subtype of {@link DataResource}, to test {@code @url} in CssResource. */
-@ResourceGeneratorType(CustomDataResourceGenerator.class)
+@ResourceGeneratorType("org.gwtproject.resources.client.CustomDataResourceGenerator")
 public interface CustomDataResource extends DataResource {}

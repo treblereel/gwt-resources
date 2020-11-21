@@ -17,12 +17,11 @@ package org.gwtproject.resources.ext;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
-import org.gwtproject.resources.client.ResourcePrototype;
 
 /**
- * Specifies the implementation of ResourceGenerator to use for a type of {@link ResourcePrototype}.
+ * Specifies the implementation of ResourceGenerator to use for a type of {@code ResourcePrototype}.
  */
 @Target(ElementType.TYPE)
 public @interface ResourceGeneratorType {
-  Class<? extends ResourceGenerator> value();
+  String value();
 }

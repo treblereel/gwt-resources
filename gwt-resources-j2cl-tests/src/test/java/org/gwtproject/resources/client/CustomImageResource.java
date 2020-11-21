@@ -18,5 +18,5 @@ package org.gwtproject.resources.client;
 import org.gwtproject.resources.ext.ResourceGeneratorType;
 
 /** Custom subtype of {@link ImageResource}, to test {@code @url} in CssResource. */
-@ResourceGeneratorType(CustomImageResourceGenerator.class)
+@ResourceGeneratorType("org.gwtproject.resources.client.CustomImageResourceGenerator")
 public interface CustomImageResource extends ImageResource {}

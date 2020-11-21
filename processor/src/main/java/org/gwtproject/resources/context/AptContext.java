@@ -16,21 +16,30 @@
  */
 package org.gwtproject.resources.context;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.CssResource;
+import org.gwtproject.resources.client.DataResource;
+import org.gwtproject.resources.client.ExternalTextResource;
+import org.gwtproject.resources.client.ImageResource;
+import org.gwtproject.resources.client.TextResource;
+import org.gwtproject.resources.ext.ResourceGenerator;
+import org.gwtproject.resources.ext.ResourceGeneratorType;
+import org.gwtproject.resources.rg.BundleResourceGenerator;
+import org.gwtproject.resources.rg.CssResourceGenerator;
+import org.gwtproject.resources.rg.DataResourceGenerator;
+import org.gwtproject.resources.rg.ExternalTextResourceGenerator;
+import org.gwtproject.resources.rg.ImageResourceGenerator;
+import org.gwtproject.resources.rg.TextResourceGenerator;
+
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
-import javax.lang.model.type.MirroredTypeException;
-import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-import org.gwtproject.resources.client.*;
-import org.gwtproject.resources.ext.ResourceGenerator;
-import org.gwtproject.resources.ext.ResourceGeneratorType;
-import org.gwtproject.resources.rg.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /** @author Dmitrii Tikhomirov <chani.liet@gmail.com> Created by treblereel on 10/26/18. */
 public class AptContext {
@@ -87,8 +96,7 @@ public class AptContext {
             e -> {
               ResourceGeneratorType resourceGeneratorType =
                   e.getAnnotation(ResourceGeneratorType.class);
-              String resourceGeneratorName =
-                  getResourceGeneratorType(resourceGeneratorType).toString();
+              String resourceGeneratorName = resourceGeneratorType.value();
               try {
                 generators.put(
                     e, (Class<? extends ResourceGenerator>) Class.forName(resourceGeneratorName));
@@ -97,14 +105,5 @@ public class AptContext {
                 throw new Error(e1);
               }
             });
-  }
-
-  private TypeMirror getResourceGeneratorType(ResourceGeneratorType annotation) {
-    try {
-      annotation.value();
-    } catch (MirroredTypeException mte) {
-      return mte.getTypeMirror();
-    }
-    return null;
   }
 }
