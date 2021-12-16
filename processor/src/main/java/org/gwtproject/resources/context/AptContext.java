@@ -95,14 +95,29 @@ public class AptContext {
             e -> {
               ResourceGeneratorType resourceGeneratorType =
                   e.getAnnotation(ResourceGeneratorType.class);
-              String resourceGeneratorName = resourceGeneratorType.value();
-              try {
-                generators.put(
-                    e, (Class<? extends ResourceGenerator>) Class.forName(resourceGeneratorName));
-              } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
-                throw new Error(e1);
-              }
+              addType(e, resourceGeneratorType);
             });
+  }
+
+  private void addType(Element e, ResourceGeneratorType resourceGeneratorType) {
+    String resourceGeneratorName = resourceGeneratorType.value();
+    try {
+      Class<? extends ResourceGenerator> value = (Class<? extends ResourceGenerator>) Class.forName(resourceGeneratorName);
+      generators.put(
+              e, value);
+    } catch (ClassNotFoundException e1) {
+      e1.printStackTrace();
+      throw new Error(e1);
+    }
+  }
+
+  Class<? extends ResourceGenerator> getGenerator(Element resourceType) {
+    if (!generators.containsKey(resourceType)) {
+      ResourceGeneratorType resType = resourceType.getAnnotation(ResourceGeneratorType.class);
+      if (resType != null) {
+        addType(resourceType, resType);
+      }
+    }
+    return generators.get(resourceType);
   }
 }

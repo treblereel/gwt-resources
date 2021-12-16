@@ -222,9 +222,9 @@ public class ResourceOracleImpl implements ResourceOracle {
         if (new File(fileObject.getName()).exists()) {
           return fileObject.toUri().toURL();
         }
-      } catch (FilerException ignored) {
+      } catch (FilerException filerException) {
         File openedfile =
-            new File(ignored.getMessage().replace("Attempt to reopen a file for path ", ""));
+            new File(filerException.getMessage().replace("Attempt to reopen a file for path ", ""));
         if (openedfile.exists()) {
           try {
             return openedfile.toURI().toURL();
@@ -235,6 +235,8 @@ public class ResourceOracleImpl implements ResourceOracle {
         // ignored
       } catch (IOException ignored) {
         // ignored
+      } catch (RuntimeException ignored) {
+        // getResource may throw IllegalArgumentException or NullPointerException on some JDKs
       }
     }
     // unable to locate, return null.

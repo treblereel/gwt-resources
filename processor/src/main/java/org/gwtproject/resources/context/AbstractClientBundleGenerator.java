@@ -255,16 +255,17 @@ public abstract class AbstractClientBundleGenerator extends Generator {
   private Class<? extends ResourceGenerator> findResourceGenerator(
       TreeLogger logger, ExecutableElement method) throws UnableToCompleteException {
     TypeElement resourceType = MoreTypes.asTypeElement(method.getReturnType());
-    if (aptContext.generators.containsKey(resourceType)) {
-      return aptContext.generators.get(resourceType);
+    Class<? extends ResourceGenerator> generator;
+    if ((generator = aptContext.getGenerator(resourceType)) != null) {
+      return generator;
     } else {
       List<? extends TypeMirror> parents =
           new ArrayList<>(ResourceGeneratorUtil.getAllParents(resourceType));
       Collections.reverse(parents);
       for (TypeMirror p : parents) {
         Element parent = aptContext.types.asElement(p);
-        if (aptContext.generators.containsKey(parent)) {
-          return aptContext.generators.get(parent);
+        if ((generator = aptContext.getGenerator(parent)) != null) {
+          return generator;
         }
       }
 
